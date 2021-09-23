@@ -20,7 +20,7 @@ public:
 	T pop();
 	T peek();
 	bool is_empty();
-
+	~ArrayStack();
 };
 
 template <typename T>
@@ -35,18 +35,18 @@ ArrayStack<T>::ArrayStack(std::size_t size) {
 
 template <typename T>
 void ArrayStack<T>::push(T item) {
-	if (this->size_ = this->capacity_) {
+	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
 	
-	this->data_[this->size] = item;
+	this->data_[size_] = item;
 	this->size_++;
 }
 
 
 template <typename T>
 void ArrayStack<T>::increase_capacity() {
-	assert(this->size_ == this->capacity);
+	assert(this->size_ == this->capacity_);
 
 	T* new_memory = new T[2 * this->capacity_];
 	this->capacity_ *= 2;
@@ -71,6 +71,13 @@ T ArrayStack<T>::peek() {
 template <typename T>
 bool ArrayStack<T>::is_empty() {
 	return this->size_ == 0;
+}
+
+template <typename T>
+ArrayStack<T>::~ArrayStack() {
+	delete[] this->data_;
+
+	std::cout << "Destructor for ArrayStack\n";
 }
 
 
