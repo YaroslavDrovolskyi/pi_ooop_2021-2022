@@ -75,7 +75,6 @@ LinkedStack<T>::~LinkedStack() {
 		delete to_delete;
 		to_delete = this->top;
 	}
-	std::cout << "Destructor for LinkedStack\n";
 }
 
 #endif // _LINKEDSTACK_

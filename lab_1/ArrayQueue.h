@@ -1,30 +1,32 @@
 #pragma once
 
 
-#ifndef _STACK_
-#define _STACK_
-
-#include <cassert>
+#ifndef _ARRAYQUEUE_
+#define _ARRAYQUEUE_
 
 template <typename T>
-class ArrayStack {
+class ArrayQueue {
 private:
 	T* data_;
 	std::size_t size_;
 	std::size_t capacity_;
 
 	void increase_capacity();
+
 public:
-	ArrayStack(std::size_t size = 10);
+	ArrayQueue(std::size_t size = 10);
 	void push(T item);
 	T pop();
-	T peek();
+	std::size_t get_size();
 	bool is_empty();
-	~ArrayStack();
+	~ArrayQueue();
 };
 
+
+#endif // _ARRAYQUEUE_
+
 template <typename T>
-ArrayStack<T>::ArrayStack(std::size_t size) {
+ArrayQueue<T>::ArrayQueue(std::size_t size) {
 	assert(size > 0);
 
 	this->data_ = new T[size];
@@ -32,20 +34,18 @@ ArrayStack<T>::ArrayStack(std::size_t size) {
 	this->size_ = 0;
 }
 
-
 template <typename T>
-void ArrayStack<T>::push(T item) {
+void ArrayQueue<T>::push(T item) {
 	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
-	
+
 	this->data_[size_] = item;
 	this->size_++;
 }
 
-
 template <typename T>
-void ArrayStack<T>::increase_capacity() {
+void ArrayQueue<T>::increase_capacity() {
 	assert(this->size_ == this->capacity_);
 
 	T* new_memory = new T[2 * this->capacity_];
@@ -56,30 +56,28 @@ void ArrayStack<T>::increase_capacity() {
 }
 
 template <typename T>
-T ArrayStack<T>::pop() {
-	assert(this->size_ > 0 && "Try to pop from empty stack");
+T ArrayQueue<T>::pop() {
+	assert(this->size_ > 0 && "Try to pop from empty queue");
+
+	T result = this->data_[0];
+	for (std::size_t i = 0; i < size_ - 1; i++) {
+		this->data_[i] = this->data_[i + 1];
+	}
 	this->size_--;
-	return this->data_[this->size_];
+	return result;
 }
 
 template <typename T>
-T ArrayStack<T>::peek() {
-	assert(this->size_ > 0 && "Try to peek from empty stack");
-	return this->data_[this->size_ - 1];
+std::size_t ArrayQueue<T>::get_size() {
+	return this->size_;
 }
 
 template <typename T>
-bool ArrayStack<T>::is_empty() {
+bool ArrayQueue<T>::is_empty() {
 	return this->size_ == 0;
 }
 
 template <typename T>
-ArrayStack<T>::~ArrayStack() {
+ArrayQueue<T>::~ArrayQueue() {
 	delete[] this->data_;
 }
-
-
-
-
-
-#endif // _STACK_
