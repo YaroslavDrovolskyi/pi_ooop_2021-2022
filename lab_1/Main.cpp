@@ -4,6 +4,7 @@
 #include "LinkedStack.h"
 
 #include "ArrayQueue.h"
+#include "LinkedQueue.h"
 
 int main() {
 
@@ -29,6 +30,18 @@ int main() {
 	std::cout << std::endl;
 	while (!queue1.is_empty()) {
 		std::cout << queue1.pop() << " ";
+	}
+	std::cout << std::endl << std::endl;
+
+	LinkedQueue<int> queue2;
+	for (std::size_t i = 0; i < 25; i++) {
+		int a = rand() % 100;
+		queue2.push(a);
+		std::cout << a << " ";
+	}
+	std::cout << std::endl;
+	while (!queue2.is_empty()) {
+		std::cout << queue2.pop() << " ";
 	}
 	std::cout << std::endl << std::endl;
 
