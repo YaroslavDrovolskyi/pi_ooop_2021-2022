@@ -1,13 +1,16 @@
 #include <iostream>
 
+#include "ArrayDeque.h"
 #include"ArrayStack.h"
-#include "LinkedStack.h"
-
 #include "ArrayQueue.h"
+
+#include "LinkedStack.h"
 #include "LinkedQueue.h"
 
-int main() {
 
+
+int main() {
+	
 	LinkedStack<int> stack1;
 	for (std::size_t i = 0; i < 25; i++) {
 		int a = rand() % 100;
