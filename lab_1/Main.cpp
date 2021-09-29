@@ -11,13 +11,17 @@
 #include"LinkedDeque.h"
 
 
+int generate_random(std::size_t max = 100000) {
+	assert(max > 0);
+	return rand() % max;
+}
 
-template <typename Q>
-bool TestQueue() {
+template <typename Q, typename T, typename Callable>
+bool TestQueue(Callable generate_random) {
 	Q queue;
 	std::vector<int> values;
 	for (std::size_t i = 0; i < 10000; i++) {
-		int val = rand() % 100000;
+		T val = generate_random();
 		values.push_back(val);
 		queue.push(val);
 
@@ -32,18 +36,17 @@ bool TestQueue() {
 		assert(values.size() == queue.get_size());
 		assert((values.size() == 0) == queue.is_empty());
 	}
-//	assert(queue.is_empty());
 
 	return true;
 }
 
 
-template <typename S>
-bool TestStack() {
+template <typename S, typename T, typename Callable>
+bool TestStack(Callable generate_random) {
 	S stack;
 	std::vector<int> values;
 	for (std::size_t i = 0; i < 10000; i++) {
-		int val = rand() % 100000;
+		T val = generate_random();
 		values.push_back(val);
 		stack.push(val);
 
@@ -63,18 +66,18 @@ bool TestStack() {
 	return true;
 }
 
-template <typename D>
-bool TestDeque() {
+template <typename D, typename T, typename Callable>
+bool TestDeque(Callable generate_random) {
 	D deque;
 	std::vector<int> values;
 	for (std::size_t i = 0; i < 10000; i++) {
-		int val = rand() % 100000;
+		T val = generate_random();
 		values.push_back(val);
 		deque.push_back(val);
 		assert(values.size() == deque.get_size());
-		assert(!deque.is_empty());
+		assert((values.size() == 0) == deque.is_empty());
 
-		val = rand() % 100000;
+		val = generate_random();
 		values.insert(values.begin(), val);
 		deque.push_front(val);
 		assert(values.size() == deque.get_size());
@@ -86,14 +89,13 @@ bool TestDeque() {
 		assert(values[values.size() - 1] == deque.pop_back());
 		values.pop_back();
 		assert(values.size() == deque.get_size());
-		assert(!deque.is_empty());
+		assert((values.size() == 0) == deque.is_empty());
 
 		assert(values[0] == deque.pop_front());
 		values.erase(values.begin());
 		assert(values.size() == deque.get_size());
 		assert((values.size() == 0) == deque.is_empty());
 	}
-//	assert(deque.is_empty());
 
 	return true;
 }
@@ -162,14 +164,14 @@ int main() {
 		std::cout << deque1.pop_front() << " ";
 	}
 	*/
-	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<int>>() << std::endl;
-	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<int>>() << std::endl;
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<int>, int>([]() { return generate_random(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<int>, int>([]() { return generate_random(); }) << std::endl;
 
-	std::cout << "TestStack (array): " << TestStack<ArrayStack<int>>() << std::endl;
-	std::cout << "TestStack (linked): " << TestStack<LinkedStack<int>>() << std::endl;
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<int>, int>([]() { return generate_random(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<int>, int>([]() { return generate_random(); }) << std::endl;
 
-	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>>() << std::endl;
-	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>>() << std::endl;
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>, int>([]() { return generate_random(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>, int>([]() { return generate_random(); }) << std::endl;
 	return 0;
 }
 
