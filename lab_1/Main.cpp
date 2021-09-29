@@ -12,6 +12,7 @@
 
 #include "ArrayPriorityQueue.h"
 #include "LinkedPriorityQueue.h"
+#include "TreePriorityQueue.h"
 
 #include"Tests.h"
 
@@ -26,8 +27,10 @@ int main() {
 	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>, int>([]() { return generate_random(); }) << std::endl;
 	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>, int>([]() { return generate_random(); }) << std::endl;
 
-	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
-	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
+//	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
+//	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
+
 
 	ArrayPriorityQueue<int> p_queue;
 	p_queue.print();
