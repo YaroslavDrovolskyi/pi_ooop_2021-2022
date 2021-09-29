@@ -10,6 +10,8 @@
 
 #include"LinkedDeque.h"
 
+#include "ArrayPriorityQueue.h"
+
 
 int generate_random(std::size_t max = 100000) {
 	assert(max > 0);
@@ -61,7 +63,6 @@ bool TestStack(Callable generate_random) {
 
 		assert((values.size() == 0) == stack.is_empty());
 	}
-//	assert(stack.is_empty());
 
 	return true;
 }
@@ -101,69 +102,6 @@ bool TestDeque(Callable generate_random) {
 }
 
 int main() {
-	/*
-	LinkedStack<int> stack1;
-	for (std::size_t i = 0; i < 25; i++) {
-		int a = rand() % 100;
-		stack1.push(a);
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-	while (!stack1.is_empty()) {
-		std::cout << stack1.pop() << " ";
-	}
-	std::cout << std::endl << std::endl;
-
-
-	ArrayQueue<int> queue1;
-	for (std::size_t i = 0; i < 25; i++) {
-		int a = rand() % 100;
-		queue1.push(a);
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-	while (!queue1.is_empty()) {
-		std::cout << queue1.pop() << " ";
-	}
-	std::cout << std::endl << std::endl;
-
-	LinkedQueue<int> queue2;
-	for (std::size_t i = 0; i < 25; i++) {
-		int a = rand() % 100;
-		queue2.push(a);
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-	while (!queue2.is_empty()) {
-		std::cout << queue2.pop() << " ";
-	}
-	std::cout << std::endl << std::endl;
-
-
-
-	std::cout << "\nDeque\n";
-	ArrayDeque<int> deque1;
-	for (std::size_t i = 0; i < 25; i++) {
-		int a = rand() % 100;
-		deque1.push_back(a);
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-	while (!deque1.is_empty()) {
-		std::cout << deque1.pop_back() << " ";
-	}
-	std::cout << std::endl << std::endl;
-
-	for (std::size_t i = 0; i < 25; i++) {
-		int a = rand() % 100;
-		deque1.push_front(a);
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-	while (!deque1.is_empty()) {
-		std::cout << deque1.pop_front() << " ";
-	}
-	*/
 	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<int>, int>([]() { return generate_random(); }) << std::endl;
 	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<int>, int>([]() { return generate_random(); }) << std::endl;
 
@@ -172,6 +110,28 @@ int main() {
 
 	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>, int>([]() { return generate_random(); }) << std::endl;
 	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>, int>([]() { return generate_random(); }) << std::endl;
+
+	ArrayPriorityQueue<int> p_queue;
+	p_queue.print();
+	p_queue.push(1, 1);
+	p_queue.push(2, 2);
+	p_queue.push(1, 3);
+	p_queue.push(4, 4);
+	p_queue.push(1, 5);
+	p_queue.push(1, 6);
+	p_queue.push(7, 7);
+	p_queue.push(1, 8);
+	p_queue.push(1, 9);
+	p_queue.push(11, 10);
+	p_queue.push(1, 11);
+	p_queue.push(18, 12);
+	p_queue.print();
+
+	std::cout << "\nPeek:" << p_queue.peek() << std::endl;
+	std::cout << "\nPop:" << p_queue.pop() << std::endl;
+	p_queue.print();
+	std::cout << "\nPeek:" << p_queue.peek() << std::endl;
+
 	return 0;
 }
 
