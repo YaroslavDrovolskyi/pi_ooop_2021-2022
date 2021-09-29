@@ -3,6 +3,7 @@
 #ifndef _LINKEDDEQUE_
 #define _LINKEDDEQUE_
 
+#include <iostream>
 #include <cassert>
 
 
@@ -64,7 +65,6 @@ T LinkedDeque<T>::pop_back() {
 
 	Node* to_remove = this->end; 
 	T result = to_remove->data;
-
 	if (this->end->prev) {
 		this->end->prev->next = nullptr;
 	}
@@ -98,7 +98,6 @@ T LinkedDeque<T>::pop_front() {
 
 	Node* to_remove = this->begin;
 	T result = this->begin->data;
-
 	if (this->begin->next) {
 		this->begin->next->prev = nullptr;
 	}
@@ -129,6 +128,7 @@ LinkedDeque<T>::~LinkedDeque() {
 		this->begin = this->begin->next;
 		delete current;
 	}
+	this->end = nullptr;
 }
 
 

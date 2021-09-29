@@ -89,6 +89,7 @@ LinkedQueue<T>::~LinkedQueue() {
 		delete to_delete;
 		to_delete = this->begin_;
 	}
+	this->end_ = nullptr;
 }
 
 #endif // _LINKEDQUEUE_
