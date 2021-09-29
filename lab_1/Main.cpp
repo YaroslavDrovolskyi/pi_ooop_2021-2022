@@ -7,6 +7,8 @@
 #include "LinkedStack.h"
 #include "LinkedQueue.h"
 
+#include"LinkedDeque.h"
+
 
 
 int main() {

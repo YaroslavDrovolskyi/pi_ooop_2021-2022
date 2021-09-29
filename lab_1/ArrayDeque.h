@@ -16,7 +16,7 @@ private:
 	void increase_capacity();
 
 public:
-	ArrayDeque(std::size_t size = 10);
+	ArrayDeque(std::size_t size_ = 10);
 	void push_back(T data);
 	T pop_front();
 	void push_front(T data);
@@ -27,11 +27,11 @@ public:
 };
 
 template <typename T>
-ArrayDeque<T>::ArrayDeque(std::size_t size) {
-	assert(size > 0);
+ArrayDeque<T>::ArrayDeque(std::size_t size_) {
+	assert(size_ > 0);
 
-	this->data_ = new T[size];
-	this->capacity_ = size;
+	this->data_ = new T[size_];
+	this->capacity_ = size_;
 	this->size_ = 0;
 }
 
@@ -52,7 +52,7 @@ void ArrayDeque<T>::push_back(T data) {
 		increase_capacity();
 	}
 
-	this->data_[size_] = item;
+	this->data_[size_] = data;
 	this->size_++;
 }
 

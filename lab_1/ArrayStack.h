@@ -15,7 +15,7 @@ private:
 
 	void increase_capacity();
 public:
-	ArrayStack(std::size_t size = 10);
+	ArrayStack(std::size_t size_ = 10);
 	void push(T item);
 	T pop();
 	T peek();
@@ -24,11 +24,11 @@ public:
 };
 
 template <typename T>
-ArrayStack<T>::ArrayStack(std::size_t size) {
-	assert(size > 0);
+ArrayStack<T>::ArrayStack(std::size_t size_) {
+	assert(size_ > 0);
 
-	this->data_ = new T[size];
-	this->capacity_ = size;
+	this->data_ = new T[size_];
+	this->capacity_ = size_;
 	this->size_ = 0;
 }
 

@@ -14,7 +14,7 @@ private:
 	void increase_capacity();
 
 public:
-	ArrayQueue(std::size_t size = 10);
+	ArrayQueue(std::size_t size_ = 10);
 	void push(T item);
 	T pop();
 	std::size_t get_size();
@@ -26,11 +26,11 @@ public:
 #endif // _ARRAYQUEUE_
 
 template <typename T>
-ArrayQueue<T>::ArrayQueue(std::size_t size) {
-	assert(size > 0);
+ArrayQueue<T>::ArrayQueue(std::size_t size_) {
+	assert(size_ > 0);
 
-	this->data_ = new T[size];
-	this->capacity_ = size;
+	this->data_ = new T[size_];
+	this->capacity_ = size_;
 	this->size_ = 0;
 }
 
