@@ -54,7 +54,7 @@ void TreePriorityQueue<T>::push_impl(Node*& root, std::size_t priority, const T&
 		root = new Node(priority, data);
 	}
 	else {
-		if (priority < root->priority) {
+		if (priority <= root->priority) { // <= is for clear order when priorities is equal
 			push_impl(root->left, priority, data);
 		}
 		else {
