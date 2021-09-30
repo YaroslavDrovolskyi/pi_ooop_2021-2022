@@ -42,8 +42,16 @@ int main() {
 	graph1.add_vertex(2, 15);
 	graph1.add_vertex(1, 150);
 	graph1.add_vertex(2, 100);
+
+	graph1.add_edge(1, 0, -15.6);
+	graph1.add_edge(2, 3, 100.1);
+	graph1.add_edge(1, 4, 60.1);
+	graph1.add_edge(3, 4, 1000);
+	graph1.add_edge(1, 3, 59);
+
 	graph1.print();
 
+	/*
 	graph1.add_edge(1, 0, -15.6);
 	graph1.add_edge(2, 3, 100.1);
 	graph1.add_edge(1, 4, 60.1);
@@ -58,8 +66,16 @@ int main() {
 	graph1.remove_vertex(1);
 	graph1.print();
 
+	graph1.add_edge(1, 0, -15.6);
+	graph1.add_edge(2, 3, 100.1);
+	graph1.add_edge(1, 4, 60.1);
 	graph1.add_vertex(0, 63);
 	graph1.print();
+	*/
+
+	std::cout << "\n\n\nSpanning tree:\n";
+	Graph<double, double> spanning_graph = graph1.spanning_tree();
+	spanning_graph.print();
 
 	return 0;
 }
