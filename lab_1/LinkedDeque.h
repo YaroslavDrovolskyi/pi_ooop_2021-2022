@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _LINKEDDEQUE_
-#define _LINKEDDEQUE_
+#ifndef _LINKED_DEQUE_
+#define _LINKED_DEQUE_
 
 #include <iostream>
 #include <cassert>
@@ -30,12 +30,13 @@ private:
 
 public:
 	LinkedDeque();
-	void push_back(T data);
+	void push_back(const T& data);
 	T pop_back();
-	void push_front(T data);
+	void push_front(const T& data);
 	T pop_front();
 	std::size_t get_size();
 	bool is_empty();
+	void print();
 	~LinkedDeque();
 
 };
@@ -47,7 +48,7 @@ LinkedDeque<T>::LinkedDeque() {
 }
 
 template <typename T>
-void LinkedDeque<T>::push_back(T data) {
+void LinkedDeque<T>::push_back(const T& data) {
 	Node* new_node = new Node(data, this->end);
 	if (this->end) {
 		this->end->next = new_node;
@@ -80,7 +81,7 @@ T LinkedDeque<T>::pop_back() {
 }
 
 template <typename T>
-void LinkedDeque<T>::push_front(T data) {
+void LinkedDeque<T>::push_front(const T&  data) {
 	Node* new_node = new Node(data, nullptr, this->begin);
 	if (this->begin) {
 		this->begin->prev = new_node;
@@ -122,6 +123,20 @@ bool LinkedDeque<T>::is_empty() {
 }
 
 template <typename T>
+void LinkedDeque<T>::print() {
+	if (!this->begin) {
+		std::cout << "Deque is empty\n";
+	}
+	else {
+		Node* current = this->begin;
+		while (current) {
+			std::cout << current->data << std::endl;
+			current = current->next;
+		}
+	}
+}
+
+template <typename T>
 LinkedDeque<T>::~LinkedDeque() {
 	while (this->begin) {
 		Node* current = this->begin;
@@ -132,4 +147,4 @@ LinkedDeque<T>::~LinkedDeque() {
 }
 
 
-#endif // _LINKEDDEQUE_
+#endif // _LINKED_DEQUE_

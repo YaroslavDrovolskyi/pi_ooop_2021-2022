@@ -1,8 +1,8 @@
 #pragma once
 
 
-#ifndef _STACK_
-#define _STACK_
+#ifndef _ARRAY_STACK_
+#define _ARRAY_STACK_
 
 #include <cassert>
 
@@ -16,10 +16,11 @@ private:
 	void increase_capacity();
 public:
 	ArrayStack(std::size_t size_ = 10);
-	void push(T item);
+	void push(const T& item);
 	T pop();
 	T peek();
 	bool is_empty();
+	void print();
 	~ArrayStack();
 };
 
@@ -34,7 +35,7 @@ ArrayStack<T>::ArrayStack(std::size_t size_) {
 
 
 template <typename T>
-void ArrayStack<T>::push(T item) {
+void ArrayStack<T>::push(const T& item) {
 	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
@@ -74,6 +75,19 @@ bool ArrayStack<T>::is_empty() {
 }
 
 template <typename T>
+void ArrayStack<T>::print() {
+	if (this->size_ == 0) {
+		std::cout << "Stack is empty" << std::endl;
+	}
+	else {
+		for (std::size_t i = 0; i < this->size_; i++) {
+			std::cout << this->data_[i] << std::endl;
+		}
+	}
+}
+
+
+template <typename T>
 ArrayStack<T>::~ArrayStack() {
 	delete[] this->data_;
 }
@@ -82,4 +96,4 @@ ArrayStack<T>::~ArrayStack() {
 
 
 
-#endif // _STACK_
+#endif // _ARRAY_STACK_

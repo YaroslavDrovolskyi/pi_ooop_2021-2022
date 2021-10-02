@@ -1,22 +1,24 @@
 #include <iostream>
 #include <vector>
 
-#include "ArrayDeque.h"
 #include"ArrayStack.h"
-#include "ArrayQueue.h"
-
 #include "LinkedStack.h"
+
+#include "ArrayQueue.h"
 #include "LinkedQueue.h"
 
+#include "ArrayDeque.h"
 #include"LinkedDeque.h"
 
 #include "ArrayPriorityQueue.h"
 #include "LinkedPriorityQueue.h"
 #include "TreePriorityQueue.h"
 
+#include "Graph.h"
+
 #include"Tests.h"
 
-#include "Graph.h"
+
 
 
 int main() {
@@ -35,6 +37,16 @@ int main() {
 	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<int>, int>([]() { return generate_random(); }) << std::endl;
 	*/
 
+	LinkedDeque<int>q;
+	q.print();
+	q.push_back(5);
+	q.push_back(6);
+	q.push_front(7);
+	q.push_back(8);
+	q.print();
+
+
+	/*
 	Graph<double, double> graph1;
 	graph1.print();
 	graph1.add_vertex(0, 5);
@@ -50,6 +62,7 @@ int main() {
 	graph1.add_edge(1, 3, 59);
 
 	graph1.print();
+	*/
 
 	/*
 	graph1.add_edge(1, 0, -15.6);
@@ -73,6 +86,7 @@ int main() {
 	graph1.print();
 	*/
 
+	/* spanning trees
 	std::cout << "\n\n\nSpanning tree:\n";
 	Graph<double, double> spanning_graph = graph1.spanning_tree();
 	spanning_graph.print();
@@ -84,8 +98,11 @@ int main() {
 	std::cout << "\n\n\nRandom generate graph: \n";
 	Graph<int, int> graph2 = get_random_graph<int, int>(8, 18, []() {return generate_random(); }, []() {return generate_random(); });
 	graph2.print();
+	std::cout << "\n\n\nSpanning tree:\n";
+	graph2.spanning_tree().print();
 	std::cout << "\n\n\nMin spanning tree:\n";
 	graph2.min_spanning_tree().print();
+	*/
 	return 0;
 }
 

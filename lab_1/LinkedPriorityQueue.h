@@ -31,6 +31,7 @@ public:
 	T pop();
 	T peek();
 	bool is_empty();
+	void print();
 	~LinkedPriorityQueue();
 };
 
@@ -84,6 +85,21 @@ T LinkedPriorityQueue<T>::peek() {
 template <typename T>
 bool LinkedPriorityQueue<T>::is_empty() {
 	return this->size == 0;
+}
+
+template <typename T>
+void LinkedPriorityQueue<T>::print() {
+	if (!this->begin) {
+		std::cout << "Priority queue is empty";
+	}
+	else {
+		Node* current = this->begin;
+		while (current) {
+			std::cout << current->priority << "   " << current->data << std::endl;
+			current = current->next;
+		}
+	}
+	std::cout << std::endl;
 }
 
 template <typename T>

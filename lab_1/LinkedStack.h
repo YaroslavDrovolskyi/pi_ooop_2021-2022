@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _LINKEDSTACK_
-#define _LINKEDSTACK_
+#ifndef _LINKED_STACK_
+#define _LINKED_STACK_
 
 #include <cassert>
 
@@ -24,10 +24,11 @@ private:
 
 public:
 	LinkedStack();
-	void push(T data);
+	void push(const T& data);
 	T pop();
 	T peek();
 	bool is_empty();
+	void print();
 	~LinkedStack();
 };
 
@@ -38,7 +39,7 @@ LinkedStack<T>::LinkedStack() {
 }
 
 template <typename T>
-void LinkedStack<T>::push(T data) {
+void LinkedStack<T>::push(const T& data) {
 	Node* new_node = new Node(data, this->top);
 	this->top = new_node;
 }
@@ -68,6 +69,20 @@ bool LinkedStack<T>::is_empty() {
 }
 
 template <typename T>
+void LinkedStack<T>::print() {
+	if (!this->top) {
+		std::cout << "Stack is empty\n";
+	}
+	else {
+		Node* current = this->top;
+		while (current) {
+			std::cout << current->data << std::endl;
+			current = current->next;
+		}
+	}
+}
+
+template <typename T>
 LinkedStack<T>::~LinkedStack() {
 	Node* to_delete = this->top;
 	while (to_delete) {
@@ -77,4 +92,4 @@ LinkedStack<T>::~LinkedStack() {
 	}
 }
 
-#endif // _LINKEDSTACK_
+#endif // _LINKED_STACK_

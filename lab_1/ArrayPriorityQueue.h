@@ -1,8 +1,8 @@
 #pragma once
 
 
-#ifndef _ARRAYPRIORITYQUEUE_
-#define _ARRAYPRIORITYQUEUE_
+#ifndef _ARRAY_PRIORITY_QUEUE_
+#define _ARRAY_PRIORITY_QUEUE_
 
 #include <iostream>
 #include <cassert>
@@ -112,9 +112,14 @@ ArrayPriorityQueue<T>::~ArrayPriorityQueue() {
 
 template <typename T>
 void ArrayPriorityQueue<T>::print() {
-	std::cout << "\n\n\nsize = " << this->size_ << "   caapcity = " << this->capacity_ << std::endl;
-	for (size_t i = 0; i < this->size_; i++) {
-		std::cout << this->data_[i].priority << "   " << this->data_[i].data << std::endl;
+//	std::cout << "\n\n\nsize = " << this->size_ << "   caapcity = " << this->capacity_ << std::endl;
+	if (this->size_ == 0) {
+		std::cout << "Priority queue is empty";
+	}
+	else {
+		for (size_t i = 0; i < this->size_; i++) {
+			std::cout << this->data_[i].priority << "   " << this->data_[i].data << std::endl;
+		}
 	}
 	std::cout << std::endl;
 }
@@ -122,4 +127,4 @@ void ArrayPriorityQueue<T>::print() {
 
 
 
-#endif // _ARRAYPRIORITYQUEUE_
+#endif // _ARRAY_PRIORITY_QUEUE_

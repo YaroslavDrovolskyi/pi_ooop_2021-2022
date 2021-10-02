@@ -1,8 +1,8 @@
 #pragma once
 
 
-#ifndef _ARRAYQUEUE_
-#define _ARRAYQUEUE_
+#ifndef _ARRAY_QUEUE_
+#define _ARRAY_QUEUE_
 
 template <typename T>
 class ArrayQueue {
@@ -15,15 +15,15 @@ private:
 
 public:
 	ArrayQueue(std::size_t size_ = 10);
-	void push(T item);
+	void push(const T& item);
 	T pop();
 	std::size_t get_size();
 	bool is_empty();
+	void print();
 	~ArrayQueue();
 };
 
 
-#endif // _ARRAYQUEUE_
 
 template <typename T>
 ArrayQueue<T>::ArrayQueue(std::size_t size_) {
@@ -35,7 +35,7 @@ ArrayQueue<T>::ArrayQueue(std::size_t size_) {
 }
 
 template <typename T>
-void ArrayQueue<T>::push(T item) {
+void ArrayQueue<T>::push(const T& item) {
 	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
@@ -78,6 +78,22 @@ bool ArrayQueue<T>::is_empty() {
 }
 
 template <typename T>
+void ArrayQueue<T>::print() {
+	if (this->size_ == 0) {
+		std::cout << "Queue is empty" << std::endl;
+	}
+	else {
+		for (std::size_t i = 0; i < this->size_; i++) {
+			std::cout << this->data_[i] << std::endl;
+		}
+	}
+}
+template <typename T>
 ArrayQueue<T>::~ArrayQueue() {
 	delete[] this->data_;
 }
+
+
+
+
+#endif // _ARRAY_QUEUE_

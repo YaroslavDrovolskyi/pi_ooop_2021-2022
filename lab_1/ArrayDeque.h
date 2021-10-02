@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _ARRAYDEQUE_
-#define _ARRAYDEQUE_
+#ifndef _ARRAY_DEQUE_
+#define _ARRAY_DEQUE_
 
 #include <cassert>
 
@@ -17,12 +17,13 @@ private:
 
 public:
 	ArrayDeque(std::size_t size_ = 10);
-	void push_back(T data);
+	void push_back(const T& data);
 	T pop_front();
-	void push_front(T data);
+	void push_front(const T& data);
 	T pop_back();
 	std::size_t get_size();
 	bool is_empty();
+	void print();
 	~ArrayDeque();
 };
 
@@ -47,7 +48,7 @@ void ArrayDeque<T>::increase_capacity() {
 }
 
 template <typename T>
-void ArrayDeque<T>::push_back(T data) {
+void ArrayDeque<T>::push_back(const T& data) {
 	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
@@ -69,7 +70,7 @@ T ArrayDeque<T>::pop_front() {
 }
 
 template <typename T>
-void ArrayDeque<T>::push_front(T data) {
+void ArrayDeque<T>::push_front(const T& data) {
 	if (this->size_ == this->capacity_) {
 		increase_capacity();
 	}
@@ -100,10 +101,22 @@ bool ArrayDeque<T>::is_empty() {
 }
 
 template <typename T>
+void ArrayDeque<T>::print() {
+	if (this->size_ == 0) {
+		std::cout << "Deque is empty" << std::endl;
+	}
+	else {
+		for (std::size_t i = 0; i < this->size_; i++) {
+			std::cout << this->data_[i] << std::endl;
+		}
+	}
+}
+
+template <typename T>
 ArrayDeque<T>::~ArrayDeque() {
 	delete[] this->data_;
 }
 
 
 
-#endif // _ARRAYDEQUE_
+#endif // _ARRAY_DEQUE_

@@ -29,12 +29,14 @@ private:
 
 	void push_impl(Node*& root, std::size_t priority, const T& data);
 	void remove_impl(Node* root);
+	void print_impl(Node* root);
 public:
 	TreePriorityQueue();
 	void push(std::size_t priority, const T& data);
 	T pop();
 	T peek();
 	bool is_empty();
+	void print();
 	~TreePriorityQueue();
 };
 
@@ -101,6 +103,24 @@ bool TreePriorityQueue<T>::is_empty() {
 	return !this->root;
 }
 
+template <typename T>
+void TreePriorityQueue<T>::print_impl(Node* root) {
+	if (!root) { return; }
+	print_impl(root->right);
+	std::cout << root->priority << "   " << root->data << std::endl;
+	print_impl(root->left);
+}
+
+template <typename T>
+void TreePriorityQueue<T>::print() {
+	if (!this->root) {
+		std::cout << "Priority queue is empty";
+	}
+	else {
+		print_impl(this->root);
+	}
+	std::cout << std::endl;
+}
 
 template <typename T>
 TreePriorityQueue<T>::~TreePriorityQueue() {

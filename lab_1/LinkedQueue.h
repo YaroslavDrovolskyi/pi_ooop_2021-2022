@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef _LINKEDQUEUE_
-#define _LINKEDQUEUE_
+#ifndef _LINKED_QUEUE_
+#define _LINKED_QUEUE_
 
 #include <cassert>
 
@@ -26,10 +26,11 @@ private:
 
 public:
 	LinkedQueue();
-	void push(T data);
+	void push(const T& data);
 	T pop();
 	std::size_t get_size();
 	bool is_empty();
+	void print();
 	~LinkedQueue();
 };
 
@@ -41,7 +42,7 @@ LinkedQueue<T>::LinkedQueue() {
 }
 
 template <typename T>
-void LinkedQueue<T>::push(T data) {
+void LinkedQueue<T>::push(const T& data) {
 	Node* new_node = new Node(data);
 	if (!this->begin_) { // queue is empty
 		this->begin_ = new_node;
@@ -82,6 +83,20 @@ bool LinkedQueue<T>::is_empty() {
 }
 
 template <typename T>
+void LinkedQueue<T>::print() {
+	if (!this->begin_) {
+		std::cout << "Queue is empty\n";
+	}
+	else {
+		Node* current = this->begin_;
+		while (current) {
+			std::cout << current->data << std::endl;
+			current = current->next;
+		}
+	}
+}
+
+template <typename T>
 LinkedQueue<T>::~LinkedQueue() {
 	Node* to_delete = this->begin_;
 	while (to_delete) {
@@ -92,4 +107,4 @@ LinkedQueue<T>::~LinkedQueue() {
 	this->end_ = nullptr;
 }
 
-#endif // _LINKEDQUEUE_
+#endif // _LINKED_QUEUE_

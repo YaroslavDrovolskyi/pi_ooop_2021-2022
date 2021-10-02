@@ -268,6 +268,32 @@ bool Graph<V, E>::is_edge(std::size_t begin, std::size_t end) {
 }
 
 
+
+template <typename V, typename E, typename CallVertex, typename CallEdge>
+Graph<V, E> get_random_graph(std::size_t vertices_number, std::size_t edge_number, CallVertex get_rand_vertex, CallEdge get_rand_edge) {
+	assert(vertices_number > 0);
+	assert(edge_number <= (vertices_number * (vertices_number - 1)) / 2);
+	Graph<V, E> result;
+	for (std::size_t i = 0; i < vertices_number; i++) {
+		V vertex_data = get_rand_vertex();
+		result.add_vertex(i, vertex_data);
+	}
+
+	for (std::size_t i = 0; i < edge_number; i++) {
+		std::size_t start_vertex = 0;
+		std::size_t end_vertex = 0;
+		do {
+			start_vertex = rand() % vertices_number;
+			end_vertex = rand() % vertices_number;
+		} while (start_vertex == end_vertex || result.is_edge(start_vertex, end_vertex));
+
+		E edge_data = get_rand_edge();
+		result.add_edge(start_vertex, end_vertex, edge_data);
+	}
+
+	return result;
+}
+
 // using the breadth search
 /*
 void spanning_tree_impl(std::size_t start_vertex, bool* already_visited, Graph& spanning_graph) {
