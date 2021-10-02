@@ -38,6 +38,9 @@ private:
 	std::vector<std::pair<std::size_t, std::size_t>> capture_edges();
 	bool compare_edges(const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b);
 
+//	template <typename V, typename E, typename CallVertex, typename CallEdge>
+//	friend Graph<V, E> get_random_graph(std::size_t vertices_number, std::size_t edge_number, CallVertex get_rand_vertex, CallEdge get_rand_edge);
+
 public:
 	Graph();
 	void add_vertex(const std::size_t index, const V& vertex_data);
@@ -50,6 +53,7 @@ public:
 	Graph<V, E> spanning_tree();
 	std::size_t count_components();
 	Graph<V, E> min_spanning_tree();
+	bool is_edge(std::size_t start, std::size_t end);
 };
 
 
@@ -219,7 +223,7 @@ std::size_t Graph<V, E>::count_components() {
 }
 
 template <typename V, typename E>
-Graph<V, E> Graph<V, E>::min_spanning_tree() {
+Graph<V, E> Graph<V, E>::min_spanning_tree() { // reverse deleted algorithm
 	std::vector<std::pair<std::size_t, std::size_t>> edges = capture_edges();
 	std::sort(edges.begin(), edges.end(), [this](const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b) {return compare_edges(a, b); });// sort in decreasing order
 
@@ -255,6 +259,12 @@ std::vector<std::pair<std::size_t, std::size_t>> Graph<V, E>::capture_edges() {
 template <typename V, typename E>
 bool Graph<V, E>::compare_edges(const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b) {
 	return get_measure(this->matrix[a.first][a.second].edge_data) > get_measure(this->matrix[b.first][b.second].edge_data);
+}
+
+template <typename V, typename E>
+bool Graph<V, E>::is_edge(std::size_t begin, std::size_t end) {
+	assert(this->matrix[begin][end].is_exist == this->matrix[end][begin].is_exist);
+	return this->matrix[begin][end].is_exist;
 }
 
 

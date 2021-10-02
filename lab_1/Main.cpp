@@ -81,6 +81,11 @@ int main() {
 	Graph<double, double> min_spanning_graph = graph1.min_spanning_tree();
 	min_spanning_graph.print();
 
+	std::cout << "\n\n\nRandom generate graph: \n";
+	Graph<int, int> graph2 = get_random_graph<int, int>(8, 18, []() {return generate_random(); }, []() {return generate_random(); });
+	graph2.print();
+	std::cout << "\n\n\nMin spanning tree:\n";
+	graph2.min_spanning_tree().print();
 	return 0;
 }
 
