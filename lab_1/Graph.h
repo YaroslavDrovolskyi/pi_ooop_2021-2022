@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath> // for fabs()
+#include <algorithm>
 
 double get_measure(int a) {
 	return (double)abs(a);
@@ -32,8 +33,10 @@ private:
 	std::vector<V> vertices;
 	std::size_t size;
 
-
+	void depth_search_impl(std::size_t start_vertex, bool* already_visited);
 	void spanning_tree_impl(std::size_t start_vertex, bool* already_visited, Graph<V, E>& spanning_graph);
+	std::vector<std::pair<std::size_t, std::size_t>> capture_edges();
+	bool compare_edges(const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b);
 
 public:
 	Graph();
@@ -45,6 +48,8 @@ public:
 	void change_edge_data(std::size_t start, std::size_t end, const E& new_data);
 	void print();
 	Graph<V, E> spanning_tree();
+	std::size_t count_components();
+	Graph<V, E> min_spanning_tree();
 };
 
 
@@ -179,6 +184,77 @@ Graph<V, E> Graph<V, E>::spanning_tree() {
 
 	delete[] already_visited;
 	return spanning_graph;
+}
+
+
+template <typename V, typename E>
+void Graph<V, E>::depth_search_impl(std::size_t start_vertex, bool* already_visited) {
+	already_visited[start_vertex] = true;
+	for (std::size_t i = 0; i < this->size; i++) {
+		if (this->matrix[start_vertex][i].is_exist) {
+			if (!already_visited[i]) {
+				depth_search_impl(i, already_visited);
+			}
+		}
+	}
+}
+
+template <typename V, typename E>
+std::size_t Graph<V, E>::count_components() {
+	bool* already_visited = new bool[this->size];
+	for (std::size_t i = 0; i < this->size; i++) {
+		already_visited[i] = false;
+	}
+
+	std::size_t count = 0;
+	for (std::size_t i = 0; i < this->size; i++) {
+		if (!already_visited[i]) {
+			depth_search_impl(i, already_visited);
+			count++;
+		}
+	}
+
+	delete[]already_visited;
+	return count;
+}
+
+template <typename V, typename E>
+Graph<V, E> Graph<V, E>::min_spanning_tree() {
+	std::vector<std::pair<std::size_t, std::size_t>> edges = capture_edges();
+	std::sort(edges.begin(), edges.end(), [this](const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b) {return compare_edges(a, b); });// sort in decreasing order
+
+	Graph<V, E> min_spanning_tree = *this;
+
+	std::size_t comp_number = count_components();
+	for (std::size_t i = 0; i < edges.size(); i++) {
+		std::size_t begin = edges[i].first;
+		std::size_t end = edges[i].second;
+		min_spanning_tree.matrix[begin][end].is_exist = min_spanning_tree.matrix[end][begin].is_exist = false;
+		if (comp_number != min_spanning_tree.count_components()) {
+			min_spanning_tree.matrix[begin][end].is_exist = min_spanning_tree.matrix[end][begin].is_exist = true;
+		}
+	}
+
+	return min_spanning_tree;
+}
+
+template <typename V, typename E>
+std::vector<std::pair<std::size_t, std::size_t>> Graph<V, E>::capture_edges() {
+	std::vector<std::pair<std::size_t, std::size_t>> edges;
+	for (std::size_t i = 0; i < this->size; i++) {
+		for (std::size_t j = i; j < this->size; j++) {
+			if (this->matrix[i][j].is_exist) {
+				edges.push_back(std::make_pair(i, j));
+			}
+		}
+	}
+
+	return edges;
+}
+
+template <typename V, typename E>
+bool Graph<V, E>::compare_edges(const std::pair<std::size_t, std::size_t>& a, const std::pair<std::size_t, std::size_t>& b) {
+	return get_measure(this->matrix[a.first][a.second].edge_data) > get_measure(this->matrix[b.first][b.second].edge_data);
 }
 
 

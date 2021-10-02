@@ -77,6 +77,10 @@ int main() {
 	Graph<double, double> spanning_graph = graph1.spanning_tree();
 	spanning_graph.print();
 
+	std::cout << "\n\n\nMin spanning tree:\n";
+	Graph<double, double> min_spanning_graph = graph1.min_spanning_tree();
+	min_spanning_graph.print();
+
 	return 0;
 }
 
