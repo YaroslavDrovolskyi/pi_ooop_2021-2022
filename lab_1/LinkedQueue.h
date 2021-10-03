@@ -14,7 +14,7 @@ private:
 		T data;
 		Node* next;
 
-		Node(T data, Node* next = nullptr) {
+		Node(const T& data, Node* next = nullptr) {
 			this->data = data;
 			this->next = next;
 		}
@@ -26,6 +26,7 @@ private:
 
 public:
 	LinkedQueue();
+	LinkedQueue(const LinkedQueue<T>& other);
 	void push(const T& data);
 	T pop();
 	std::size_t get_size();
@@ -39,6 +40,23 @@ LinkedQueue<T>::LinkedQueue() {
 	this->begin_ = nullptr;
 	this->end_ = nullptr;
 	this->size_ = 0;
+}
+
+template <typename T>
+LinkedQueue<T>::LinkedQueue(const LinkedQueue<T>& other) {
+	this->size_ = other.size_;
+	if (!other.begin_) {
+		this->begin_ = this->end_ = nullptr;
+	}
+	else {
+		this->end_ = this->begin_ = new Node(other.begin_->data);
+		Node* current = other.begin_->next;
+		while (current) {
+			this->end_->next = new Node(current->data);
+			this->end_ = this->end_->next;
+			current = current->next;
+		}
+	}
 }
 
 template <typename T>

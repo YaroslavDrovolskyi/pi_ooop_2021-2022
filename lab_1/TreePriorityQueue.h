@@ -30,8 +30,10 @@ private:
 	void push_impl(Node*& root, std::size_t priority, const T& data);
 	void remove_impl(Node* root);
 	void print_impl(Node* root);
+	Node* copy_impl(Node* root);
 public:
 	TreePriorityQueue();
+	TreePriorityQueue(const TreePriorityQueue<T>& other);
 	void push(std::size_t priority, const T& data);
 	T pop();
 	T peek();
@@ -43,6 +45,23 @@ public:
 template <typename T>
 TreePriorityQueue<T>::TreePriorityQueue() {
 	this->root = nullptr;
+}
+
+template <typename T>
+TreePriorityQueue<T>::TreePriorityQueue(const TreePriorityQueue<T>& other) {
+	this->root = copy_impl(other.root);
+}
+
+template <typename T>
+typename TreePriorityQueue<T>::Node* TreePriorityQueue<T>::copy_impl(Node* root) {
+	if (!root) {
+		return nullptr;
+	}
+	Node* result = new Node(root->priority, root->data);
+	result->left = copy_impl(root->left);
+	result->right = copy_impl(root->right);
+
+	return result;
 }
 
 template <typename T>
@@ -66,7 +85,7 @@ void TreePriorityQueue<T>::push_impl(Node*& root, std::size_t priority, const T&
 }
 
 template <typename T>
-T TreePriorityQueue<T>::pop() { /////////////////// need to
+T TreePriorityQueue<T>::pop() {
 	assert(this->root && "Try to pop from empty priority queue");
 	T result;
 	if (!this->root->right) {

@@ -37,9 +37,11 @@ int main() {
 	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
 	*/
 
-	ArrayQueue<int> st = get_random_queue<ArrayQueue<int>>(10, []() {return get_random_int(); });
-	st.print();
+//	ArrayQueue<int> st = get_random_queue<ArrayQueue<int>>(10, []() {return get_random_int(); });
+//	st.print();
 
+	LinkedPriorityQueue<int>q = get_random_priority_queue<LinkedPriorityQueue<int>>(10, []() {return get_random_int(); });
+	q.print();
 
 	/*
 	Graph<double, double> graph1;

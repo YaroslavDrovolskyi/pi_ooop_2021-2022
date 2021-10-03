@@ -27,6 +27,7 @@ private:
 
 public:
 	LinkedPriorityQueue();
+	LinkedPriorityQueue(const LinkedPriorityQueue<T>& other);
 	void push(std::size_t priority, const T& data);
 	T pop();
 	T peek();
@@ -39,6 +40,24 @@ template <typename T>
 LinkedPriorityQueue<T>::LinkedPriorityQueue() {
 	this->begin = nullptr;
 	this->size = 0;
+}
+
+template <typename T>
+LinkedPriorityQueue<T>::LinkedPriorityQueue(const LinkedPriorityQueue<T>& other) {
+	this->size = other.size;
+	if (!other.begin) {
+		this->begin = nullptr;
+	}
+	else {
+		this->begin = new Node(other.begin->priority, other.begin->data);
+		Node* current_new = this->begin;
+		Node* current = other.begin->next;
+		while (current) {
+			current_new->next = new Node(current->priority, current->data);
+			current_new = current_new->next;
+			current = current->next;
+		}
+	}
 }
 
 template <typename T>

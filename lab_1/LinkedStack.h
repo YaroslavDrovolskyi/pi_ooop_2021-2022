@@ -14,7 +14,7 @@ private:
 		T data;
 		Node* next;
 
-		Node(T data, Node* next = nullptr) {
+		Node(const T& data, Node* next = nullptr) {
 			this->data = data;
 			this->next = next;
 		}
@@ -24,6 +24,7 @@ private:
 
 public:
 	LinkedStack();
+	LinkedStack(const LinkedStack<T>& other);
 	void push(const T& data);
 	T pop();
 	T peek();
@@ -36,6 +37,23 @@ public:
 template <typename T>
 LinkedStack<T>::LinkedStack() {
 	this->top = nullptr;
+}
+
+template <typename T>
+LinkedStack<T>::LinkedStack(const LinkedStack<T>& other) {
+	if (!other.top) {
+		this->top = nullptr;
+	}
+	else {
+		this->top = new Node(other.top->data);
+		Node* current_new = this->top;
+		Node* current = other.top->next;
+		while (current) {
+			current_new->next = new Node(current->data);
+			current_new = current_new->next;
+			current = current->next;
+		}
+	}
 }
 
 template <typename T>

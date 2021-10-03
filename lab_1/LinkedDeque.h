@@ -16,7 +16,7 @@ private:
 		Node* prev;
 		Node* next;
 
-		Node(T data, Node* prev = nullptr, Node* next = nullptr) {
+		Node(const T& data, Node* prev = nullptr, Node* next = nullptr) {
 			this->data = data;
 			this->prev = prev;
 			this->next = next;
@@ -30,6 +30,7 @@ private:
 
 public:
 	LinkedDeque();
+	LinkedDeque(const LinkedDeque<T>& other);
 	void push_back(const T& data);
 	T pop_back();
 	void push_front(const T& data);
@@ -45,6 +46,23 @@ template <typename T>
 LinkedDeque<T>::LinkedDeque() {
 	this->begin = this->end = nullptr;
 	this->size_ = 0;
+}
+
+template <typename T>
+LinkedDeque<T>::LinkedDeque(const LinkedDeque<T>& other) {
+	this->size_ = other.size_;
+	if (!other.begin) {
+		this->begin = this->end = nullptr;
+	}
+	else {
+		this->end = this->begin = new Node(other.begin->data);
+		Node* current = other.begin->next;
+		while (current) {
+			this->end->next = new Node(current->data, this->end);
+			this->end = this->end->next;
+			current = current->next;
+		}
+	}
 }
 
 template <typename T>
