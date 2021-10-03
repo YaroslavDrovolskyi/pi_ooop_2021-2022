@@ -17,6 +17,7 @@ private:
 
 public:
 	ArrayDeque(std::size_t size_ = 10);
+	ArrayDeque(const ArrayDeque<T>& other);
 	void push_back(const T& data);
 	T pop_front();
 	void push_front(const T& data);
@@ -34,6 +35,14 @@ ArrayDeque<T>::ArrayDeque(std::size_t size_) {
 	this->data_ = new T[size_];
 	this->capacity_ = size_;
 	this->size_ = 0;
+}
+
+template <typename T>
+ArrayDeque<T>::ArrayDeque(const ArrayDeque<T>& other) {
+	this->capacity_ = other.capacity_;
+	this->size_ = other.size_;
+	this->data_ = new T[this->capacity_];
+	std::copy(other.data_, other.data_ + other.size_, this->data_);
 }
 
 template <typename T>

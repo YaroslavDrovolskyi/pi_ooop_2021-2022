@@ -30,6 +30,7 @@ private:
 	void increase_capacity();
 public:
 	ArrayPriorityQueue(std::size_t size = 10);
+	ArrayPriorityQueue(const ArrayPriorityQueue<T>& other);
 	void push(std::size_t priority, const T& data);
 	T pop();
 	T peek();
@@ -46,6 +47,14 @@ ArrayPriorityQueue<T>::ArrayPriorityQueue(std::size_t size) {
 	this->data_ = new Node[size];
 	this->capacity_ = 10;
 	this->size_ = 0;
+}
+
+template <typename T>
+ArrayPriorityQueue<T>::ArrayPriorityQueue(const ArrayPriorityQueue<T>& other) {
+	this->capacity_ = other.capacity_;
+	this->size_ = other.size_;
+	this->data_ = new Node[this->capacity_];
+	std::copy(other.data_, other.data_ + other.size_, this->data_);
 }
 
 template<typename T>

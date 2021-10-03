@@ -10,7 +10,7 @@
 
 #include "Graph.h"
 
-int generate_random(std::size_t max = 100000) {
+int get_random_int(std::size_t max = 100000) {
 	assert(max > 0);
 	return rand() % max;
 }
@@ -65,17 +65,17 @@ bool TestStack(Callable generate_random) {
 }
 
 template <typename D, typename T, typename Callable>
-bool TestDeque(Callable generate_random) {
+bool TestDeque(Callable get_random_data) {
 	D deque;
 	std::vector<T> values;
 	for (std::size_t i = 0; i < 10000; i++) {
-		T val = generate_random();
+		T val = get_random_data();
 		values.push_back(val);
 		deque.push_back(val);
 		assert(values.size() == deque.get_size());
 		assert((values.size() == 0) == deque.is_empty());
 
-		val = generate_random();
+		val = get_random_data();
 		values.insert(values.begin(), val);
 		deque.push_front(val);
 		assert(values.size() == deque.get_size());
@@ -115,11 +115,11 @@ bool compare_priority(const Container<T>& a, const Container<T>& b) {
 }
 
 template <typename PQ, typename T, typename Callable>
-bool TestPriorityQueue(Callable get_random) {
+bool TestPriorityQueue(Callable get_random_data) {
 	PQ p_queue;
 	std::vector<Container<T>> values;
 	for (std::size_t i = 0; i < 100000; i++) {
-		T val = generate_random();
+		T val = get_random_data();
 		std::size_t priority = rand() % 1000;
 
 		p_queue.push(priority, val);
@@ -140,6 +140,42 @@ bool TestPriorityQueue(Callable get_random) {
 	return true;
 }
 
+
+template <typename S, typename Callable>
+S get_random_stack(std::size_t size, Callable get_random_data) {
+	S stack;
+	for (std::size_t i = 0; i < size; i++) {
+		stack.push(get_random_data());
+	}
+	return stack;
+}
+
+template <typename Q, typename Callable>
+Q get_random_queue(std::size_t size, Callable get_random_data) {
+	Q queue;
+	for (std::size_t i = 0; i < size; i++) {
+		queue.push(get_random_data());
+	}
+	return queue;
+}
+
+template <typename D, typename Callable>
+D get_random_deque(std::size_t size, Callable get_random_data) {
+	D deque;
+	for (std::size_t i = 0; i < size; i++) {
+		deque.push_back(get_random_data());
+	}
+	return deque;
+}
+
+template <typename PQ, typename Callable>
+PQ get_random_priority_queue(std::size_t size, Callable get_random_data) {
+	PQ p_queue;
+	for (std::size_t i = 0; i < size; i++) {
+		p_queue.push(get_random_int(1000), get_random_data());
+	}
+	return p_queue;
+}
 
 
 #endif // _TESTS_

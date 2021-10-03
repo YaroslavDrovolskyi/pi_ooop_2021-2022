@@ -16,6 +16,7 @@ private:
 	void increase_capacity();
 public:
 	ArrayStack(std::size_t size_ = 10);
+	ArrayStack(const ArrayStack<T>& other);
 	void push(const T& item);
 	T pop();
 	T peek();
@@ -33,6 +34,13 @@ ArrayStack<T>::ArrayStack(std::size_t size_) {
 	this->size_ = 0;
 }
 
+template <typename T>
+ArrayStack<T>::ArrayStack(const ArrayStack<T>& other) {
+	this->capacity_ = other.capacity_;
+	this->size_ = other.size_;
+	this->data_ = new T[this->capacity_];
+	std::copy(other.data_, other.data_ + other.size_, this->data_);
+}
 
 template <typename T>
 void ArrayStack<T>::push(const T& item) {
