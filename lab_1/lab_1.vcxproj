@@ -146,6 +146,7 @@
     <ClInclude Include="ArrayPriorityQueue.h" />
     <ClInclude Include="ArrayQueue.h" />
     <ClInclude Include="ArrayStack.h" />
+    <ClInclude Include="GeometricalShapes.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="LinkedDeque.h" />
     <ClInclude Include="LinkedPriorityQueue.h" />
