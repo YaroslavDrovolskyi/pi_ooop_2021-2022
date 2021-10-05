@@ -139,6 +139,13 @@ int main() {
 		}
 	}
 
+	std::cout << "\n\n\nPerpendicualr line:\n";
+	Point p1(5.5, 105.5);
+	Line line2(1, 0, -5);
+	std::cout << "Perpendicular to " << line2 << " via " << p1 << ":\n";
+	std::cout << get_perpendicular_line(line2, p1);
+
+
 
 	return 0;
 }

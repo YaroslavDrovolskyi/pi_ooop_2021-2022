@@ -210,6 +210,20 @@ std::vector<Point>Intersection(Circle& circle, Line& line) {
 
 
 
+Line get_perpendicular_line(Line& line, Point& pivot_point) {
+	double a = line.get_a();
+	double b = line.get_b();
+	double c = line.get_c();
+
+	double new_a = (-1) * b;
+	double new_b = a;
+	double new_c = (-1) * new_a * pivot_point.x - new_b * pivot_point.y;
+
+	return Line(new_a, new_b, new_c);
+}
+
+
+
 
 
 
