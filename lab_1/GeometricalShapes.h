@@ -209,6 +209,38 @@ std::vector<Point>Intersection(Circle& circle, Line& line) {
 }
 
 
+std::pair<bool, std::vector<Point>>Intersection(Circle& circle1, Circle& circle2) {
+	bool is_inf_solutions = false;
+	std::vector<Point>intersect_points;
+	double x1 = circle1.get_centre().x;
+	double y1 = circle1.get_centre().y;
+	double x2 = circle2.get_centre().x;
+	double y2 = circle2.get_centre().y;
+	double r1 = circle1.get_radius();
+	double r2 = circle2.get_radius();
+	if (x1 == x2 && y1 == y2) {
+		if (r1 == r2) {
+			is_inf_solutions = true;
+		}
+	}
+	else {
+		// algorithm: https://e-maxx.ru/algo/circles_intersection
+		double A = 2 * (x1 - x2); // form coefficients for line equation (after substitution)
+		double B = 2 * (y1 - y2);
+		double C = std::pow((x1 - x2), 2) + std::pow((y1 - y2), 2) + r1 * r1 - r2 * r2;
+
+		Circle c(Point(0, 0), r1);
+		Line l(A, B, C);
+		std::vector<Point> points = Intersection(c, l);
+		for (Point& point : points) { // go back from sustitution
+			point.x += x1;
+			point.y += y1;
+		}
+		intersect_points = points;
+	}
+	return std::make_pair(is_inf_solutions, intersect_points);
+}
+
 
 Line get_perpendicular_line(Line& line, Point& pivot_point) {
 	double a = line.get_a();
@@ -297,6 +329,8 @@ Circle get_reflection_by_line(Line& pivot_line, Circle& circle) {
 
 	return Circle(new_center, radius);
 }
+
+
 
 
 

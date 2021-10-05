@@ -122,6 +122,7 @@ int main() {
 	}
 	*/
 
+/*
 	std::cout << "Geometry shapes:\n";
 	Line line1(0, 1, -1);
 	Circle circle1(Point(0, 0), 1);
@@ -156,7 +157,7 @@ int main() {
 	Point p2(32, 56);
 	Point p3(83, 101);
 	std::cout << "line via " << p2 << " " << p3 << " = " << build_line(p2, p3);
-
+*/
 	/*
 	std::cout << "\n\n\nSymmetric:\n";
 	for (std::size_t i = 0; i < 15; i++) {
@@ -180,11 +181,59 @@ int main() {
 	}
 	*/
 
-	
+	/*
 	Circle c1(Point(0 ,0), rand() % 50);
 	Line l2(1, 1, 0);
 	std::cout << "\n\n\n(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
+	*/
+
+	std::cout << "Intersect of two circles:\n";
+	/*
+	for (std::size_t i = 0; i < 15; i++) {
+//		Circle circle1(Point(5, 6), 7);
+//		Circle circle2(Point(10, 12), 14);
+
+		Circle circle1(Point(rand()%50, rand() % 50), rand() % 50 + 1);
+		Circle circle2(Point(rand() % 50, rand() % 50), rand() % 50 + 1);
+
+//		std::cout << circle1 << std::endl << circle2 << std::endl;
+		std::pair<bool, std::vector <Point>> result = Intersection(circle1, circle2);
+		std::cout << "intersection " << circle1 << ", " << circle2 << std::endl;
+		if (result.first) {
+			std::cout << "This circles are overlap\n";
+		}
+		else if (result.second.size() == 0) {
+			std::cout << "No intersection\n";
+		}
+		else {
+			std::cout << "intersection:\n";
+			for (auto& point : result.second) {
+				std::cout << point << std::endl;
+			}
+		}
+		std::cout << "\n\n\n\n";
+	}
 	
+	*/
+	Circle circle1(Point(5, 6), 1);
+	Circle circle2(Point(0, 5), 4);
+
+
+	std::pair<bool, std::vector <Point>> result = Intersection(circle1, circle2);
+	std::cout << "intersection " << circle1 << ", " << circle2 << std::endl;
+	if (result.first) {
+		std::cout << "This circles are overlap\n";
+	}
+	else if (result.second.size() == 0) {
+		std::cout << "No intersection\n";
+	}
+	else {
+		std::cout << "intersection:\n";
+		for (auto& point : result.second) {
+			std::cout << point << std::endl;
+		}
+	}
+	std::cout << "\n\n\n\n";
 
 	return 0;
 }
