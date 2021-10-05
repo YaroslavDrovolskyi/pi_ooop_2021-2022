@@ -18,7 +18,7 @@
 
 #include"Tests.h"
 
-
+#include "GeometricalShapes.h"
 
 
 int main() {
@@ -40,8 +40,8 @@ int main() {
 //	ArrayQueue<int> st = get_random_queue<ArrayQueue<int>>(10, []() {return get_random_int(); });
 //	st.print();
 
-	LinkedPriorityQueue<int>q = get_random_priority_queue<LinkedPriorityQueue<int>>(10, []() {return get_random_int(); });
-	q.print();
+//	LinkedPriorityQueue<int>q = get_random_priority_queue<LinkedPriorityQueue<int>>(10, []() {return get_random_int(); });
+//	q.print();
 
 	/*
 	Graph<double, double> graph1;
@@ -100,6 +100,46 @@ int main() {
 	std::cout << "\n\n\nMin spanning tree:\n";
 	graph2.min_spanning_tree().print();
 	*/
+
+	/*
+	std::cout << "Geometry shapes:\n";
+	Line line1(5, 6, 7);
+	Line line2(10, 12, 14);
+
+	std::cout << line1 << std::endl << line2 << std::endl;
+	std::pair<bool, std::vector <Point>> result = Intersection(line1, line2);
+	if (result.first) {
+		std::cout << "This lines are overlap\n";
+	}
+	else if (result.second.size() == 0) {
+		std::cout << "No intersection\n";
+	}
+	else {
+		std::cout << "intersection:\n";
+			for (auto& point : result.second) {
+				std::cout << point << std::endl;
+			}
+	}
+	*/
+
+	std::cout << "Geometry shapes:\n";
+	Line line1(0, 1, -1);
+	Circle circle1(Point(0, 0), 1);
+
+	std::cout << line1 << std::endl << circle1 << std::endl;
+	std::vector <Point> result = Intersection(circle1, line1);
+
+	if (result.size() == 0) {
+		std::cout << "No intersection\n";
+	}
+	else {
+		std::cout << "intersection:\n";
+		for (auto& point : result) {
+			std::cout << point << std::endl;
+		}
+	}
+
+
 	return 0;
 }
 
