@@ -223,6 +223,81 @@ Line get_perpendicular_line(Line& line, Point& pivot_point) {
 }
 
 
+Point get_projection_on_line(Line& line, Point& point) {
+	Line perpendicular = get_perpendicular_line(line, point);
+	std::pair<bool, std::vector<Point>> intersection = Intersection(line, perpendicular);
+	assert(!intersection.first); // lines musn't be overlapped
+	assert(intersection.second.size() == 1);
+	Point projection = intersection.second[0];
+
+	return projection;
+}
+
+
+Point get_reflection_by_line(Line& pivot_line, Point& point) {
+	Point middle = get_projection_on_line(pivot_line, point);
+	double new_point_x = 2 * middle.x - point.x;
+	double new_point_y = 2 * middle.y - point.y;
+
+	Point new_point(new_point_x, new_point_y);
+	return new_point;
+}
+
+Line build_line(Point& p1, Point& p2) {
+	assert(p1.x != p2.x || p1.y != p2.y && "Impossible to build a line by one point");
+
+	double a = p1.y - p2.y;
+	double b = p2.x - p1.x;
+	double c = p1.x * p2.y - p2.x * p1.y;
+
+	return Line(a, b, c);
+}
+
+std::vector<Point> chose_points(Line& line, std::size_t count) {
+	assert(count > 0);
+
+	std::vector<Point> result;
+
+	double a = line.get_a();
+	double b = line.get_b();
+	double c = line.get_c();
+
+	if (b == 0) {
+		double x = (-1) * c / a;
+		for (std::size_t i = 0; i < count; i++) {
+			double y = i;
+			result.push_back(Point(x, y));
+		}
+	}
+	else {
+		for (std::size_t i = 0; i < count; i++) {
+			double x = i;
+			double y = (-1) * (a * x / b) - (c / b);
+			result.push_back(Point(x, y));
+		}
+	}
+	
+
+	return result;
+}
+
+Line get_reflection_by_line(Line& pivot_line, Line& line) {
+	std::vector<Point> points_on_line = chose_points(line, 2);
+	assert(points_on_line.size() == 2);
+	for (Point& point : points_on_line) {
+		point = get_reflection_by_line(pivot_line, point);
+	}
+	return build_line(points_on_line[0], points_on_line[1]);
+}
+
+Circle get_reflection_by_line(Line& pivot_line, Circle& circle) {
+	Point center = circle.get_centre();
+	double radius = circle.get_radius();
+	Point new_center = get_reflection_by_line(pivot_line, center);
+
+	return Circle(new_center, radius);
+}
+
 
 
 

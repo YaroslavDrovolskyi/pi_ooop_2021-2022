@@ -140,12 +140,51 @@ int main() {
 	}
 
 	std::cout << "\n\n\nPerpendicualr line:\n";
-	Point p1(5.5, 105.5);
-	Line line2(1, 0, -5);
+	Point p1(1, 1);
+	Line line2(5, 10, 12);
 	std::cout << "Perpendicular to " << line2 << " via " << p1 << ":\n";
-	std::cout << get_perpendicular_line(line2, p1);
+	std::cout << get_perpendicular_line(line2, p1) << std::endl << std::endl << std::endl;
+
+	std::cout << "Projection " << p1 << " on " << line2 << ":\n";
+	std::cout << get_projection_on_line(line2, p1);
 
 
+	std::cout << "\n\n\nSymmetric:\n";
+	std::cout << p1 << " symmetric via " << line2 << " = " << get_reflection_by_line(line2, p1) << std::endl;
+
+	std::cout << "\n\n\nBuild line:\n";
+	Point p2(32, 56);
+	Point p3(83, 101);
+	std::cout << "line via " << p2 << " " << p3 << " = " << build_line(p2, p3);
+
+	/*
+	std::cout << "\n\n\nSymmetric:\n";
+	for (std::size_t i = 0; i < 15; i++) {
+		Line l1(rand() % 50, rand() % 50, rand() % 50), l2(rand() % 50, rand() % 50, rand() % 50);
+		std::cout << "(" << l1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, l1) << ")" << std::endl;
+	}
+	*/
+
+	/*
+	std::cout << "\n\n\nSymmetric:\n";
+	Line l1(1, 1, 0), l2(-1, 1, 0);
+	std::cout << "(" << l1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, l1) << ")" << std::endl;
+	*/
+
+	/*
+	std::cout << "\n\n\nSymmetric:\n";
+	for (std::size_t i = 0; i < 15; i++) {
+		Circle c1(Point(rand() % 50, rand() % 50), rand() % 50);
+		Line l2(rand() % 50, rand() % 50, rand() % 50);
+		std::cout << "(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
+	}
+	*/
+
+	
+	Circle c1(Point(0 ,0), rand() % 50);
+	Line l2(1, 1, 0);
+	std::cout << "\n\n\n(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
+	
 
 	return 0;
 }
