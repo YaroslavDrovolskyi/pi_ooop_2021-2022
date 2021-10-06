@@ -7,6 +7,7 @@
 #include <cassert>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include "Graph.h"
 
@@ -15,11 +16,42 @@ int get_random_int(std::size_t max = 100000) {
 	return rand() % max;
 }
 
+double get_random_double(std::size_t max = 1000000) {
+	assert(max > 0);
+	return (double)((rand() % max))/1000;
+}
+
+bool operator==(const std::vector<int>& a, const std::vector<int>& b) {
+	if (a.size() != b.size()) {
+		return false;
+	}
+
+	for (std::size_t i = 0; i < a.size(); i++) {
+		if (a[i] != b[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool operator==(const std::string& a, const std::string& b) {
+	if (a.length() != b.length()) {
+		return false;
+	}
+
+	for (std::size_t i = 0; i < a.length(); i++) {
+		if (a[i] != b[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 template <typename Q, typename T, typename Callable>
 bool TestQueue(Callable generate_random) {
 	Q queue;
 	std::vector<T> values;
-	for (std::size_t i = 0; i < 10000; i++) {
+	for (std::size_t i = 0; i < 100; i++) {
 		T val = generate_random();
 		values.push_back(val);
 		queue.push(val);
@@ -44,7 +76,7 @@ template <typename S, typename T, typename Callable>
 bool TestStack(Callable generate_random) {
 	S stack;
 	std::vector<T> values;
-	for (std::size_t i = 0; i < 10000; i++) {
+	for (std::size_t i = 0; i < 100; i++) {
 		T val = generate_random();
 		values.push_back(val);
 		stack.push(val);
@@ -68,7 +100,7 @@ template <typename D, typename T, typename Callable>
 bool TestDeque(Callable get_random_data) {
 	D deque;
 	std::vector<T> values;
-	for (std::size_t i = 0; i < 10000; i++) {
+	for (std::size_t i = 0; i < 100; i++) {
 		T val = get_random_data();
 		values.push_back(val);
 		deque.push_back(val);
@@ -118,7 +150,7 @@ template <typename PQ, typename T, typename Callable>
 bool TestPriorityQueue(Callable get_random_data) {
 	PQ p_queue;
 	std::vector<Container<T>> values;
-	for (std::size_t i = 0; i < 100000; i++) {
+	for (std::size_t i = 0; i < 100; i++) {
 		T val = get_random_data();
 		std::size_t priority = rand() % 1000;
 
@@ -177,5 +209,24 @@ PQ get_random_priority_queue(std::size_t size, Callable get_random_data) {
 	return p_queue;
 }
 
+
+std::vector<int>get_random_vector(std::size_t size = 0) {
+	std::vector<int> result;
+	for (std::size_t i = 0; i < size; i++) {
+		result.push_back(rand() % 1000);
+	}
+	return result;
+}
+
+
+std::string get_random_string(std::size_t size = 10) {
+	if (size == 0 || size == 1) { return ""; }
+
+	std::string result;
+	for (size_t i = 0; i < size - 1; i++) {
+		result += (char)(rand() % 79 + 47);
+	}
+	return result;
+}
 
 #endif // _TESTS_

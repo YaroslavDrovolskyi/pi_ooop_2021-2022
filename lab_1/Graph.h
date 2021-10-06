@@ -16,6 +16,15 @@ double get_measure(double a) {
 	return fabs(a);
 }
 
+template <typename T>
+double get_measure(std::vector<T>& vector) {
+	return (double)vector.size();
+}
+
+double get_measure(std::string str) {
+	return (double)str.length();
+}
+
 template <typename V, typename E>
 class Graph {
 private:

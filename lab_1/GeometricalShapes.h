@@ -26,6 +26,14 @@ struct Point {
 	}
 };
 
+double get_measure(Point& point) {
+	return point.x + point.y;
+}
+
+Point get_random_point() {
+	return Point(rand() % 50, rand() % 50);
+}
+
 std::ostream& operator<< (std::ostream& out, const Point& point) {
 	out << "(";
 	if (point.x == std::numeric_limits<double>::infinity()) {
@@ -65,6 +73,7 @@ private:
 
 
 	friend std::ostream& operator<< (std::ostream& out, const Circle& circle);
+	friend bool operator==(const Circle& a, const Circle& b);
 
 public:
 	Circle();
@@ -110,6 +119,13 @@ double Circle::get_radius() {
 	return this->radius;
 }
 
+double get_measure(Circle& c) {
+	return std::pow(c.get_radius(), 2) * 3.14; // square of circle
+}
+
+Circle get_random_circle() {
+	return Circle(get_random_point(), rand() % 25 + 1);
+}
 
 class Line {
 private:
@@ -118,7 +134,7 @@ private:
 	double c;
 
 	friend std::ostream& operator<< (std::ostream& out, const Line& line);
-
+	friend bool operator==(const Line& x, const Line& y);
 public:
 	Line(double a = 1, double b = 1, double c = 1);
 	double get_a();
@@ -143,6 +159,14 @@ double Line::get_b() {
 
 double Line::get_c() {
 	return this->c;
+}
+
+double get_measure(Line& line) {
+	return line.get_a() + line.get_b() + line.get_c();
+}
+
+Line get_random_line() {
+	return Line(rand() % 50 + 1, rand() % 50 + 1, rand() % 50);
 }
 
 std::ostream& operator<< (std::ostream& out, const Line& line) {
@@ -387,6 +411,7 @@ private:
 	Circle circle;
 	Line line;
 
+	friend std::ostream& operator<< (std::ostream& out, const GeometricalShape& shape);
 public:
 	GeometricalShape(const Circle& circle) {
 		this->circle = circle;
@@ -413,12 +438,12 @@ public:
 	}
 };
 
-std::ostream& operator<< (std::ostream& out, GeometricalShape& shape) {
-	if (shape.what_shape() == 0) {
-		out << shape.get_circle();
+std::ostream& operator<< (std::ostream& out, const GeometricalShape& shape) {
+	if (shape.id == 0) {
+		out << shape.circle;
 	}
-	else if (shape.what_shape() == 1) {
-		out << shape.get_line();
+	else if (shape.id == 1) {
+		out << shape.line;
 	}
 
 	return out;
@@ -444,18 +469,17 @@ GeometricalShape Inversion(Circle& pivot_circle, Line& line) {
 	}
 }
 
+bool operator==(const Point& a, const Point& b) {
+	return (a.x == b.x) && (a.y == b.y);
+}
 
-/*
+bool operator==(const Line& x, const Line& y) {
+	return (x.a == y.a) && (x.b == y.b) && (x.c == y.c);
+}
 
-std::vector<Point> points = chose_points(line, 2);
-		for (std::size_t i = 0; i < points.size(); i++) {
-			points[i] = Inversion(pivot_circle, points[i]);
-		}
-		assert(points.size() == 2);
-		return build_line(points[0], points[1]);
-
-*/
-
+bool operator==(const Circle& a, const Circle& b) {
+	return (a.centre == b.centre) && (a.radius == b.radius);
+}
 
 
 

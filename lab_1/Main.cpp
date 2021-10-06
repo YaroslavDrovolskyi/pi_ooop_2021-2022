@@ -20,241 +20,266 @@
 
 #include "GeometricalShapes.h"
 
+void demonstrate_queue();
+void demonstrate_stack();
+void demonstrate_deque();
+void demonstrate_priority_queue();
+void demonstrate_graph();
+void demonstrate_geometry();
 
 int main() {
-	/*
-	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
-	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "Hello!!!\n";
 
-	std::cout << "TestStack (array): " << TestStack<ArrayStack<int>, int>([]() { return get_random_int(); }) << std::endl;
-	std::cout << "TestStack (linked): " << TestStack<LinkedStack<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "\n\n\nTASK 1.3:";
+	demonstrate_queue();
+	demonstrate_stack();
+	demonstrate_deque();
 
-	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>, int>([]() { return get_random_int(); }) << std::endl;
-	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>, int>([]() { return get_random_int(); }) << std::endl;
-
-	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
-	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
-	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
-	*/
-
-//	ArrayQueue<int> st = get_random_queue<ArrayQueue<int>>(10, []() {return get_random_int(); });
-//	st.print();
-
-//	LinkedPriorityQueue<int>q = get_random_priority_queue<LinkedPriorityQueue<int>>(10, []() {return get_random_int(); });
-//	q.print();
-
-	/*
-	Graph<double, double> graph1;
-	graph1.print();
-	graph1.add_vertex(0, 5);
-	graph1.add_vertex(1, 10);
-	graph1.add_vertex(2, 15);
-	graph1.add_vertex(1, 150);
-	graph1.add_vertex(2, 100);
-
-	graph1.add_edge(1, 0, -15.6);
-	graph1.add_edge(2, 3, 100.1);
-	graph1.add_edge(1, 4, 60.1);
-	graph1.add_edge(3, 4, 1000);
-	graph1.add_edge(1, 3, 59);
-
-	graph1.print();
+	std::cout << "\n\n\nTASK 1.5:";
+	demonstrate_priority_queue();
 	
+	std::cout << "\n\n\nTASK 1.8 + 1.8.1:";
+	demonstrate_graph();
 
-	
-
-	graph1.remove_edge(0, 1);
-	graph1.print();
-
-	graph1.remove_vertex(0);
-	graph1.print();
-
-	graph1.remove_vertex(1);
-	graph1.print();
-
-	graph1.add_vertex(0, 63);
-	graph1.print();
-	
-
-	 //spanning trees
-	std::cout << "\n\n\nSpanning tree:\n";
-	Graph<double, double> spanning_graph = graph1.spanning_tree();
-	spanning_graph.print();
-
-	std::cout << "\n\n\nMin spanning tree:\n";
-	Graph<double, double> min_spanning_graph = graph1.min_spanning_tree();
-	min_spanning_graph.print();
-
-	std::cout << "\n\n\nRandom generate graph: \n";
-	Graph<int, int> graph2 = get_random_graph<int, int>(8, 18, []() {return get_random_int(); }, []() {return get_random_int(); });
-	graph2.print();
-	std::cout << "\n\n\nSpanning tree:\n";
-	graph2.spanning_tree().print();
-	std::cout << "\n\n\nMin spanning tree:\n";
-	graph2.min_spanning_tree().print();
-	*/
-
-	/*
-	std::cout << "Geometry shapes:\n";
-	Line line1(5, 6, 7);
-	Line line2(10, 12, 14);
-
-	std::cout << line1 << std::endl << line2 << std::endl;
-	std::pair<bool, std::vector <Point>> result = Intersection(line1, line2);
-	if (result.first) {
-		std::cout << "This lines are overlap\n";
-	}
-	else if (result.second.size() == 0) {
-		std::cout << "No intersection\n";
-	}
-	else {
-		std::cout << "intersection:\n";
-			for (auto& point : result.second) {
-				std::cout << point << std::endl;
-			}
-	}
-	*/
-
-	/*
-	std::cout << "Geometry shapes:\n";
-	Line line1(0, 1, -1);
-	Circle circle1(Point(0, 0), 1);
-
-	std::cout << line1 << std::endl << circle1 << std::endl;
-	std::vector <Point> result = Intersection(circle1, line1);
-
-	if (result.size() == 0) {
-		std::cout << "No intersection\n";
-	}
-	else {
-		std::cout << "intersection:\n";
-		for (auto& point : result) {
-			std::cout << point << std::endl;
-		}
-	}
-
-	std::cout << "\n\n\nPerpendicualr line:\n";
-	Point p1(1, 1);
-	Line line2(5, 10, 12);
-	std::cout << "Perpendicular to " << line2 << " via " << p1 << ":\n";
-	std::cout << get_perpendicular_line(line2, p1) << std::endl << std::endl << std::endl;
-
-	std::cout << "Projection " << p1 << " on " << line2 << ":\n";
-	std::cout << get_projection_on_line(line2, p1);
-
-
-	std::cout << "\n\n\nSymmetric:\n";
-	std::cout << p1 << " symmetric via " << line2 << " = " << get_reflection_by_line(line2, p1) << std::endl;
-
-	std::cout << "\n\n\nBuild line:\n";
-	Point p2(32, 56);
-	Point p3(83, 101);
-	std::cout << "line via " << p2 << " " << p3 << " = " << build_line(p2, p3);
-	*/
-	/*
-	std::cout << "\n\n\nSymmetric:\n";
-	for (std::size_t i = 0; i < 15; i++) {
-		Line l1(rand() % 50, rand() % 50, rand() % 50), l2(rand() % 50, rand() % 50, rand() % 50);
-		std::cout << "(" << l1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, l1) << ")" << std::endl;
-	}
-	*/
-
-	/*
-	std::cout << "\n\n\nSymmetric:\n";
-	Line l1(1, 1, 0), l2(-1, 1, 0);
-	std::cout << "(" << l1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, l1) << ")" << std::endl;
-	*/
-
-	/*
-	std::cout << "\n\n\nSymmetric:\n";
-	for (std::size_t i = 0; i < 15; i++) {
-		Circle c1(Point(rand() % 50, rand() % 50), rand() % 50);
-		Line l2(rand() % 50, rand() % 50, rand() % 50);
-		std::cout << "(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
-	}
-	*/
-
-	/*
-	Circle c1(Point(0 ,0), rand() % 50);
-	Line l2(1, 1, 0);
-	std::cout << "\n\n\n(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
-	*/
-
-//	std::cout << "Intersect of two circles:\n";
-	/*
-	for (std::size_t i = 0; i < 15; i++) {
-//		Circle circle1(Point(5, 6), 7);
-//		Circle circle2(Point(10, 12), 14);
-
-		Circle circle1(Point(rand()%50, rand() % 50), rand() % 50 + 1);
-		Circle circle2(Point(rand() % 50, rand() % 50), rand() % 50 + 1);
-
-//		std::cout << circle1 << std::endl << circle2 << std::endl;
-		std::pair<bool, std::vector <Point>> result = Intersection(circle1, circle2);
-		std::cout << "intersection " << circle1 << ", " << circle2 << std::endl;
-		if (result.first) {
-			std::cout << "This circles are overlap\n";
-		}
-		else if (result.second.size() == 0) {
-			std::cout << "No intersection\n";
-		}
-		else {
-			std::cout << "intersection:\n";
-			for (auto& point : result.second) {
-				std::cout << point << std::endl;
-			}
-		}
-		std::cout << "\n\n\n\n";
-	}
-	
-	*/
-
-	/*
-	Circle circle1(Point(5, 6), 1);
-	Circle circle2(Point(0, 5), 4);
-
-
-	std::pair<bool, std::vector <Point>> result = Intersection(circle1, circle2);
-	std::cout << "intersection " << circle1 << ", " << circle2 << std::endl;
-	if (result.first) {
-		std::cout << "This circles are overlap\n";
-	}
-	else if (result.second.size() == 0) {
-		std::cout << "No intersection\n";
-	}
-	else {
-		std::cout << "intersection:\n";
-		for (auto& point : result.second) {
-			std::cout << point << std::endl;
-		}
-	}
-	std::cout << "\n\n\n\n";
-	*/
-
-	
-	std::cout << "\n\n\nInversion\n";
-	Circle circle1(Point(5, 6), 10);
-	Point p1(0, 0);
-
-	std::cout << "Invert " << p1 << " by " << circle1 << ": " << Inversion(circle1, p1) << std::endl;
-
-	std::cout << "\n\n\nInversion\n";
-
-//	Line line1(1, 1, 1);
-	/*
-	for (std::size_t i = 0; i < 15; i++) {
-		Circle circle1(Point(rand()%25, rand()%25), rand()%10 + 1);
-		Line line1(rand() % 50 + 1 , rand() % 50 + 1, rand() % 50);
-		GeometricalShape shape1 = Inversion(circle1, line1);
-		std::cout << "Invert " << line1 << " by " << circle1 << ": " << shape1 << std::endl << std::endl << std::endl;
-	}
-	
-	Circle circle1(Point(5, 5), 1);
-	Line line1(-1, 1, 0);
-	GeometricalShape shape1 = Inversion(circle1, line1);
-	std::cout << "Invert " << line1 << " by " << circle1 << ": " << shape1 << std::endl;
-	*/
+	std::cout << "\n\n\nTASK 2.2:";
+	demonstrate_geometry();
 
 	return 0;
 }
 
+void demonstrate_queue() {
+	std::cout << "\n\n\n==========   QUEUE   ==========\n\n";
+	std::cout << "Result of tests on INT:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+
+	std::cout << "\nResult of tests on DOUBLE:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<double>, double>([]() { return get_random_double(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<double>, double>([]() { return get_random_double(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::STRING:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::VECTOR:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+
+	std::cout << "\nResult of tests on CIRCLE:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+
+	std::cout << "\nResult of tests on LINE:\n";
+	std::cout << "TestQueue (array): " << TestQueue<ArrayQueue<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+	std::cout << "TestQueue (linked): " << TestQueue<LinkedQueue<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+}
+
+void demonstrate_stack() {
+	std::cout << "\n\n\n==========   STACK   ==========\n\n";
+	std::cout << "Result of tests on INT:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<int>, int>([]() { return get_random_int(); }) << std::endl;
+
+	std::cout << "\nResult of tests on DOUBLE:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<double>, double>([]() { return get_random_double(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<double>, double>([]() { return get_random_double(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::STRING:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::VECTOR:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+
+	std::cout << "\nResult of tests on CIRCLE:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+
+	std::cout << "\nResult of tests on LINE:\n";
+	std::cout << "TestStack (array): " << TestStack<ArrayStack<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+	std::cout << "TestStack (linked): " << TestStack<LinkedStack<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+}
+
+void demonstrate_deque() {
+	std::cout << "\n\n\n==========   DEQUE   ==========\n\n";
+	std::cout << "Result of tests on INT:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<int>, int>([]() { return get_random_int(); }) << std::endl;
+
+	std::cout << "\nResult of tests on DOUBLE:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<double>, double>([]() { return get_random_double(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<double>, double>([]() { return get_random_double(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::STRING:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::VECTOR:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+
+	std::cout << "\nResult of tests on CIRCLE:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+
+	std::cout << "\nResult of tests on LINE:\n";
+	std::cout << "TestDeque (array): " << TestDeque<ArrayDeque<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+	std::cout << "TestDeque (linked): " << TestDeque<LinkedDeque<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+}
+
+void demonstrate_priority_queue() {
+	std::cout << "\n\n\n==========   PRIORITY QUEUE   ==========\n\n";
+	std::cout << "Result of tests on INT:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<int>, int>([]() { return get_random_int(); }) << std::endl;
+
+	std::cout << "\nResult of tests on DOUBLE:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<double>, double>([]() { return get_random_double(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<double>, double>([]() { return get_random_double(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<double>, double>([]() { return get_random_double(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::STRING:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<std::string>, std::string>([]() { return get_random_string(); }) << std::endl;
+
+	std::cout << "\nResult of tests on STD::VECTOR:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<std::vector<int>>, std::vector<int>>([]() { return get_random_vector(); }) << std::endl;
+
+	std::cout << "\nResult of tests on CIRCLE:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<Circle>, Circle>([]() { return get_random_circle(); }) << std::endl;
+
+	std::cout << "\nResult of tests on LINE:\n";
+	std::cout << "TestPriorityQueue (array): " << TestPriorityQueue<ArrayPriorityQueue<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+	std::cout << "TestPriorityQueue (linked): " << TestPriorityQueue<LinkedPriorityQueue<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+	std::cout << "TestPriorityQueue (tree): " << TestPriorityQueue<TreePriorityQueue<Line>, Line>([]() { return get_random_line(); }) << std::endl;
+}
+
+void demonstrate_graph() {
+	std::cout << "\n\n\n==========   GRAPH   ==========\n\n";
+	std::cout << "Generate random graph:\n";
+	Graph<int, int> graph = get_random_graph<int, int>(8, 18, []() {return get_random_int(); }, []() {return get_random_int(); });
+	graph.print();
+
+	std::cout << "\n\nAdd vertices and some edges:\n\n";
+	graph.add_vertex(8, 5);
+	graph.add_vertex(9, 100);
+
+	graph.add_edge(1, 8, 2343);
+	graph.add_edge(6, 8, 678);
+	graph.add_edge(8, 9, 4634);
+	graph.print();
+
+	std::cout << "\n\nChange some data of vertices and edges:\n\n";
+	graph.change_vertice_data(8, 10);
+	graph.change_vertice_data(9, 12);
+	graph.change_edge_data(1, 8, 600);
+	graph.change_edge_data(8, 9, 1000);
+	graph.print();
+
+	std::cout << "\n\nRemove some edges and vertices:\n\n";
+	graph.remove_edge(1, 8);
+	graph.remove_edge(8, 9);
+	graph.remove_vertex(9);
+	graph.remove_vertex(8);
+	graph.print();
+
+	 //spanning trees
+	std::cout << "\n\nSpanning forest:\n";
+	graph.spanning_tree().print();
+
+	std::cout << "\n\nMin spanning forest:\n";
+	graph.min_spanning_tree().print();
+}
+
+void demonstrate_geometry() {
+	std::cout << "\n\n\n==========   GEOMETRY SHAPES   ==========\n\n";
+	std::cout << "\n\nGenerate random points, lines and circles:\n";
+	Point point1 = get_random_point();
+	Point point2 = get_random_point();
+	Line line1 = get_random_line();
+	Line line2 = get_random_line();
+	Circle circle1 = get_random_circle();
+	Circle circle2 = get_random_circle();
+	std::cout << point1 << ",   " << point2 << "\n" << line1 << ",   " << line2 << "\n" << circle1 << ",   " << circle2 << "\n\n";
+
+	std::cout << "Intersection of " << line1 << " and " << line2 << ":   ";
+	std::pair<bool, std::vector <Point>> result1 = Intersection(line1, line2);
+	if (result1.first) {
+		std::cout << "this lines are overlap\n";
+	}
+	else if (result1.second.size() == 0) {
+		std::cout << "no intersection\n";
+	}
+	else {
+			for (auto& point : result1.second) {
+				std::cout << point << "  ";
+			}
+			std::cout << std::endl;
+	}
+
+	
+	std::cout << "\n\nIntersection of " << line1 << " and " << circle1 << ":   ";
+	std::vector <Point> result2 = Intersection(circle1, line1);
+
+	if (result2.size() == 0) {
+		std::cout << "no intersection\n";
+	}
+	else {
+		for (auto& point : result2) {
+			std::cout << point << "  ";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << "Intersect of two circles: " << circle1 << " and " << circle2 << ":   ";
+		
+	
+	std::pair<bool, std::vector <Point>> result3 = Intersection(circle1, circle2);
+	if (result3.first) {
+		std::cout << "this circles are overlap\n";
+	}
+	else if (result3.second.size() == 0) {
+		std::cout << "no intersection\n";
+	}
+	else {
+		for (auto& point : result3.second) {
+			std::cout << point << "   ";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << "\n\nPerpendicular line equation to " << line2 << " via " << point1 << ":   ";
+	std::cout << get_perpendicular_line(line2, point1);
+
+	std::cout << "\n\nProjection " << point2 << " on " << line2 << ":   ";
+	std::cout << get_projection_on_line(line2, point2);
+
+	std::cout << "\n\nDistance between " << point1 << " and " << point2 << ":   ";
+	std::cout << get_distance(point1, point2);
+
+	std::cout << "\n\nChose 3 different point from line " << line1 << ":   ";
+	std::vector<Point> result4 = chose_points(line1, 3);
+	std::cout << result4[0] << " " << result4[1] << " " << result4[2] << std::endl;
+
+	std::cout << "\n\nBuild line by two points:\n";
+	Point p1(32, 56);
+	Point p2(83, 101);
+	std::cout << "line by " << p1 << " and " << p2 << ":   " << build_line(p1, p2);
+
+	std::cout << "\n\n\nSymmetric:\n";
+	std::cout << point2 << " symmetric via " << line2 << ":   " << get_reflection_by_line(line2, point2) << std::endl;
+	std::cout << line1 << " symmetric via " << line2 << ":   " << get_reflection_by_line(line2, line1) << std::endl;
+	std::cout << circle1 << " symmetric via " << line2 << ":   " << get_reflection_by_line(line2, circle1) << std::endl;
+
+	std::cout << "\n\n\nInversion:\n";
+	std::cout << "Invert " << point1 << " by " << circle1 << ":   " << Inversion(circle1, p1) << std::endl;
+	std::cout << "Invert " << line1 << " by " << circle1 << ":   " << Inversion(circle1, line1) << std::endl;
+		
+}
