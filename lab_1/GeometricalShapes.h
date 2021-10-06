@@ -8,6 +8,9 @@
 #include <cassert>
 #include <vector>
 #include <cmath>
+#include <limits>
+
+
 
 struct Point {
 	double x;
@@ -24,7 +27,22 @@ struct Point {
 };
 
 std::ostream& operator<< (std::ostream& out, const Point& point) {
-	out << "(" << point.x << ", " << point.y << ")";
+	out << "(";
+	if (point.x == std::numeric_limits<double>::infinity()) {
+		out << "infinity";
+	}
+	else {
+		out << point.x;
+	}
+	out << ", ";
+	if (point.y == std::numeric_limits<double>::infinity()) {
+		out << "infinity";
+	}
+	else {
+		out << point.y;
+	}
+		
+	out << ")";
 	return out;
 }
 
@@ -49,6 +67,7 @@ private:
 	friend std::ostream& operator<< (std::ostream& out, const Circle& circle);
 
 public:
+	Circle();
 	Circle(const Point& centre, double radius);
 	Point get_centre();
 	double get_radius();
@@ -61,6 +80,11 @@ std::ostream& operator<< (std::ostream& out, const Circle& circle) {
 	out << "(x - " << circle.centre.x << ")^2 + " << "(y - " << circle.centre.y << ")^2 = " << circle.radius << "^2";
 
 	return out;
+}
+
+Circle::Circle() {
+	this->centre = Point(0, 0);
+	this->radius = 1;
 }
 
 Circle::Circle(const Point& centre, double radius) {
@@ -332,9 +356,105 @@ Circle get_reflection_by_line(Line& pivot_line, Circle& circle) {
 
 
 
+Point Inversion(Circle& pivot_circle, Point& point) {
+	double x = point.x;
+	double y = point.y;
+	double x0 = pivot_circle.get_centre().x;
+	double y0 = pivot_circle.get_centre().y;
+	double r = pivot_circle.get_radius();
+
+	if (point.x == pivot_circle.get_centre().x && point.y == pivot_circle.get_centre().y) {
+		return Point(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity());
+	}
+	else if (x == std::numeric_limits<double>::infinity() && y == std::numeric_limits<double>::infinity()) {
+		return pivot_circle.get_centre();
+	}
+	else {
+		double new_x = x0 + (r * r * (x - x0)) / (std::pow(x - x0, 2) + std::pow(y - y0, 2));
+		double new_y = y0 + (r * r * (y - y0)) / (std::pow(x - x0, 2) + std::pow(y - y0, 2));
+
+		return Point(new_x, new_y);
+	}
+}
+
+double get_distance(Point& a, Point& b) {
+	return sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
+}
+
+class GeometricalShape {
+private:
+	std::size_t id; // 0 - circle, 1 - line
+	Circle circle;
+	Line line;
+
+public:
+	GeometricalShape(const Circle& circle) {
+		this->circle = circle;
+		this->id = 0;
+	}
+
+	GeometricalShape(const Line& line) {
+		this->line = line;
+		this->id = 1;
+	}
+
+	Circle get_circle() {
+		assert(this->id == 0);
+		return this->circle;
+	}
+
+	Line get_line() {
+		assert(this->id == 1);
+		return this->line;
+	}
+
+	std::size_t what_shape() {
+		return this->id;
+	}
+};
+
+std::ostream& operator<< (std::ostream& out, GeometricalShape& shape) {
+	if (shape.what_shape() == 0) {
+		out << shape.get_circle();
+	}
+	else if (shape.what_shape() == 1) {
+		out << shape.get_line();
+	}
+
+	return out;
+}
+
+GeometricalShape Inversion(Circle& pivot_circle, Line& line) {
+	double x0 = pivot_circle.get_centre().x;
+	double y0 = pivot_circle.get_centre().y;
+
+	if ((line.get_a() * x0 + line.get_b() * y0 + line.get_c()) == 0) { // if lcenter of circle is on ine 
+		return line;
+	}
+	else {
+		Point pivot_center = pivot_circle.get_centre();;
+		Point projection = get_projection_on_line(line, pivot_center);
+		projection = Inversion(pivot_circle, projection);
+
+		double new_center_x = (pivot_center.x + projection.x) / 2;
+		double new_center_y = (pivot_center.y + projection.y) / 2;
+		double new_radius = get_distance(pivot_center, projection) / 2;
+
+		return GeometricalShape(Circle(Point(new_center_x, new_center_y), new_radius));
+	}
+}
 
 
+/*
 
+std::vector<Point> points = chose_points(line, 2);
+		for (std::size_t i = 0; i < points.size(); i++) {
+			points[i] = Inversion(pivot_circle, points[i]);
+		}
+		assert(points.size() == 2);
+		return build_line(points[0], points[1]);
+
+*/
 
 
 

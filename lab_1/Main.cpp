@@ -59,13 +59,9 @@ int main() {
 	graph1.add_edge(1, 3, 59);
 
 	graph1.print();
-	*/
+	
 
-	/*
-	graph1.add_edge(1, 0, -15.6);
-	graph1.add_edge(2, 3, 100.1);
-	graph1.add_edge(1, 4, 60.1);
-	graph1.print();
+	
 
 	graph1.remove_edge(0, 1);
 	graph1.print();
@@ -76,14 +72,11 @@ int main() {
 	graph1.remove_vertex(1);
 	graph1.print();
 
-	graph1.add_edge(1, 0, -15.6);
-	graph1.add_edge(2, 3, 100.1);
-	graph1.add_edge(1, 4, 60.1);
 	graph1.add_vertex(0, 63);
 	graph1.print();
-	*/
+	
 
-	/* spanning trees
+	 //spanning trees
 	std::cout << "\n\n\nSpanning tree:\n";
 	Graph<double, double> spanning_graph = graph1.spanning_tree();
 	spanning_graph.print();
@@ -93,7 +86,7 @@ int main() {
 	min_spanning_graph.print();
 
 	std::cout << "\n\n\nRandom generate graph: \n";
-	Graph<int, int> graph2 = get_random_graph<int, int>(8, 18, []() {return generate_random(); }, []() {return generate_random(); });
+	Graph<int, int> graph2 = get_random_graph<int, int>(8, 18, []() {return get_random_int(); }, []() {return get_random_int(); });
 	graph2.print();
 	std::cout << "\n\n\nSpanning tree:\n";
 	graph2.spanning_tree().print();
@@ -122,7 +115,7 @@ int main() {
 	}
 	*/
 
-/*
+	/*
 	std::cout << "Geometry shapes:\n";
 	Line line1(0, 1, -1);
 	Circle circle1(Point(0, 0), 1);
@@ -157,7 +150,7 @@ int main() {
 	Point p2(32, 56);
 	Point p3(83, 101);
 	std::cout << "line via " << p2 << " " << p3 << " = " << build_line(p2, p3);
-*/
+	*/
 	/*
 	std::cout << "\n\n\nSymmetric:\n";
 	for (std::size_t i = 0; i < 15; i++) {
@@ -187,7 +180,7 @@ int main() {
 	std::cout << "\n\n\n(" << c1 << ") symmetric via (" << l2 << ") : (" << get_reflection_by_line(l2, c1) << ")" << std::endl;
 	*/
 
-	std::cout << "Intersect of two circles:\n";
+//	std::cout << "Intersect of two circles:\n";
 	/*
 	for (std::size_t i = 0; i < 15; i++) {
 //		Circle circle1(Point(5, 6), 7);
@@ -215,6 +208,8 @@ int main() {
 	}
 	
 	*/
+
+	/*
 	Circle circle1(Point(5, 6), 1);
 	Circle circle2(Point(0, 5), 4);
 
@@ -234,6 +229,31 @@ int main() {
 		}
 	}
 	std::cout << "\n\n\n\n";
+	*/
+
+	
+	std::cout << "\n\n\nInversion\n";
+	Circle circle1(Point(5, 6), 10);
+	Point p1(0, 0);
+
+	std::cout << "Invert " << p1 << " by " << circle1 << ": " << Inversion(circle1, p1) << std::endl;
+
+	std::cout << "\n\n\nInversion\n";
+
+//	Line line1(1, 1, 1);
+	/*
+	for (std::size_t i = 0; i < 15; i++) {
+		Circle circle1(Point(rand()%25, rand()%25), rand()%10 + 1);
+		Line line1(rand() % 50 + 1 , rand() % 50 + 1, rand() % 50);
+		GeometricalShape shape1 = Inversion(circle1, line1);
+		std::cout << "Invert " << line1 << " by " << circle1 << ": " << shape1 << std::endl << std::endl << std::endl;
+	}
+	
+	Circle circle1(Point(5, 5), 1);
+	Line line1(-1, 1, 0);
+	GeometricalShape shape1 = Inversion(circle1, line1);
+	std::cout << "Invert " << line1 << " by " << circle1 << ": " << shape1 << std::endl;
+	*/
 
 	return 0;
 }
