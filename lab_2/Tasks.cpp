@@ -4,7 +4,7 @@
 Task::Task(const QString& title, const QString& description, const QString& executor, std::size_t group_index, TaskStatus status,
            const QDateTime& time_of_set, const QDateTime& start_time, const QDateTime& end_time){
     this->title_ = title;
-    this->descriprion_ = description;
+    this->description_ = description;
     this->executor_ = executor;
     this->group_index_ = group_index;
     this->status_ = status;
@@ -42,4 +42,10 @@ bool Task::set_status(TaskStatus status){
     }
 
     return false;
+}
+
+
+
+void TaskStructure::write_in_file() const{
+
 }

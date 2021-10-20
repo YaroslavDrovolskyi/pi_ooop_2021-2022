@@ -10,7 +10,7 @@
 
 class Task{
     QString title_;
-    QString descriprion_;
+    QString description_;
     QString executor_;
     std::size_t group_index_;
     TaskStatus status_;
@@ -48,6 +48,16 @@ public:
 
 class TaskStructure{
     QVector<TaskGroup> task_groups_;
+
+public:
+
+
+public slots:
+    void write_in_file() const;
+
+
+    signals:
+
 };
 
 
