@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QPushButton>
+#include <QCloseEvent>
+
+#include "Tasks.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,24 +28,27 @@ public slots:
 signals:
 
 private slots:
-    void on_pushButton_clicked();
+
+    void on_exit_btn_clicked();
 
 private:
     Ui::MainWindow *ui;
-    MainButtons* main_buttons;
+//    MainButtons* main_buttons;
+    TaskStructure* task_struct;
+
+    void closeEvent(QCloseEvent* event);
 };
 
-
+/*
 class MainButtons : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainButtons(QWidget *parent = nullptr);
+    MainButtons(MainWindow *parent = nullptr);
     ~MainButtons();
 
 public slots:
-
 
 signals:
 
@@ -51,4 +57,5 @@ private:
     QPushButton* prev_group_btn;
     QPushButton* next_group_btn;
 };
+*/
 #endif // MAINWINDOW_H
