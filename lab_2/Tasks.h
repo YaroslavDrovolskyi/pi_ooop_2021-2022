@@ -3,60 +3,94 @@
 #ifndef TASKS_H
 #define TASKS_H
 
-#include <QString>
-#include <QVector>
-#include <QDate>
-  enum class TaskStatus{not_started, started, paused, middle_progress, almost_finished, finished };
+#include <string>
+#include <vector>
 
-class Task{
-    QString title_;
-    QString description_;
-    QString executor_;
-    std::size_t group_index_;
+enum class TaskStatus{not_started, started, paused, middle_progress, almost_finished, finished };
+
+struct Time{
+   short int day;
+   short int month;
+   short int year;
+
+   short int hours;
+   short int minutes;
+   short int seconds;
+
+   Time(){
+       day = month = year = 1;
+       hours = minutes = seconds = 1;
+   }
+   Time(short int day, short int month, short int year, short int hours, short int minutes, short int seconds){
+       this->day = day;
+       this->month = month;
+       this->year = year;
+       this->hours = hours;
+       this->minutes = minutes;
+       this->seconds = seconds;
+   }
+};
+
+struct Task{
+public:
+    std::string title_;
+    std::string description_;
+    std::string executor_;
+    std::size_t group_index_; // index of group, where item is stored
     TaskStatus status_;
-    QDateTime time_of_set; // time, when task was set
-    QDateTime start_time_;
-    QDateTime end_time_;
+    Time time_of_set; // time, when task was set
+    Time start_time_;
+    Time end_time_;
 
 public:
-    Task(const QString& title, const QString& description, const QString& executor, std::size_t group_index, TaskStatus status,
-         const QDateTime& time_of_set, const QDateTime& start_time, const QDateTime& end_time);
+    Task(){;}
+    Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status,
+         const Time& time_of_set, const Time& start_time, const Time& end_time);
 
-    QString get_title() const {return this->title_;}
-    QString get_description() const {return this->description_;}
-    QString get_executor() const {return this->executor_;}
+
+    std::string get_title() const {return this->title_;}
+    std::string get_description() const {return this->description_;}
+    std::string get_executor() const {return this->executor_;}
     std::size_t get_group_index() const {return this->group_index_;}
     TaskStatus get_status() const {return this->status_;}
-    QDateTime get_time_of_set() const {return this->time_of_set;}
-    QDateTime get_start_time() const {return this->start_time_;}
-    QDateTime get_end_time() const {return this->end_time_;}
+    Time get_time_of_set() const {return this->time_of_set;}
+    Time get_start_time() const {return this->start_time_;}
+    Time get_end_time() const {return this->end_time_;}
 
-    bool set_start_time(const QDateTime& start_time);
-    bool set_end_time(const QDateTime& end_time);
+    bool set_start_time(const Time& start_time);
+    bool set_end_time(const Time& end_time);
     bool set_status(TaskStatus status);
 };
 
 
 class TaskGroup{
-    QString title_;
-    QVector<Task> tasks;
+    std::string title_;
+    std::vector<Task> tasks_;
 
+    friend class TaskStructure;
 public:
-    TaskGroup(const QString& title): title_(title){}
-    void add_task(const Task& new_task);
+    TaskGroup(const std::string& title): title_(title){}
+    int add_task(const Task& new_item);
+    std::string get_title() const {return this->title_;}
 };
 
 class TaskStructure{
-    QVector<TaskGroup> task_groups_;
+private:
+  std::vector<TaskGroup> task_groups_;
 
+  void read_groups_titles(const std::string& filename);
+  void write_groups_titles(const std::string& filename) const;
 public:
+  void write_in_file(const std::string& file_tasks, const std::string& file_groups) const;
+  int read_from_file(const std::string& file_tasks, const std::string& file_groups);
+  int add_task_group(const std::string& group_title);
+  int add_task(const Task& new_task);
+
+//public slots:
 
 
-public slots:
-    void write_in_file() const;
 
-
-    signals:
+//    signals:
 
 };
 
