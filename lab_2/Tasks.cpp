@@ -3,19 +3,19 @@
 #include <cassert>
 
 
-Task::Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status,
-           const Time& time_of_set, const Time& start_time, const Time& end_time){
+Task::Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status, int spent_hours){
     this->title_ = title;
     this->description_ = description;
     this->executor_ = executor;
     this->group_index_ = group_index;
     this->status_ = status;
-    this->time_of_set = time_of_set;
-    this->start_time_ = start_time;
-    this->end_time_ = end_time;
+    this->spent_hours_ = spent_hours;
+//    this->time_of_set = time_of_set;
+//    this->start_time_ = start_time;
+//    this->end_time_ = end_time;
 }
 
-
+/*
 bool Task::set_start_time(const Time& start_time){
     if (this->status_ == TaskStatus::not_started){
         this->start_time_ = start_time;
@@ -36,6 +36,8 @@ bool Task::set_end_time(const Time& end_time){
     }
     return false;
 }
+
+*/
 
 bool Task::set_status(TaskStatus status){
     if (this->status_ != TaskStatus::finished){
@@ -74,9 +76,10 @@ void TaskStructure::write_in_file(const std::string& filename_tasks, const std::
             file_tasks.write(&(task.executor_)[0], str_size);
 
             file_tasks.write((char*)&task.status_, sizeof(TaskStatus));
-            file_tasks.write((char*)&task.time_of_set, sizeof(Time));
-            file_tasks.write((char*)&task.start_time_, sizeof(Time));
-            file_tasks.write((char*)&task.end_time_, sizeof(Time));
+            file_tasks.write((char*)&task.spent_hours_, sizeof(int));
+//            file_tasks.write((char*)&task.time_of_set, sizeof(Time));
+//            file_tasks.write((char*)&task.start_time_, sizeof(Time));
+//            file_tasks.write((char*)&task.end_time_, sizeof(Time));
         }
     }
 
@@ -111,9 +114,10 @@ int TaskStructure::read_from_file(const std::string& file_tasks, const std::stri
         file.read(&(new_item.executor_)[0], str_size);
 
         file.read((char*)&new_item.status_, sizeof(TaskStatus));
-        file.read((char*)&new_item.time_of_set, sizeof(Time));
-        file.read((char*)&new_item.start_time_, sizeof(Time));
-        file.read((char*)&new_item.end_time_, sizeof(Time));
+        file.read((char*)&new_item.spent_hours_, sizeof(int));
+//        file.read((char*)&new_item.time_of_set, sizeof(Time));
+//        file.read((char*)&new_item.start_time_, sizeof(Time));
+//        file.read((char*)&new_item.end_time_, sizeof(Time));
 
         /*
         if (new_item.group_index_ == task_groups_.size()){
@@ -171,4 +175,27 @@ void TaskStructure::read_groups_titles(const std::string& filename){
 
         add_task_group(title);
     }
+}
+
+
+
+void TaskGroup::set_title(const std::string& new_title){
+    this->title_ = new_title;
+}
+
+
+void Task::set_title(const std::string& new_title){
+    this->title_ = new_title;
+}
+
+void Task::set_description(const std::string& new_description){
+    this->description_ = new_description;
+}
+
+void Task::set_executor(const std::string& new_executor){
+    this->executor_ = new_executor;
+}
+
+void Task::set_spent_hours(int new_spent_hours){
+    this->spent_hours_ = new_spent_hours;
 }

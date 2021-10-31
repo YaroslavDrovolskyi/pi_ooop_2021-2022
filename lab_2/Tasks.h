@@ -38,28 +38,36 @@ public:
     std::string executor_;
     std::size_t group_index_; // index of group, where item is stored
     TaskStatus status_;
-    Time time_of_set; // time, when task was set
-    Time start_time_;
-    Time end_time_;
+//    Time time_of_set; // time, when task was set
+//    Time start_time_;
+//    Time end_time_;
+    int spent_hours_;
 
 public:
     Task(){;}
     Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status,
-         const Time& time_of_set, const Time& start_time, const Time& end_time);
+         int spend_hours_);
 
-
+    // getters
     std::string get_title() const {return this->title_;}
     std::string get_description() const {return this->description_;}
     std::string get_executor() const {return this->executor_;}
     std::size_t get_group_index() const {return this->group_index_;}
     TaskStatus get_status() const {return this->status_;}
-    Time get_time_of_set() const {return this->time_of_set;}
-    Time get_start_time() const {return this->start_time_;}
-    Time get_end_time() const {return this->end_time_;}
+//    Time get_time_of_set() const {return this->time_of_set;}
+//    Time get_start_time() const {return this->start_time_;}
+//    Time get_end_time() const {return this->end_time_;}
 
-    bool set_start_time(const Time& start_time);
-    bool set_end_time(const Time& end_time);
+    // setters
+    void set_title(const std::string& new_title);
+    void set_description(const std::string& new_descriprion);
+    void set_executor(const std::string& new_executor);
     bool set_status(TaskStatus status);
+    void set_spent_hours(int new_spent_hours);
+//    bool set_start_time(const Time& start_time);
+//    bool set_end_time(const Time& end_time);
+
+
 };
 
 
@@ -72,6 +80,7 @@ public:
     TaskGroup(const std::string& title): title_(title){}
     int add_task(const Task& new_item);
     std::string get_title() const {return this->title_;}
+    void set_title(const std::string& new_title);
 };
 
 class TaskStructure{

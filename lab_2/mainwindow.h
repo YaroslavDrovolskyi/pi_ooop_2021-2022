@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QCloseEvent>
 
+#include <QTreeWidget>
+
 #include "Tasks.h"
 
 QT_BEGIN_NAMESPACE
@@ -31,10 +33,14 @@ private slots:
 
     void on_exit_btn_clicked();
 
+    void on_treeWidget_itemActivated(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
 //    MainButtons* main_buttons;
     TaskStructure* task_struct;
+
+    void DisplayTaskStruct();
 
     void closeEvent(QCloseEvent* event);
 };
