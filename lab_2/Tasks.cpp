@@ -199,3 +199,34 @@ void Task::set_executor(const std::string& new_executor){
 void Task::set_spent_hours(int new_spent_hours){
     this->spent_hours_ = new_spent_hours;
 }
+
+
+TaskGroup& TaskStructure::operator[] (const int index){
+    assert(index >= 0 && index < this->task_groups_.size());
+
+    return this->task_groups_[index];
+}
+
+Task& TaskGroup::operator[] (const int index){
+    assert(index >= 0 && index < this->tasks_.size());
+
+    return this->tasks_[index];
+}
+
+std::size_t TaskGroup::size(){
+    return this->tasks_.size();
+}
+
+std::size_t TaskStructure::size(){
+    return this->task_groups_.size();
+}
+
+
+Task Task::get_default_task(std::size_t taskgroup_index){
+    Task a("default title", "default description", "executor", taskgroup_index, TaskStatus::not_started, 0);
+    return a;
+}
+
+TaskGroup TaskGroup::get_default_taskgroup(){
+    return TaskGroup("group title");
+}

@@ -8,6 +8,7 @@
 
 enum class TaskStatus{not_started, started, paused, middle_progress, almost_finished, finished };
 
+/*
 struct Time{
    short int day;
    short int month;
@@ -30,9 +31,10 @@ struct Time{
        this->seconds = seconds;
    }
 };
+*/
 
 struct Task{
-public:
+private:
     std::string title_;
     std::string description_;
     std::string executor_;
@@ -43,6 +45,7 @@ public:
 //    Time end_time_;
     int spent_hours_;
 
+    friend class TaskStructure;
 public:
     Task(){;}
     Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status,
@@ -54,6 +57,7 @@ public:
     std::string get_executor() const {return this->executor_;}
     std::size_t get_group_index() const {return this->group_index_;}
     TaskStatus get_status() const {return this->status_;}
+    int get_spent_hours() const {return this->spent_hours_;}
 //    Time get_time_of_set() const {return this->time_of_set;}
 //    Time get_start_time() const {return this->start_time_;}
 //    Time get_end_time() const {return this->end_time_;}
@@ -66,6 +70,8 @@ public:
     void set_spent_hours(int new_spent_hours);
 //    bool set_start_time(const Time& start_time);
 //    bool set_end_time(const Time& end_time);
+
+    static Task get_default_task(std::size_t taskgroup_index);
 
 
 };
@@ -81,6 +87,10 @@ public:
     int add_task(const Task& new_item);
     std::string get_title() const {return this->title_;}
     void set_title(const std::string& new_title);
+    std::size_t size();
+    Task& operator[] (const int index);
+
+    static TaskGroup get_default_taskgroup();
 };
 
 class TaskStructure{
@@ -94,7 +104,8 @@ public:
   int read_from_file(const std::string& file_tasks, const std::string& file_groups);
   int add_task_group(const std::string& group_title);
   int add_task(const Task& new_task);
-
+  std::size_t size();
+  TaskGroup& operator[] (const int index);
 //public slots:
 
 
