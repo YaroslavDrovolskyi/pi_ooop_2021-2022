@@ -6,13 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1017</width>
+    <width>1228</width>
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="minimumSize">
    <size>
-    <width>700</width>
+    <width>1000</width>
     <height>500</height>
    </size>
   </property>
@@ -20,19 +26,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QToolButton" name="toolButton">
-    <property name="geometry">
-     <rect>
-      <x>1200</x>
-      <y>10</y>
-      <width>27</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>...</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="exit_btn">
     <property name="geometry">
      <rect>
@@ -49,9 +42,9 @@
    <widget class="QTreeWidget" name="treeWidget">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>30</x>
       <y>50</y>
-      <width>871</width>
+      <width>971</width>
       <height>201</height>
      </rect>
     </property>
@@ -113,9 +106,70 @@
     </column>
     <column>
      <property name="text">
-      <string>Spend time</string>
+      <string>Spent hours</string>
      </property>
     </column>
+   </widget>
+   <widget class="QPushButton" name="add_group_btn">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>320</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add taskgroup</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_task_btn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>320</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add task</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_group_btn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>360</y>
+      <width>161</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove taskgroup</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_task_btn">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>360</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove task</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -123,7 +177,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1017</width>
+     <width>1228</width>
      <height>26</height>
     </rect>
    </property>

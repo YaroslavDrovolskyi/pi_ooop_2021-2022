@@ -39,7 +39,7 @@ private:
     std::string description_;
     std::string executor_;
     std::size_t group_index_; // index of group, where item is stored
-    TaskStatus status_;
+    int  status_; // progress in procents
 //    Time time_of_set; // time, when task was set
 //    Time start_time_;
 //    Time end_time_;
@@ -48,7 +48,7 @@ private:
     friend class TaskStructure;
 public:
     Task(){;}
-    Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status,
+    Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, int status,
          int spend_hours_);
 
     // getters
@@ -56,7 +56,7 @@ public:
     std::string get_description() const {return this->description_;}
     std::string get_executor() const {return this->executor_;}
     std::size_t get_group_index() const {return this->group_index_;}
-    TaskStatus get_status() const {return this->status_;}
+    int get_status() const {return this->status_;}
     int get_spent_hours() const {return this->spent_hours_;}
 //    Time get_time_of_set() const {return this->time_of_set;}
 //    Time get_start_time() const {return this->start_time_;}
@@ -66,7 +66,7 @@ public:
     void set_title(const std::string& new_title);
     void set_description(const std::string& new_descriprion);
     void set_executor(const std::string& new_executor);
-    bool set_status(TaskStatus status);
+    void set_status(int status);
     void set_spent_hours(int new_spent_hours);
 //    bool set_start_time(const Time& start_time);
 //    bool set_end_time(const Time& end_time);
@@ -91,6 +91,8 @@ public:
     Task& operator[] (const int index);
 
     static TaskGroup get_default_taskgroup();
+
+    void remove_task(std::size_t index);
 };
 
 class TaskStructure{
@@ -106,6 +108,9 @@ public:
   int add_task(const Task& new_task);
   std::size_t size();
   TaskGroup& operator[] (const int index);
+
+  void remove_group(std::size_t index);
+  void remove_task(std::size_t group_index, std::size_t task_index);
 //public slots:
 
 

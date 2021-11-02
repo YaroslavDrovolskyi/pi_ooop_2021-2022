@@ -3,7 +3,7 @@
 #include <cassert>
 
 
-Task::Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, TaskStatus status, int spent_hours){
+Task::Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, int status, int spent_hours){
     this->title_ = title;
     this->description_ = description;
     this->executor_ = executor;
@@ -39,13 +39,8 @@ bool Task::set_end_time(const Time& end_time){
 
 */
 
-bool Task::set_status(TaskStatus status){
-    if (this->status_ != TaskStatus::finished){
-        this->status_ = status;
-        return true;
-    }
-
-    return false;
+void Task::set_status(int status){
+    this->status_ = status;
 }
 
 
@@ -75,7 +70,7 @@ void TaskStructure::write_in_file(const std::string& filename_tasks, const std::
             file_tasks.write((char*)&str_size, sizeof(str_size));
             file_tasks.write(&(task.executor_)[0], str_size);
 
-            file_tasks.write((char*)&task.status_, sizeof(TaskStatus));
+            file_tasks.write((char*)&task.status_, sizeof(int));
             file_tasks.write((char*)&task.spent_hours_, sizeof(int));
 //            file_tasks.write((char*)&task.time_of_set, sizeof(Time));
 //            file_tasks.write((char*)&task.start_time_, sizeof(Time));
@@ -113,18 +108,8 @@ int TaskStructure::read_from_file(const std::string& file_tasks, const std::stri
         new_item.executor_.resize(str_size);
         file.read(&(new_item.executor_)[0], str_size);
 
-        file.read((char*)&new_item.status_, sizeof(TaskStatus));
+        file.read((char*)&new_item.status_, sizeof(int));
         file.read((char*)&new_item.spent_hours_, sizeof(int));
-//        file.read((char*)&new_item.time_of_set, sizeof(Time));
-//        file.read((char*)&new_item.start_time_, sizeof(Time));
-//        file.read((char*)&new_item.end_time_, sizeof(Time));
-
-        /*
-        if (new_item.group_index_ == task_groups_.size()){
-            assert(new_item.group_index_ < groups_titles.size());
-            add_task_group(groups_titles[new_item.group_index_]);
-        }
-        */
         add_task(new_item);
     }
         file.close();
@@ -223,10 +208,33 @@ std::size_t TaskStructure::size(){
 
 
 Task Task::get_default_task(std::size_t taskgroup_index){
-    Task a("default title", "default description", "executor", taskgroup_index, TaskStatus::not_started, 0);
+    Task a("default title", "default description", "executor", taskgroup_index, 0, 0);
     return a;
 }
 
 TaskGroup TaskGroup::get_default_taskgroup(){
     return TaskGroup("group title");
+}
+
+void TaskGroup::remove_task(std::size_t index){
+    assert(index < tasks_.size());
+
+    tasks_.erase(tasks_.begin() + index);
+}
+
+void TaskStructure::remove_task(std::size_t group_index, std::size_t task_index){
+    assert(group_index < task_groups_.size());
+
+    task_groups_[group_index].remove_task(task_index);
+}
+
+void TaskStructure::remove_group(std::size_t index){
+    assert(index < task_groups_.size());
+    task_groups_.erase(task_groups_.begin() + index);
+
+    for(std::size_t i = index; i < task_groups_.size(); i++){ // fix indexes of groups
+        for(Task& task : task_groups_[i].tasks_){
+            task.group_index_--;
+        }
+    }
 }
