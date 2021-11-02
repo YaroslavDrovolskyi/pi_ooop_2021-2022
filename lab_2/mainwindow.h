@@ -46,9 +46,10 @@ private slots:
 
     void on_del_task_btn_clicked();
 
+    void on_get_pdf_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
-//    MainButtons* main_buttons;
     TaskStructure* task_struct;
 
     void DisplayTaskStruct();
@@ -56,25 +57,8 @@ private:
     void ReDisplayTaskStruct();
 
     void closeEvent(QCloseEvent* event);
+
 };
 
-/*
-class MainButtons : public QWidget
-{
-    Q_OBJECT
 
-public:
-    MainButtons(MainWindow *parent = nullptr);
-    ~MainButtons();
-
-public slots:
-
-signals:
-
-private:
-    QPushButton* exit_btn;
-    QPushButton* prev_group_btn;
-    QPushButton* next_group_btn;
-};
-*/
 #endif // MAINWINDOW_H

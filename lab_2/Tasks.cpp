@@ -238,3 +238,41 @@ void TaskStructure::remove_group(std::size_t index){
         }
     }
 }
+
+std::string Task::get_html_text() const{
+    std::string result = "<div align = left><b>Title: </b>" + this->title_ + "</div>";
+    result += "<div align = left><b>Description: </b>" + this->description_ + "</div>";
+    result += "<div align = left><b>Executor: </b>" + this->executor_ + "</div>";
+    result += "<div align = left><b>Status: </b>" + std::to_string(this->status_) + "% </div>";
+    result += "<div align = left><b>Spent time: </b>" + std::to_string(this->spent_hours_) +  " hours <br> </div>";
+
+    return result;
+}
+
+std::string TaskGroup::get_html_text() const {
+    std::string result = "<h2 align = center>" + this->title_ + "</h2>";
+    if (tasks_.size() == 0){
+        result += "<div align = center> This group is empty <br> </div>";
+    }
+    else{
+        for(const Task& task : tasks_){
+            result+=task.get_html_text();
+        }
+    }
+
+    return result;
+}
+
+std::string TaskStructure::get_html_text() const{
+    std::string result = "";
+    if (task_groups_.size() == 0){
+        result += "<div align = center> No tasks and no groups of tasks <br> </div>";
+    }
+    else{
+        for(const TaskGroup& group : task_groups_){
+            result+=group.get_html_text();
+        }
+    }
+
+    return result;
+}

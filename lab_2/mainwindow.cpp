@@ -6,6 +6,12 @@
 #include <QCloseEvent>
 #include <string>
 //#include <QTreeWidget>
+#include <QFileDialog>
+#include <QDateTime>
+#include <QTextDocument>
+#include <QPrinter>
+#include <QMarginsF>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow){
@@ -115,6 +121,7 @@ void MainWindow::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column){
         }
         else { // other columns in task groups must be inactive
             item->setText(column, QString(""));
+
         }
 
     }
@@ -144,7 +151,7 @@ void MainWindow::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column){
             }
             else{
                 item->setText(column, QString::number((*this->task_struct)[parent_index][child_index].get_status())); // write previous value (we store it in the task structure)
-                // need to call other window, that warn about not correct format
+                QMessageBox::warning(this,"Warning", "Incorrect format:\nStatus must be integer number from 0 to 100"); // call warning dialog
             }
         }
         else if (column == 4){
@@ -155,7 +162,7 @@ void MainWindow::on_treeWidget_itemChanged(QTreeWidgetItem *item, int column){
             }
             else{
                 item->setText(column, QString::number((*this->task_struct)[parent_index][child_index].get_spent_hours())); // write previous value (we store it in the task structure)
-                // need to call other window, that warn about not correct format
+                QMessageBox::warning(this,"Warning", "Incorrect format:\nSpent hours must be integer value"); // call warning dialog
             }
         }
     }
@@ -250,3 +257,34 @@ void MainWindow::on_del_task_btn_clicked()
     ui->treeWidget->setCurrentItem(parent->child(child_index)); // if we removed last task in the group, current item will be nullptr
 }
 
+
+
+
+void MainWindow::on_get_pdf_btn_clicked()
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                               "report",
+                               tr("PDF (*.pdf)"));
+
+    if (fileName == ""){
+        return; // if we clicked "Cancel" in dialog
+    }
+
+
+
+    QString html_text = QString("<h1 align = center>Tasks report</h1>") + "<div align = left> <b>Formed:</b></div>" +
+            "<div align = left> <b>Local:</b> " + QDateTime::currentDateTime().toString("dd.MM.yyyy, hh:mm:ss") + "</div>" +
+            "<div align = left> <b>UTC:</b> " + QDateTime::currentDateTimeUtc().toString("dd.MM.yyyy, hh:mm:ss") + "</div>" +
+            QString::fromStdString(this->task_struct->get_html_text());
+
+    QTextDocument document;
+    document.setHtml(html_text);
+
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat); // Pdf is by default
+    printer.setOutputFileName(fileName);
+    printer.setPageMargins(QMarginsF(5,1,5,5));
+
+    document.print(&printer);
+}

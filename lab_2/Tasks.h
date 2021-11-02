@@ -40,9 +40,6 @@ private:
     std::string executor_;
     std::size_t group_index_; // index of group, where item is stored
     int  status_; // progress in procents
-//    Time time_of_set; // time, when task was set
-//    Time start_time_;
-//    Time end_time_;
     int spent_hours_;
 
     friend class TaskStructure;
@@ -58,9 +55,6 @@ public:
     std::size_t get_group_index() const {return this->group_index_;}
     int get_status() const {return this->status_;}
     int get_spent_hours() const {return this->spent_hours_;}
-//    Time get_time_of_set() const {return this->time_of_set;}
-//    Time get_start_time() const {return this->start_time_;}
-//    Time get_end_time() const {return this->end_time_;}
 
     // setters
     void set_title(const std::string& new_title);
@@ -68,11 +62,10 @@ public:
     void set_executor(const std::string& new_executor);
     void set_status(int status);
     void set_spent_hours(int new_spent_hours);
-//    bool set_start_time(const Time& start_time);
-//    bool set_end_time(const Time& end_time);
 
     static Task get_default_task(std::size_t taskgroup_index);
 
+    std::string get_html_text() const;
 
 };
 
@@ -93,6 +86,8 @@ public:
     static TaskGroup get_default_taskgroup();
 
     void remove_task(std::size_t index);
+
+    std::string get_html_text() const;
 };
 
 class TaskStructure{
@@ -111,6 +106,8 @@ public:
 
   void remove_group(std::size_t index);
   void remove_task(std::size_t group_index, std::size_t task_index);
+
+  std::string get_html_text() const;
 //public slots:
 
 
