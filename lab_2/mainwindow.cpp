@@ -1,11 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Tasks.h"
+#include <string>
 
 #include <QPushButton>
 #include <QCloseEvent>
-#include <string>
-//#include <QTreeWidget>
 #include <QFileDialog>
 #include <QDateTime>
 #include <QTextDocument>
@@ -17,7 +16,7 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
     this->setWindowTitle("Task manager");
-    this->setWindowIcon(QIcon("path")); // NEED TO SET WINDOW ICON
+    this->setWindowIcon(QIcon("icon.png"));
     const std::string filename_tasks = "tasks.txt";
     const std::string filename_groups = "groups.txt";
 
@@ -77,7 +76,7 @@ void MainWindow::DisplayTaskStruct(){
             child->setText(3, QString::number(task.get_status()));
             child->setText(4, QString::number(task.get_spent_hours()));
 
-            child->setFlags(child->flags() | Qt::ItemIsEditable); /////////////////////// change row
+            child->setFlags(child->flags() | Qt::ItemIsEditable);
             root->addChild(child);
         }
     }
