@@ -11,34 +11,7 @@ Task::Task(const std::string& title, const std::string& description, const std::
     this->group_index_ = group_index;
     this->status_ = status;
     this->spent_hours_ = spent_hours;
-//    this->time_of_set = time_of_set;
-//    this->start_time_ = start_time;
-//    this->end_time_ = end_time;
 }
-
-/*
-bool Task::set_start_time(const Time& start_time){
-    if (this->status_ == TaskStatus::not_started){
-        this->start_time_ = start_time;
-        this->status_ = TaskStatus::started;
-
-        return true;
-    }
-    return false;
-
-}
-
-bool Task::set_end_time(const Time& end_time){
-    if (this->status_ != TaskStatus::not_started && this->status_ != TaskStatus::finished){
-        this->end_time_ = end_time;
-        this->status_ = TaskStatus::started;
-
-        return true;
-    }
-    return false;
-}
-
-*/
 
 void Task::set_status(int status){
     this->status_ = status;
@@ -73,9 +46,6 @@ void TaskStructure::write_in_file(const std::string& filename_tasks, const std::
 
             file_tasks.write((char*)&task.status_, sizeof(int));
             file_tasks.write((char*)&task.spent_hours_, sizeof(int));
-//            file_tasks.write((char*)&task.time_of_set, sizeof(Time));
-//            file_tasks.write((char*)&task.start_time_, sizeof(Time));
-//            file_tasks.write((char*)&task.end_time_, sizeof(Time));
         }
     }
 

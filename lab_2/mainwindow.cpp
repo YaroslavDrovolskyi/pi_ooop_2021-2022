@@ -34,7 +34,6 @@ void MainWindow::close_app(){
 
 MainWindow::~MainWindow(){
     delete ui;
-//    delete this->main_buttons;
     delete this->task_struct;
 }
 
@@ -68,7 +67,7 @@ void MainWindow::DisplayTaskStruct(){
 
         for(std::size_t j = 0; j < (*this->task_struct)[i].size(); j++){
             Task task = (*this->task_struct)[i][j];
-            QTreeWidgetItem* child = new QTreeWidgetItem(root); // is root needed?????
+            QTreeWidgetItem* child = new QTreeWidgetItem(root);
 
             child->setText(0, QString::fromUtf8(task.get_title().c_str(), task.get_title().size()));
             child->setText(1, QString::fromUtf8(task.get_description().c_str(), task.get_description().size()));
@@ -80,11 +79,9 @@ void MainWindow::DisplayTaskStruct(){
             root->addChild(child);
         }
     }
-
-
 }
 
-void MainWindow::ReDisplayTaskStruct(){ // when display changes, we must call it every time we changes task structure
+void MainWindow::ReDisplayTaskStruct(){ // we must call it every time we change whole task structure (sort)
     this->ui->treeWidget->clear();
     DisplayTaskStruct();
 }
