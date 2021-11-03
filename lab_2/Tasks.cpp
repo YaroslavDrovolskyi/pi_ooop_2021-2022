@@ -1,6 +1,7 @@
 #include "Tasks.h"
 #include <fstream>
 #include <cassert>
+#include <algorithm>
 
 
 Task::Task(const std::string& title, const std::string& description, const std::string& executor, std::size_t group_index, int status, int spent_hours){
@@ -275,4 +276,26 @@ std::string TaskStructure::get_html_text() const{
     }
 
     return result;
+}
+
+void TaskGroup::sort_tasks(bool (*comparator)(const Task&, const Task&)){
+    std::sort(tasks_.begin(), tasks_.end(), comparator);
+}
+
+void TaskStructure::sort_tasks(bool (*comparator)(const Task&, const Task&)){
+    for(TaskGroup& group : task_groups_){
+        group.sort_tasks(comparator);
+    }
+}
+
+bool Task::compare_by_title(const Task &a, const Task &b){
+    return a.get_title() < b.get_title();
+}
+
+bool Task::compare_by_status(const Task &a, const Task &b){
+        return a.get_status() <= b.get_status();
+}
+
+bool Task::compare_by_spent_hours(const Task &a, const Task &b){
+    return a.get_spent_hours() <= b.get_spent_hours();
 }

@@ -48,6 +48,8 @@ private slots:
 
     void on_get_pdf_btn_clicked();
 
+    void on_sort_tasks_btn_clicked();
+
 private:
     Ui::MainWindow *ui;
     TaskStructure* task_struct;

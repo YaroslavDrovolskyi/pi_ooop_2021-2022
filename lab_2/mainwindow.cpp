@@ -288,3 +288,21 @@ void MainWindow::on_get_pdf_btn_clicked()
 
     document.print(&printer);
 }
+
+
+
+void MainWindow::on_sort_tasks_btn_clicked()
+{
+    if (ui->chose_sort_Box->currentText() == "title"){
+        task_struct->sort_tasks(Task::compare_by_title);
+    }
+    else if (ui->chose_sort_Box->currentText() == "status") {
+        task_struct->sort_tasks(Task::compare_by_status);
+    }
+    else if (ui->chose_sort_Box->currentText() == "spent hours"){
+        task_struct->sort_tasks(Task::compare_by_spent_hours);
+    }
+
+    ReDisplayTaskStruct();
+}
+

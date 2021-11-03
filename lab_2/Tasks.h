@@ -67,6 +67,12 @@ public:
 
     std::string get_html_text() const;
 
+
+    static bool compare_by_title(const Task& a, const Task& b);
+    static bool compare_by_status(const Task& a, const Task& b);
+    static bool compare_by_spent_hours(const Task& a, const Task& b);
+
+
 };
 
 
@@ -88,6 +94,8 @@ public:
     void remove_task(std::size_t index);
 
     std::string get_html_text() const;
+
+    void sort_tasks(bool (*comparator)(const Task&, const Task&));
 };
 
 class TaskStructure{
@@ -108,6 +116,8 @@ public:
   void remove_task(std::size_t group_index, std::size_t task_index);
 
   std::string get_html_text() const;
+
+  void sort_tasks(bool (*comparator)(const Task&, const Task&));
 //public slots:
 
 
