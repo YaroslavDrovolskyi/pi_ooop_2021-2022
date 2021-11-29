@@ -6,6 +6,15 @@ enum class Color {
 	black, white
 };
 
+enum class FigType {
+	pawn, // 10
+	horse, // 30
+	bishop, // 30, goes through diagonales
+	rook, // 50, goes through lines
+	queen, // 90
+	king // 900
+};
+
 struct Point {
 	int x;
 	int y;
@@ -17,16 +26,21 @@ struct Point {
 
 class Figure {
 public:
+	Color color;
+	FigType type;
 	int value;
 	bool is_alive;
 //	Point position;
 
 public:
-	Figure(int value = 1) : is_alive(true), value(value) {}
+	Figure() {}
+	Figure(Color color, FigType type) : color(color), type(type), is_alive(true), value(get_figure_value()) {}
 
 	void set_pos(const Point& position) {
 //		this->position = position;
 	}
+
+	int get_figure_value();
 };
 
 struct Cell {
@@ -57,7 +71,9 @@ class Field {
 public:
 	std::vector <std::vector <Cell>> cells;
 
+	Field() {}
 	Field(Army& white, Army& black, int size = 8);
+	void print();
 };
 
 
@@ -69,7 +85,9 @@ private:
 	Army team_b;
 
 public:
-	Game() : team_w(Color::white), team_b(Color::black), field(team_w, team_w) {}
+	Game() : team_w(Color::white), team_b(Color::black) {
+		this->field = Field(team_w, team_b);
+	}
 	void exec();
 
 };
