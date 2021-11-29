@@ -4,6 +4,13 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+
+std::ostream& operator<<(std::ostream& stream, const Point& point) {
+	stream << "(" << point.x << "; " << point.y << ")";
+
+	return stream;
+}
+
 Cell::Cell() {
 	this->figure = nullptr;
 	this->is_marked = false;
@@ -107,6 +114,17 @@ int Figure::get_figure_value() {
 void Game::exec() {
 
 	this->field.print();
+
+	std::cout << std::endl << std::endl;
+	std::cout << "Possible ways for pawn in" << Point(0, 0) << ": " << std::endl;
+	print(this->field.pawn_ways(Point(1, 1), 1));
+
+
+	std::cout << std::endl << std::endl;
+	std::cout << "Possible ways for rook in" << Point(7, 0) << ": " << std::endl;
+	print(this->field.rook_ways(Point(4, 6)));
+
+
 	sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
@@ -122,7 +140,7 @@ void Game::exec() {
 
 	while (window.isOpen()) {
 		sf::Event event;
-		while (window.pollEvent(event)) {
+		if (window.waitEvent(event)) { // while and pollEvent
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
@@ -177,4 +195,119 @@ void Field::print() {
 		}
 		std::cout << std::endl;
 	}
+}
+
+
+
+std::vector<Point> Field::get_possible_ways(Point p, int move_number) {
+	std::vector<Point> result;
+	if (!this->cells[p.x][p.y].figure) { return result; }
+
+	if (this->cells[p.x][p.y].figure->type == FigType::pawn) {
+
+	}
+}
+
+std::vector<Point> Field::pawn_ways(Point p, int move_number) {
+	std::vector<Point> result;
+
+	int is_white = 1;
+	if (this->cells[p.y][p.x].figure) {
+		if (this->cells[p.y][p.x].figure->color == Color::black) {
+			is_white = -1;
+		}
+	}
+	else {
+		return result;
+	}
+
+	result.push_back(Point(p.x - is_white, p.y + is_white));
+	result.push_back(Point(p.x, p.y + is_white));
+	result.push_back(Point(p.x + is_white, p.y + is_white));
+	if (move_number == 0) { // first move for pawn allow this
+		result.push_back(Point(p.x, p.y + 2 * is_white));
+	}
+	
+	getCorrectWays(p, result);
+	
+	return result;
+}
+
+
+std::vector<Point> Field::rook_ways(Point p) {
+	std::vector<Point> result;
+
+	if (!this->cells[p.y][p.x].figure) { return result; }
+
+	// go to right 
+	int x = p.x + 1;
+	while (isCorrectPoint(Point(x, p.y)) && !this->cells[p.y][x].figure && x > 0 && x < 7) {
+		result.push_back(Point(x, p.y));
+		x++;
+	}
+	result.push_back(Point(x, p.y));
+
+	// go to left
+	x = p.x - 1;
+	while (isCorrectPoint(Point(x, p.y)) && !this->cells[p.y][x].figure && x > 0 && x < 7) {
+		result.push_back(Point(x, p.y));
+		x--;
+	}
+	result.push_back(Point(x, p.y));
+
+	// go to top 
+	int y = p.y + 1;
+	while (isCorrectPoint(Point(p.x, y)) && !this->cells[y][p.x].figure && y > 0 && y < 7) {
+		result.push_back(Point(p.x, y));
+		y++;
+	}
+	result.push_back(Point(p.x, y));
+
+	// go to bottom 
+	y = p.y - 1;
+	while (isCorrectPoint(Point(p.x, y)) && !this->cells[y][p.x].figure && y > 0 && y < 7) {
+		result.push_back(Point(p.x, y));
+		y--;
+	}
+	result.push_back(Point(p.x, y));
+
+	getCorrectWays(p, result);
+
+	return result;
+
+}
+
+bool Field::isCorrectPoint(const Point& p) {
+	if (p.x > 7 || p.y > 7) {
+		return false;
+	}
+	if (p.x < 0 || p.y < 0) {
+		return false;
+	}
+
+	return true;
+}
+
+void Field::getCorrectWays(Point from, std::vector<Point>& destinations) {
+	for (std::size_t i = 0; i < destinations.size(); ) {
+		Point dest = destinations[i];
+		if (!isCorrectPoint(destinations[i])) {
+			destinations.erase(destinations.begin() + i);
+		}
+		else if (this->cells[dest.y][dest.x].figure && this->cells[dest.y][dest.x].figure->color == this->cells[from.y][from.x].figure->color) { // if figures with same colors fight
+			destinations.erase(destinations.begin() + i);
+		}
+		else {
+			i++;
+		}
+	}
+}
+
+template <typename T>
+void print(const std::vector<T>& vector) {
+	if (vector.size() == 0) { return; }
+	for (const T& t : vector) {
+		std::cout << t << " ";
+	}
+	std::cout << std::endl;
 }

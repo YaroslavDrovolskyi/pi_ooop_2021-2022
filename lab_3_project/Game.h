@@ -74,9 +74,15 @@ public:
 	Field() {}
 	Field(Army& white, Army& black, int size = 8);
 	void print();
+	std::vector<Point> get_possible_ways(Point p, int move_number);
+	std::vector<Point> pawn_ways(Point p, int move_number);
+	std::vector<Point> rook_ways(Point p);
+	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
+
+	bool isCorrectPoint(const Point& p);
 };
 
-
+std::ofstream& operator<<(std::ofstream& stream, const Point& point);
 
 class Game {
 private:
@@ -92,3 +98,6 @@ public:
 
 };
 
+
+template <typename T>
+void print(const std::vector<T>& vector);
