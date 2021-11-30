@@ -77,6 +77,10 @@ public:
 	std::vector<Point> get_possible_ways(Point p, int move_number);
 	std::vector<Point> pawn_ways(Point p, int move_number);
 	std::vector<Point> rook_ways(Point p);
+	std::vector<Point> horse_ways(Point p);
+	std::vector<Point> bishop_ways(Point p);
+	std::vector<Point> queen_ways(Point p);
+	std::vector<Point> king_ways(Point p);
 	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
 
 	bool isCorrectPoint(const Point& p);
@@ -101,3 +105,6 @@ public:
 
 template <typename T>
 void print(const std::vector<T>& vector);
+
+template <typename T>
+std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2);

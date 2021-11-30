@@ -124,6 +124,14 @@ void Game::exec() {
 	std::cout << "Possible ways for rook in" << Point(7, 0) << ": " << std::endl;
 	print(this->field.rook_ways(Point(4, 6)));
 
+	std::cout << std::endl << std::endl;
+	std::cout << "Possible ways for Horse in" << Point(3, 1) << ": " << std::endl;
+	print(this->field.horse_ways(Point(7, 0)));
+	
+	std::cout << std::endl << std::endl;
+	std::cout << "Possible ways for Queen in" << Point(7, 0) << ": " << std::endl;
+	print(this->field.queen_ways(Point(7, 0)));
+
 
 	sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
 	sf::CircleShape shape(100.f);
@@ -239,6 +247,40 @@ std::vector<Point> Field::rook_ways(Point p) {
 
 	if (!this->cells[p.y][p.x].figure) { return result; }
 
+	// go to right
+	Point i1(p.x + 1, p.y);
+	while (isCorrectPoint(i1) && !this->cells[i1.y][i1.x].figure) {
+		result.push_back(i1);
+		i1.x++;
+	}
+	result.push_back(i1);
+
+	// go to left
+	Point i2(p.x - 1, p.y);
+	while (isCorrectPoint(i2) && !this->cells[i2.y][i2.x].figure) {
+		result.push_back(i2);
+		i2.x--;
+	}
+	result.push_back(i2);
+
+	// go to top
+	Point i3(p.x, p.y + 1);
+	while (isCorrectPoint(i3) && !this->cells[i3.y][i3.x].figure) {
+		result.push_back(i3);
+		i3.y++;
+	}
+	result.push_back(i3);
+
+	// go to bottom
+	Point i4(p.x, p.y - 1);
+	while (isCorrectPoint(i4) && !this->cells[i4.y][i4.x].figure) {
+		result.push_back(i4);
+		i4.y--;
+	}
+	result.push_back(i4);
+
+
+	/*
 	// go to right 
 	int x = p.x + 1;
 	while (isCorrectPoint(Point(x, p.y)) && !this->cells[p.y][x].figure && x > 0 && x < 7) {
@@ -246,7 +288,9 @@ std::vector<Point> Field::rook_ways(Point p) {
 		x++;
 	}
 	result.push_back(Point(x, p.y));
+	*/
 
+	/*
 	// go to left
 	x = p.x - 1;
 	while (isCorrectPoint(Point(x, p.y)) && !this->cells[p.y][x].figure && x > 0 && x < 7) {
@@ -254,7 +298,9 @@ std::vector<Point> Field::rook_ways(Point p) {
 		x--;
 	}
 	result.push_back(Point(x, p.y));
+	*/
 
+	/*
 	// go to top 
 	int y = p.y + 1;
 	while (isCorrectPoint(Point(p.x, y)) && !this->cells[y][p.x].figure && y > 0 && y < 7) {
@@ -270,10 +316,108 @@ std::vector<Point> Field::rook_ways(Point p) {
 		y--;
 	}
 	result.push_back(Point(p.x, y));
+	*/
 
 	getCorrectWays(p, result);
 
 	return result;
+
+}
+
+
+std::vector<Point> Field::horse_ways(Point p) {
+	std::vector<Point> result;
+
+	if (!this->cells[p.y][p.x].figure) { return result; }
+
+	result.push_back(Point(p.x - 1, p.y + 2));
+	result.push_back(Point(p.x - 2, p.y + 1));
+
+	result.push_back(Point(p.x + 1, p.y + 2));
+	result.push_back(Point(p.x + 2, p.y + 1));
+
+	result.push_back(Point(p.x - 1, p.y - 2));
+	result.push_back(Point(p.x - 2, p.y - 1));
+
+	result.push_back(Point(p.x + 2, p.y - 1));
+	result.push_back(Point(p.x + 1, p.y - 2));
+
+	getCorrectWays(p, result);
+
+	return result;
+}
+
+
+std::vector<Point> Field::bishop_ways(Point p) {
+	std::vector<Point> result;
+
+	if (!this->cells[p.y][p.x].figure) { return result; }
+
+	// go to right top
+	Point i1(p.x + 1, p.y + 1);
+	while (isCorrectPoint(i1) && !this->cells[i1.y][i1.x].figure) {
+		result.push_back(i1);
+		i1.x++;
+		i1.y++;
+	}
+	result.push_back(i1);
+
+	// go to left top
+	Point i2(p.x - 1, p.y + 1);
+	while (isCorrectPoint(i2) && !this->cells[i2.y][i2.x].figure) {
+		result.push_back(i2);
+		i2.x--;
+		i2.y++;
+	}
+	result.push_back(i2);
+	
+	// go to left bottom
+	Point i3(p.x - 1, p.y - 1);
+	while (isCorrectPoint(i3) && !this->cells[i3.y][i3.x].figure) {
+		result.push_back(i3);
+		i3.x--;
+		i3.y--;
+	}
+	result.push_back(i3);
+
+
+	// go to right bottom
+	Point i4(p.x + 1, p.y - 1);
+	while (isCorrectPoint(i4) && !this->cells[i4.y][i4.x].figure) {
+		result.push_back(i4);
+		i4.x++;
+		i4.y--;
+	}
+	result.push_back(i4);
+
+	getCorrectWays(p, result);
+
+	return result;
+
+}
+
+std::vector<Point> Field::queen_ways(Point p) {
+	return concatinate(rook_ways(p), bishop_ways(p)); // queen ways is (bishop + rook) ways
+}
+
+
+std::vector<Point> Field::king_ways(Point p) {
+	std::vector<Point> result;
+	if (!this->cells[p.y][p.x].figure) { return result; }
+
+	result.push_back(Point(p.x, p.y + 1));
+	result.push_back(Point(p.x + 1, p.y + 1));
+	result.push_back(Point(p.x + 1, p.y));
+	result.push_back(Point(p.x + 1, p.y - 1));
+	result.push_back(Point(p.x, p.y - 1));
+	result.push_back(Point(p.x - 1, p.y - 1));
+	result.push_back(Point(p.x - 1, p.y));
+	result.push_back(Point(p.x - 1, p.y + 1));
+
+	getCorrectWays(p, result);
+
+	return result;
+
 
 }
 
@@ -310,4 +454,19 @@ void print(const std::vector<T>& vector) {
 		std::cout << t << " ";
 	}
 	std::cout << std::endl;
+}
+
+template <typename T>
+std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2) {
+	std::vector<T> result;
+
+	for (const T& i : vec1) {
+		result.push_back(i);
+	}
+
+	for (const T& i : vec2) {
+		result.push_back(i);
+	}
+
+	return result;
 }
