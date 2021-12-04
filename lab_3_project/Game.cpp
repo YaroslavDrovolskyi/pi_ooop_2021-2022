@@ -132,7 +132,7 @@ int Figure::get_figure_value() {
 }
 
 void Game::exec() {
-
+	/*
 	this->field.print();
 
 	std::cout << std::endl << std::endl;
@@ -170,8 +170,20 @@ void Game::exec() {
 	calculateBestMove(team_b, 1);
 	std::cout << std::endl;
 	field.print();
+	*/
 
-	sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
+
+	/*
+	while (w_moves_count + b_moves_count < 71) {
+		aiMove(team_w, this->w_moves_count);
+		aiMove(team_b, this->b_moves_count);
+	}
+	std::cout << "winner = " << winner << std::endl;
+	*/
+	field.print();
+
+
+	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
@@ -202,12 +214,18 @@ void Game::exec() {
 
 
 void Field::print() {
+	std::cout << std::endl << "  ";
+	for (std::size_t i = 0; i < 23; i++) {
+		std::cout << "-";
+	}
+	std::cout << std::endl;
+
 	for (int i = 7; i >= 0; i--) {
 		std::cout << i << "|";
 		for (std::size_t j = 0; j < 8; j++) {
 			std::string str;
 			if (!this->cells[i][j].figure) {
-				str = "00";
+				str = "  "; // 00
 			}
 			else {
 				if (this->cells[i][j].figure->type == FigType::pawn) {
@@ -238,16 +256,22 @@ void Field::print() {
 			}
 			
 
-			std::cout << str << " ";
+			std::cout << str << "|";
+			
+		}
+		std::cout << std::endl;
+		std::cout << "  ";
+		for (std::size_t i = 0; i < 23; i++) {
+			std::cout << "-";
 		}
 		std::cout << std::endl;
 	}
 	// for print indexes of field
+//	std::cout << "  ";
+//	for (std::size_t i = 0; i < 23; i++) {
+//		std::cout << "-";
+//	}
 	std::cout << "  ";
-	for (std::size_t i = 0; i < 23; i++) {
-		std::cout << "-";
-	}
-	std::cout << std::endl << "  ";
 	for (std::size_t i = 0; i < 8; i++) {
 		std::cout << i << "  ";
 	}
@@ -597,8 +621,9 @@ Move Game::calculateBestMove(const Army& team, int move_number) {
 
 	int i_best = minimax(2, team, move_number);
 
-	std::cout << "Best move: from " << all_possible_moves[i_best].from << " to " << all_possible_moves[i_best].dest << std::endl;
+//	std::cout << "Best move: from " << all_possible_moves[i_best].from << " to " << all_possible_moves[i_best].dest << std::endl;
 
+	assert(i_best >= 0);
 	return all_possible_moves[i_best];
 }
 
@@ -661,5 +686,44 @@ void Game::undoMove(const Point& from, const Point& dest, Figure* removed_figure
 		removed_figure->position = dest;
 		removed_figure->is_alive = true;
 		field.cells[dest.y][dest.x].figure = removed_figure;
+	}
+}
+
+void Game::aiMove(const Army& team, int& moves_number) {
+	Move best_move = calculateBestMove(team, moves_number);
+	if (!best_move.is_valid()) {
+		markAsWinner(getOppositeTeam(team));
+		return;
+	}
+
+	/*
+	std::string str = team.color == Color::white ? "white: " : "black: ";
+	std::cout << str << best_move.from << " -> " << best_move.dest << std::endl;
+	*/
+	makeMove(best_move.from, best_move.dest);
+
+	moves_number++;
+
+	if (!getOppositeTeam(team).figures[15].is_alive) { // if opposite king isn't alive
+		markAsWinner(team);
+	}
+}
+
+
+
+Army& Game::getOppositeTeam(const Army& team) {
+	if (team.color == Color::black) {
+		return team_w;
+	}
+	return team_b;
+}
+
+
+void Game::markAsWinner(const Army& team) {
+	if (team.color == Color::black) {
+		winner = -1;
+	}
+	else {
+		winner = 1;
 	}
 }

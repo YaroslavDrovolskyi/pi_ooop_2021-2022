@@ -51,6 +51,18 @@ struct Move {
 	Move(const Point& from, const Point& dest) : from(from), dest(dest) {
 
 	}
+
+	bool is_valid() {
+		/*
+		if (from == Point(-1, -1) && dest == Point(-1, -1)) {
+			return false;
+		}
+		*/
+		if (from.x == -1 && from.y == -1 && dest.x == -1 && dest.y == -1) {
+			return false;
+		}
+		return true;
+	}
 };
 
 
@@ -105,23 +117,35 @@ public:
 
 class Game {
 private:
-	Field field;
+	
 	Army team_w;
 	Army team_b;
-
+	Field field;
+	
 	int w_moves_count;
 	int b_moves_count;
 
+	enum class Player { user, ai };
+	Player cur_player;
+	int winner; // -1 -- black, 1 -- white, 0 -- nobody
+	
+	Point selected_point;
+
+
 public:
-	Game() : team_w(Color::white), team_b(Color::black) {
-		this->field = Field(team_w, team_b);
+	Game() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
+	//	this->field = Field(team_w, team_b);
 		this->w_moves_count = 0;
 		this->b_moves_count = 0;
+		this->cur_player = Player::user;
+		winner = 0;
 	}
 	void exec();
 
 
 private:
+
+	void aiMove(const Army& team, int& moves_number);
 
 	Figure* makeMove(const Point& from, const Point& dest);
 	void undoMove(const Point& from, const Point& dest, Figure* removed_figure = nullptr); // undo move only after making it (don't work with multuply moves)
@@ -141,6 +165,8 @@ private:
 
 	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
 	bool isCorrectPoint(const Point& p);
+	Army& getOppositeTeam(const Army& team);
+	void markAsWinner(const Army& team);
 };
 
 
