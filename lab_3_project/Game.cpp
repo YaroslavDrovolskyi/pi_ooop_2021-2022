@@ -154,7 +154,7 @@ void Game::exec() {
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways from" << Point(6, 1) << ": " << std::endl;
-	print(get_possible_moves(Point(6, 1), 0));
+	print(movesFromPoint(Point(6, 1), 0));
 
 	
 
@@ -255,7 +255,7 @@ void Field::print() {
 
 
 
-std::vector<Point> Game::get_possible_moves(Point p, int move_number, bool consider_king) {
+std::vector<Point> Game::movesFromPoint(Point p, int move_number, bool consider_king) {
 	if (!field.cells[p.y][p.x].figure) { return std::vector<Point>(); }
 
 	switch (field.cells[p.y][p.x].figure->type) {
@@ -575,7 +575,7 @@ std::vector<Move> Game::allPossibleMoves(const Army& team, int move_number, bool
 	for (const Figure& figure : team.figures) {
 		if (figure.is_alive) {
 			Point pos(figure.position);
-			auto possible_moves = get_possible_moves(pos, move_number, consider_king);
+			auto possible_moves = movesFromPoint(pos, move_number, consider_king);
 			if (possible_moves.size() > 0) {
 				for (const Point& j : possible_moves) {
 					result.push_back(Move(pos, j));

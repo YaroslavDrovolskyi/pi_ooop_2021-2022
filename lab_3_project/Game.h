@@ -2,8 +2,6 @@
 #include <vector>
 #include <cassert>
 
-#include "Figures.h"
-
 struct Point {
 	int x;
 	int y;
@@ -99,12 +97,11 @@ public:
 
 	bool isCorrectPoint(const Point& p);
 	*/
-	void makeMove(const Point& from, const Point& dest);
+//	void makeMove(const Point& from, const Point& dest);
 	int evaluate();
 };
 
-std::ofstream& operator<<(std::ofstream& stream, const Point& point);
-bool operator==(const Point& a, const Point& b);
+
 
 class Game {
 private:
@@ -118,27 +115,31 @@ private:
 public:
 	Game() : team_w(Color::white), team_b(Color::black) {
 		this->field = Field(team_w, team_b);
+		this->w_moves_count = 0;
+		this->b_moves_count = 0;
 	}
 	void exec();
-	Figure* makeMove(const Point& from, const Point& dest);
-	void undoMove(const Point& from, const Point& dest, Figure* removed_figure = nullptr); // undo move only after making it (don't work with multuply moves)
-	std::vector<Move> allPossibleMoves(const Army& team, int move_number, bool consider_king = true);
-	Move calculateBestMove(const Army& team, int move_number);
-
-	int minimax(int depth, const Army& team, int move_number);
-
 
 
 private:
-	std::vector<Point> get_possible_moves(Point p, int move_number, bool consider_king = true);
+
+	Figure* makeMove(const Point& from, const Point& dest);
+	void undoMove(const Point& from, const Point& dest, Figure* removed_figure = nullptr); // undo move only after making it (don't work with multuply moves)
+	
+	
+	Move calculateBestMove(const Army& team, int move_number);
+	int minimax(int depth, const Army& team, int move_number);
+	std::vector<Move> allPossibleMoves(const Army& team, int move_number, bool consider_king = true);
+	
+	std::vector<Point> movesFromPoint(Point p, int move_number, bool consider_king = true);
 	std::vector<Point> pawn_moves(Point p, int move_number);
 	std::vector<Point> rook_moves(Point p);
 	std::vector<Point> horse_moves(Point p);
 	std::vector<Point> bishop_moves(Point p);
 	std::vector<Point> queen_moves(Point p);
 	std::vector<Point> king_moves(Point p, int moves_number);
-	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
 
+	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
 	bool isCorrectPoint(const Point& p);
 };
 
@@ -148,3 +149,7 @@ void print(const std::vector<T>& vector);
 
 template <typename T>
 std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2);
+
+std::ostream& operator<<(std::ostream& stream, const Point& point);
+
+bool operator==(const Point& a, const Point& b);
