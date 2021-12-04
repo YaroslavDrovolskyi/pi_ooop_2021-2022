@@ -2,6 +2,15 @@
 #include <vector>
 #include <cassert>
 
+#include "Figures.h"
+
+struct Point {
+	int x;
+	int y;
+
+	Point(int x = 0, int y = 0) : x(x), y(y){}
+};
+
 enum class Color {
 	black, white
 };
@@ -15,12 +24,6 @@ enum class FigType {
 	king // 900
 };
 
-struct Point {
-	int x;
-	int y;
-
-	Point(int x, int y) : x(x), y(y){}
-};
 
 
 
@@ -30,18 +33,28 @@ public:
 	FigType type;
 	int value;
 	bool is_alive;
-//	Point position;
+	Point position;
 
 public:
 	Figure() {}
-	Figure(Color color, FigType type) : color(color), type(type), is_alive(true), value(get_figure_value()) {}
+	Figure(Color color, FigType type, const Point& pos) : color(color), type(type), is_alive(true), position(pos), value(get_figure_value()) {}
 
 	void set_pos(const Point& position) {
-//		this->position = position;
+		//		this->position = position;
 	}
 
 	int get_figure_value();
 };
+
+struct Move {
+	Point from;
+	Point dest;
+
+	Move(const Point& from, const Point& dest) : from(from), dest(dest) {
+
+	}
+};
+
 
 struct Cell {
 public:
@@ -74,16 +87,18 @@ public:
 	Field() {}
 	Field(Army& white, Army& black, int size = 8);
 	void print();
-	std::vector<Point> get_possible_ways(Point p, int move_number);
-	std::vector<Point> pawn_ways(Point p, int move_number);
-	std::vector<Point> rook_ways(Point p);
-	std::vector<Point> horse_ways(Point p);
-	std::vector<Point> bishop_ways(Point p);
-	std::vector<Point> queen_ways(Point p);
-	std::vector<Point> king_ways(Point p);
+	std::vector<Point> get_possible_moves(Point p, int move_number);
+	std::vector<Point> pawn_moves(Point p, int move_number);
+	std::vector<Point> rook_moves(Point p);
+	std::vector<Point> horse_moves(Point p);
+	std::vector<Point> bishop_moves(Point p);
+	std::vector<Point> queen_moves(Point p);
+	std::vector<Point> king_moves(Point p);
 	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
 
 	bool isCorrectPoint(const Point& p);
+	void makeMove(const Point& from, const Point& dest);
+	int evaluate();
 };
 
 std::ofstream& operator<<(std::ofstream& stream, const Point& point);
@@ -94,12 +109,20 @@ private:
 	Army team_w;
 	Army team_b;
 
+	int w_moves_count;
+	int b_moves_count;
+
 public:
 	Game() : team_w(Color::white), team_b(Color::black) {
 		this->field = Field(team_w, team_b);
 	}
 	void exec();
+	Figure* makeMove(const Point& from, const Point& dest);
+	void undoMove(const Point& from, const Point& dest, Figure* removed_figure = nullptr); // undo move only after making it (don't work with multuply moves)
+	std::vector<Move> allPossibleMoves(const Army& team, int move_number);
+	Move calculateBestMove(const Army& team, int move_number);
 
+	int minimax(int depth, const Army& team, int move_number);
 };
 
 
