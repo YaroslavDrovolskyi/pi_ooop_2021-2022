@@ -11,6 +11,13 @@ std::ostream& operator<<(std::ostream& stream, const Point& point) {
 	return stream;
 }
 
+bool operator==(const Point& a, const Point& b) {
+	if (a.x == b.x && a.y == b.y) {
+		return true;
+	}
+	return false;
+}
+
 Cell::Cell() {
 	this->figure = nullptr;
 	this->is_marked = false;
@@ -130,24 +137,24 @@ void Game::exec() {
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways for pawn in" << Point(0, 0) << ": " << std::endl;
-	print(this->field.pawn_moves(Point(1, 1), 1));
+	print(pawn_moves(Point(1, 1), 1));
 
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways for rook in" << Point(7, 0) << ": " << std::endl;
-	print(this->field.rook_moves(Point(4, 6)));
+	print(rook_moves(Point(4, 6)));
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways for Horse in" << Point(3, 1) << ": " << std::endl;
-	print(this->field.horse_moves(Point(7, 0)));
+	print(horse_moves(Point(7, 0)));
 	
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways for Queen in" << Point(7, 0) << ": " << std::endl;
-	print(this->field.queen_moves(Point(7, 0)));
+	print(queen_moves(Point(7, 0)));
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Possible ways from" << Point(6, 1) << ": " << std::endl;
-	print(this->field.get_possible_moves(Point(6, 1), 0));
+	print(get_possible_moves(Point(6, 1), 0));
 
 	
 
@@ -248,26 +255,29 @@ void Field::print() {
 
 
 
-std::vector<Point> Field::get_possible_moves(Point p, int move_number) {
-	if (!this->cells[p.y][p.x].figure) { return std::vector<Point>(); }
+std::vector<Point> Game::get_possible_moves(Point p, int move_number, bool consider_king) {
+	if (!field.cells[p.y][p.x].figure) { return std::vector<Point>(); }
 
-	switch (this->cells[p.y][p.x].figure->type) {
+	switch (field.cells[p.y][p.x].figure->type) {
 	case FigType::pawn: {return pawn_moves(p, move_number); }
 	case FigType::horse: {return horse_moves(p); }
 	case FigType::bishop: {return bishop_moves(p); }
 	case FigType::rook: {return rook_moves(p); }
 	case FigType::queen: {return queen_moves(p); }
-	case FigType::king: {return king_moves(p); }
+	case FigType::king: {
+		if (!consider_king) { return std::vector<Point>(); }
+		return king_moves(p, move_number); 
+	}
 	default: {return std::vector<Point>(); }
 	}
 }
 
-std::vector<Point> Field::pawn_moves(Point p, int moves_number) {
+std::vector<Point> Game::pawn_moves(Point p, int moves_number) {
 	std::vector<Point> result;
 
 	int is_white = 1;
-	if (this->cells[p.y][p.x].figure) {
-		if (this->cells[p.y][p.x].figure->color == Color::black) {
+	if (field.cells[p.y][p.x].figure) {
+		if (field.cells[p.y][p.x].figure->color == Color::black) {
 			is_white = -1;
 		}
 	}
@@ -277,26 +287,26 @@ std::vector<Point> Field::pawn_moves(Point p, int moves_number) {
 
 	// diagonal (fight) moves
 	Point p1(p.x + 1, p.y + is_white);
-	if (isCorrectPoint(p1) && this->cells[p1.y][p1.x].figure
-		&& this->cells[p.y][p.x].figure->color != this->cells[p1.y][p1.x].figure->color) {
+	if (isCorrectPoint(p1) && field.cells[p1.y][p1.x].figure
+		&& field.cells[p.y][p.x].figure->color != field.cells[p1.y][p1.x].figure->color) {
 		result.push_back(p1);
 	}
 
 	Point p2(p.x - 1, p.y + is_white);
-	if (isCorrectPoint(p2) && this->cells[p2.y][p2.x].figure
-		&& this->cells[p.y][p.x].figure->color != this->cells[p2.y][p2.x].figure->color) {
+	if (isCorrectPoint(p2) && field.cells[p2.y][p2.x].figure
+		&& field.cells[p.y][p.x].figure->color != field.cells[p2.y][p2.x].figure->color) {
 		result.push_back(p2);
 	}
 
 	// vertical (ususal) moves
 	Point p3(p.x, p.y + is_white);
-	if (isCorrectPoint(p3) && !this->cells[p3.y][p3.x].figure) { // pawns ususal moves and fight moves are different
+	if (isCorrectPoint(p3) && !field.cells[p3.y][p3.x].figure) { // pawns ususal moves and fight moves are different
 		result.push_back(p3);
 	}
 
 	if (moves_number == 0) { // first move for pawn allow this
 		Point p4(p.x, p.y + 2 * is_white);
-		if (isCorrectPoint(p4) && !this->cells[p4.y][p4.x].figure) { // pawns ususal moves and fight moves are different
+		if (isCorrectPoint(p4) && !field.cells[p4.y][p4.x].figure) { // pawns ususal moves and fight moves are different
 			result.push_back(p4);
 		}
 	}
@@ -307,14 +317,14 @@ std::vector<Point> Field::pawn_moves(Point p, int moves_number) {
 }
 
 
-std::vector<Point> Field::rook_moves(Point p) {
+std::vector<Point> Game::rook_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!this->cells[p.y][p.x].figure) { return result; }
+	if (!field.cells[p.y][p.x].figure) { return result; }
 
 	// go to right
 	Point i1(p.x + 1, p.y);
-	while (isCorrectPoint(i1) && !this->cells[i1.y][i1.x].figure) {
+	while (isCorrectPoint(i1) && !field.cells[i1.y][i1.x].figure) {
 		result.push_back(i1);
 		i1.x++;
 	}
@@ -322,7 +332,7 @@ std::vector<Point> Field::rook_moves(Point p) {
 
 	// go to left
 	Point i2(p.x - 1, p.y);
-	while (isCorrectPoint(i2) && !this->cells[i2.y][i2.x].figure) {
+	while (isCorrectPoint(i2) && !field.cells[i2.y][i2.x].figure) {
 		result.push_back(i2);
 		i2.x--;
 	}
@@ -330,7 +340,7 @@ std::vector<Point> Field::rook_moves(Point p) {
 
 	// go to top
 	Point i3(p.x, p.y + 1);
-	while (isCorrectPoint(i3) && !this->cells[i3.y][i3.x].figure) {
+	while (isCorrectPoint(i3) && !field.cells[i3.y][i3.x].figure) {
 		result.push_back(i3);
 		i3.y++;
 	}
@@ -338,7 +348,7 @@ std::vector<Point> Field::rook_moves(Point p) {
 
 	// go to bottom
 	Point i4(p.x, p.y - 1);
-	while (isCorrectPoint(i4) && !this->cells[i4.y][i4.x].figure) {
+	while (isCorrectPoint(i4) && !field.cells[i4.y][i4.x].figure) {
 		result.push_back(i4);
 		i4.y--;
 	}
@@ -351,10 +361,10 @@ std::vector<Point> Field::rook_moves(Point p) {
 }
 
 
-std::vector<Point> Field::horse_moves(Point p) {
+std::vector<Point> Game::horse_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!this->cells[p.y][p.x].figure) { return result; }
+	if (!field.cells[p.y][p.x].figure) { return result; }
 
 	result.push_back(Point(p.x - 1, p.y + 2));
 	result.push_back(Point(p.x - 2, p.y + 1));
@@ -374,14 +384,14 @@ std::vector<Point> Field::horse_moves(Point p) {
 }
 
 
-std::vector<Point> Field::bishop_moves(Point p) {
+std::vector<Point> Game::bishop_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!this->cells[p.y][p.x].figure) { return result; }
+	if (!field.cells[p.y][p.x].figure) { return result; }
 
 	// go to right top
 	Point i1(p.x + 1, p.y + 1);
-	while (isCorrectPoint(i1) && !this->cells[i1.y][i1.x].figure) {
+	while (isCorrectPoint(i1) && !field.cells[i1.y][i1.x].figure) {
 		result.push_back(i1);
 		i1.x++;
 		i1.y++;
@@ -390,7 +400,7 @@ std::vector<Point> Field::bishop_moves(Point p) {
 
 	// go to left top
 	Point i2(p.x - 1, p.y + 1);
-	while (isCorrectPoint(i2) && !this->cells[i2.y][i2.x].figure) {
+	while (isCorrectPoint(i2) && !field.cells[i2.y][i2.x].figure) {
 		result.push_back(i2);
 		i2.x--;
 		i2.y++;
@@ -399,7 +409,7 @@ std::vector<Point> Field::bishop_moves(Point p) {
 	
 	// go to left bottom
 	Point i3(p.x - 1, p.y - 1);
-	while (isCorrectPoint(i3) && !this->cells[i3.y][i3.x].figure) {
+	while (isCorrectPoint(i3) && !field.cells[i3.y][i3.x].figure) {
 		result.push_back(i3);
 		i3.x--;
 		i3.y--;
@@ -409,7 +419,7 @@ std::vector<Point> Field::bishop_moves(Point p) {
 
 	// go to right bottom
 	Point i4(p.x + 1, p.y - 1);
-	while (isCorrectPoint(i4) && !this->cells[i4.y][i4.x].figure) {
+	while (isCorrectPoint(i4) && !field.cells[i4.y][i4.x].figure) {
 		result.push_back(i4);
 		i4.x++;
 		i4.y--;
@@ -422,14 +432,14 @@ std::vector<Point> Field::bishop_moves(Point p) {
 
 }
 
-std::vector<Point> Field::queen_moves(Point p) {
+std::vector<Point> Game::queen_moves(Point p) {
 	return concatinate(rook_moves(p), bishop_moves(p)); // queen ways is (bishop + rook) ways
 }
 
 
-std::vector<Point> Field::king_moves(Point p) {
+std::vector<Point> Game::king_moves(Point p, int moves_number) {
 	std::vector<Point> result;
-	if (!this->cells[p.y][p.x].figure) { return result; }
+	if (!field.cells[p.y][p.x].figure) { return result; }
 
 	result.push_back(Point(p.x, p.y + 1));
 	result.push_back(Point(p.x + 1, p.y + 1));
@@ -440,12 +450,29 @@ std::vector<Point> Field::king_moves(Point p) {
 	result.push_back(Point(p.x - 1, p.y));
 	result.push_back(Point(p.x - 1, p.y + 1));
 
+	Army& team = field.cells[p.y][p.x].figure->color == Color::white ? team_b : team_w;
+	std::vector<Move> possible_enemy_moves = allPossibleMoves(team, moves_number, false);
+	bool removed = false;
+	
+	for (std::size_t i = 0; i < possible_enemy_moves.size(); i++) {
+		for (std::size_t j = 0; j < result.size();) {
+			if (result[j] == possible_enemy_moves[i].dest) {
+				result.erase(result.begin() + j);
+			}
+			else {
+				j++;
+			}
+		}
+	}
+
+	
+
 	getCorrectWays(p, result);
 
 	return result;
 }
 
-bool Field::isCorrectPoint(const Point& p) {
+bool Game::isCorrectPoint(const Point& p) {
 	if (p.x > 7 || p.y > 7) {
 		return false;
 	}
@@ -456,13 +483,13 @@ bool Field::isCorrectPoint(const Point& p) {
 	return true;
 }
 
-void Field::getCorrectWays(Point from, std::vector<Point>& destinations) {
+void Game::getCorrectWays(Point from, std::vector<Point>& destinations) {
 	for (std::size_t i = 0; i < destinations.size(); ) {
 		Point dest = destinations[i];
 		if (!isCorrectPoint(destinations[i])) {
 			destinations.erase(destinations.begin() + i);
 		}
-		else if (this->cells[dest.y][dest.x].figure && this->cells[dest.y][dest.x].figure->color == this->cells[from.y][from.x].figure->color) { // if figures with same colors fight
+		else if (field.cells[dest.y][dest.x].figure && field.cells[dest.y][dest.x].figure->color == field.cells[from.y][from.x].figure->color) { // if figures with same colors fight
 			destinations.erase(destinations.begin() + i);
 		}
 		else {
@@ -497,8 +524,8 @@ std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec
 
 // return removed figure
 Figure* Game::makeMove(const Point& from_p, const Point& dest_p) { // assuming coordinates are correct
-	assert(field.isCorrectPoint(from_p));
-	assert(field.isCorrectPoint(dest_p));
+	assert(isCorrectPoint(from_p));
+	assert(isCorrectPoint(dest_p));
 
 	Figure* figure = field.cells[from_p.y][from_p.x].figure;
 	Figure* dest_figure = field.cells[dest_p.y][dest_p.x].figure;
@@ -510,13 +537,16 @@ Figure* Game::makeMove(const Point& from_p, const Point& dest_p) { // assuming c
 		dest_figure->position = Point(-1, -1);
 	}
 
-	field.makeMove(from_p, dest_p);
+//	field.makeMove(from_p, dest_p);
+
+	field.cells[dest_p.y][dest_p.x].figure = field.cells[from_p.y][from_p.x].figure;
+	field.cells[from_p.y][from_p.x].figure = nullptr;
 
 	return dest_figure; // return removed figure
 }
 
 
-
+/*
 void Field::makeMove(const Point& from, const Point& dest) {
 	assert(isCorrectPoint(from));
 	assert(isCorrectPoint(dest));
@@ -524,7 +554,7 @@ void Field::makeMove(const Point& from, const Point& dest) {
 	cells[dest.y][dest.x].figure = cells[from.y][from.x].figure;
 	cells[from.y][from.x].figure = nullptr;
 }
-
+*/
 
 int Field::evaluate() {
 	int result = 0;
@@ -540,12 +570,12 @@ int Field::evaluate() {
 }
 
 
-std::vector<Move> Game::allPossibleMoves(const Army& team, int move_number) {
+std::vector<Move> Game::allPossibleMoves(const Army& team, int move_number, bool consider_king) {
 	std::vector<Move> result;
 	for (const Figure& figure : team.figures) {
 		if (figure.is_alive) {
 			Point pos(figure.position);
-			auto possible_moves = field.get_possible_moves(pos, move_number);
+			auto possible_moves = get_possible_moves(pos, move_number, consider_king);
 			if (possible_moves.size() > 0) {
 				for (const Point& j : possible_moves) {
 					result.push_back(Move(pos, j));
