@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cassert>
+#include <SFML/Graphics.hpp>
 
 struct Point {
 	int x;
@@ -131,6 +132,9 @@ private:
 	
 	Point selected_point;
 
+	int w;
+	int w0; // native width of one square of netting
+
 
 public:
 	Game() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
@@ -139,6 +143,7 @@ public:
 		this->b_moves_count = 0;
 		this->cur_player = Player::user;
 		winner = 0;
+		w = w0 = 100;
 	}
 	void exec();
 
@@ -146,6 +151,7 @@ public:
 private:
 
 	void aiMove(const Army& team, int& moves_number);
+	void userMove(const Army& team, int& moves_number);
 
 	Figure* makeMove(const Point& from, const Point& dest);
 	void undoMove(const Point& from, const Point& dest, Figure* removed_figure = nullptr); // undo move only after making it (don't work with multuply moves)
@@ -167,6 +173,11 @@ private:
 	bool isCorrectPoint(const Point& p);
 	Army& getOppositeTeam(const Army& team);
 	void markAsWinner(const Army& team);
+
+	void displayField(sf::RenderWindow& window);
+
+
+	void update(sf::RenderWindow& window);
 };
 
 

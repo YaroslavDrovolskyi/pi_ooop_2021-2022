@@ -173,17 +173,18 @@ void Game::exec() {
 	*/
 
 
-	/*
-	while (w_moves_count + b_moves_count < 71) {
-		aiMove(team_w, this->w_moves_count);
+	/* game between AI and random-moving AI
+	while (winner == 0) {
+		userMove(team_w, this->w_moves_count);
 		aiMove(team_b, this->b_moves_count);
 	}
 	std::cout << "winner = " << winner << std::endl;
-	*/
+	
 	field.print();
+	*/
 
-
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
+	window.setVerticalSyncEnabled(true); // sync frequency
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
@@ -203,12 +204,21 @@ void Game::exec() {
 				window.close();
 			}
 
+			/*
+			if (event.type == sf::Event::Resized) {
+				std::cout << "new width: " << event.size.width << std::endl;
+				std::cout << "new height: " << event.size.height << std::endl;
+
+				int new_width = event.size.width;
+				int new_height = event.size.height;
+
+				w = std::min(new_width / 16, new_height / 9);
+				std::cout << "w = " << w << std::endl << std::endl;
+			}
+			*/
 		}
 
-		window.clear();
-		window.draw(shape);
-		window.draw(sprite);
-		window.display();
+		update(window);
 	}
 }
 
@@ -696,10 +706,31 @@ void Game::aiMove(const Army& team, int& moves_number) {
 		return;
 	}
 
-	/*
+	
 	std::string str = team.color == Color::white ? "white: " : "black: ";
 	std::cout << str << best_move.from << " -> " << best_move.dest << std::endl;
-	*/
+	
+	makeMove(best_move.from, best_move.dest);
+
+	moves_number++;
+
+	if (!getOppositeTeam(team).figures[15].is_alive) { // if opposite king isn't alive
+		markAsWinner(team);
+	}
+}
+
+void Game::userMove(const Army& team, int& moves_number) {
+	auto possible_moves = allPossibleMoves(team, moves_number);
+	if (possible_moves.size() == 0) {
+		markAsWinner(getOppositeTeam(team));
+		return;
+	}
+	Move best_move = possible_moves[rand() % possible_moves.size()];
+
+	
+	std::string str = team.color == Color::white ? "white: " : "black: ";
+	std::cout << str << best_move.from << " -> " << best_move.dest << std::endl;
+	
 	makeMove(best_move.from, best_move.dest);
 
 	moves_number++;
@@ -725,5 +756,38 @@ void Game::markAsWinner(const Army& team) {
 	}
 	else {
 		winner = 1;
+	}
+}
+
+void Game::update(sf::RenderWindow& window) {
+	displayField(window);
+	window.clear(sf::Color(250, 220, 100, 0)); // set background
+	displayField(window);
+	window.display();
+}
+
+void Game::displayField(sf::RenderWindow& window) {
+	sf::Texture w_cell_t, b_cell_t;
+	w_cell_t.loadFromFile("img/white_cell.png");
+	b_cell_t.loadFromFile("img/black_cell.png");
+	sf::Sprite white_cell(w_cell_t);
+	sf::Sprite black_cell(b_cell_t);
+
+	white_cell.setScale((double) 2 * w / w0, (double)2 * w / w0); ///////////////////////////
+	black_cell.setScale((double) 2 * w / w0, (double)2 * w / w0); ///////////////////////////// isn't need 2
+
+	for (std::size_t i = 0; i < field.cells.size(); i++) {
+		for (std::size_t j = 0; j < field.cells[i].size(); j++) {
+			if ((i + j) % 2 == 0) {
+				white_cell.setPosition(i * w, j * w);
+				white_cell.move(w, w);
+				window.draw(white_cell);
+			}
+			else {
+				black_cell.setPosition(i * w, j * w);
+				black_cell.move(w, w);
+				window.draw(black_cell);
+			}
+		}
 	}
 }
