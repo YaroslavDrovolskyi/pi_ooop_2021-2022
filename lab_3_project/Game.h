@@ -8,6 +8,7 @@ struct Point {
 	int y;
 
 	Point(int x = 0, int y = 0) : x(x), y(y){}
+	std::string getString() const;
 };
 
 enum class Color {
@@ -70,8 +71,9 @@ struct Move {
 struct Cell {
 public:
 	Figure* figure;
-	bool is_marked;
-
+	bool marked; // cell is marked (possible move and not attack)
+	bool possible_fight;
+	bool selected; // selected own figure
 	Cell();
 };
 
@@ -130,7 +132,7 @@ private:
 	Player cur_player;
 	int winner; // -1 -- black, 1 -- white, 0 -- nobody
 	
-	Point selected_point;
+	Figure* selected_figure;
 
 	int w;
 	int w0; // native width of one square of netting
@@ -144,6 +146,7 @@ public:
 		this->cur_player = Player::user;
 		winner = 0;
 		w = w0 = 100;
+		selected_figure = nullptr;
 	}
 	void exec();
 

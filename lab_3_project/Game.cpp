@@ -20,7 +20,9 @@ bool operator==(const Point& a, const Point& b) {
 
 Cell::Cell() {
 	this->figure = nullptr;
-	this->is_marked = false;
+	this->marked = false;
+	this->possible_fight = false;
+	this->selected = false;
 }
 
 
@@ -183,19 +185,24 @@ void Game::exec() {
 	field.print();
 	*/
 
-	sf::RenderWindow window(sf::VideoMode(1600, 900), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1600, 950), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true); // sync frequency
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	window.setPosition({ 150, 25 });
+//	sf::CircleShape shape(100.f);
+//	shape.setFillColor(sf::Color::Green);
 
+	for (std::size_t i = 0; i < 8; i++) {
+		for(std::size_t j = 0; j < 8; j++) {
+			std::cout << Point(i,j) << ": " << Point(i, j).getString() << std::endl;
+		}
+	}
 
+//	sf::Texture texture;
+//	texture.loadFromFile("img/field.jpg");
 
-	sf::Texture texture;
-	texture.loadFromFile("img/field.jpg");
-
-	sf::Sprite sprite(texture);
-	sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
-	sprite.setScale(2, 2);
+//	sf::Sprite sprite(texture);
+//	sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
+//	sprite.setScale(2, 2);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -216,6 +223,12 @@ void Game::exec() {
 				std::cout << "w = " << w << std::endl << std::endl;
 			}
 			*/
+
+			if (event.type == sf::Event::MouseButtonPressed) {
+				int x = event.mouseButton.x;
+				int y = event.mouseButton.y;
+				std::cout << "Mouse pressed: (" << x << "; " << y  << ") " << std::endl;
+			}
 		}
 
 		update(window);
@@ -767,27 +780,118 @@ void Game::update(sf::RenderWindow& window) {
 }
 
 void Game::displayField(sf::RenderWindow& window) {
-	sf::Texture w_cell_t, b_cell_t;
-	w_cell_t.loadFromFile("img/white_cell.png");
-	b_cell_t.loadFromFile("img/black_cell.png");
-	sf::Sprite white_cell(w_cell_t);
-	sf::Sprite black_cell(b_cell_t);
+	sf::Texture texture;
+	texture.loadFromFile("img/figures_1.png");
+	sf::Sprite cell(texture);
 
-	white_cell.setScale((double) 2 * w / w0, (double)2 * w / w0); ///////////////////////////
-	black_cell.setScale((double) 2 * w / w0, (double)2 * w / w0); ///////////////////////////// isn't need 2
+	
+	sf::Sprite figure(texture);
+
+	sf::Sprite number_label(texture);
+	
+	
 
 	for (std::size_t i = 0; i < field.cells.size(); i++) {
 		for (std::size_t j = 0; j < field.cells[i].size(); j++) {
-			if ((i + j) % 2 == 0) {
-				white_cell.setPosition(i * w, j * w);
-				white_cell.move(w, w);
-				window.draw(white_cell);
+			// draw cell
+			if ((i + j) % 2 == 0) { // cell is white
+				cell.setTextureRect(sf::IntRect(8 * w0, 0, w0, w0));
 			}
 			else {
-				black_cell.setPosition(i * w, j * w);
-				black_cell.move(w, w);
-				window.draw(black_cell);
+				cell.setTextureRect(sf::IntRect(8 * w0, w0, w0, w0));
+			}
+
+			cell.setScale((double)w / w0, (double)w / w0);
+			cell.setPosition(j * w, (7 - i) * w);
+			cell.move(2 * w, w);
+			window.draw(cell);
+
+			// draw marks
+			if (field.cells[i][j].marked) {
+				cell.setTextureRect(sf::IntRect(9 * w0, 0, w0, w0));
+			}
+			else if (field.cells[i][j].possible_fight) {
+				cell.setTextureRect(sf::IntRect(9 * w0, w0, w0, w0));
+			}
+			else if (field.cells[i][j].selected) {
+				cell.setTextureRect(sf::IntRect(9 * w0, 0, w0, w0));
+			}
+			window.draw(cell);
+
+			// draw figure
+			Figure* f = field.cells[i][j].figure;
+			if (f) {
+				if (f->color == Color::white) {
+					switch (f->type) {
+					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, 0, w0, w0)); break; }
+					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, 0, w0, w0)); break; }
+					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, 0, w0, w0)); break; }
+					case FigType::rook: {figure.setTextureRect(sf::IntRect(3 * w0, 0, w0, w0)); break; }
+					case FigType::queen: {figure.setTextureRect(sf::IntRect(4 * w0, 0, w0, w0)); break; }
+					case FigType::king: {figure.setTextureRect(sf::IntRect(5 * w0, 0, w0, w0)); break; }
+					default: {break; }
+					}
+				}
+				else {
+					switch (f->type) {
+					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, w0, w0, w0)); break; }
+					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, w0, w0, w0)); break; }
+					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, w0, w0, w0)); break; }
+					case FigType::rook: {figure.setTextureRect(sf::IntRect(3 * w0, w0, w0, w0)); break; }
+					case FigType::queen: {figure.setTextureRect(sf::IntRect(4 * w0, w0, w0, w0)); break; }
+					case FigType::king: {figure.setTextureRect(sf::IntRect(5 * w0, w0, w0, w0)); break; }
+					default: {break; }
+					}
+				}
+
+				figure.setScale((double)w / w0, (double)w / w0);
+
+				figure.setPosition(j * w, (7 - i) * w);
+				figure.move(2*w, w);
+				window.draw(figure);
 			}
 		}
 	}
+
+	// draw number labels
+	
+	
+	for (std::size_t i = 0; i < 16; i++) {
+		if (i < 4) {
+			number_label.setTextureRect(sf::IntRect(6 * w0 + (double)i*w0 / 4, 0, w0 / 4, w0));
+			number_label.setPosition((double)7*w/4, w*i + w);
+		}
+		else if (i < 8) {
+			number_label.setTextureRect(sf::IntRect(6 * w0 + (double)(i - 4) * w0 / 4, w0, w0 / 4, w0));
+			number_label.setPosition((double)7 * w / 4, w * i + w);
+
+		}
+		else if (i < 12) {
+			number_label.setTextureRect(sf::IntRect(7 * w0, 0 + (i - 8)*w0/4, w0, w0 / 4));
+			number_label.setPosition(2*w + (i-8)*w, 9 * w);
+//			number_label.setPosition(0,0);
+		}
+		else {
+			number_label.setTextureRect(sf::IntRect(7 * w0, w0 + (i - 12)*w0/4, w0, w0 / 4));
+			number_label.setPosition(2 * w + (i-8) * w, 9 * w);
+		}
+
+		number_label.setScale((double)w / w0, (double)w / w0);
+		// set position
+
+		window.draw(number_label);
+	}
+
+}
+
+std::string Point::getString() const {
+	assert(x >= 0 && x < 8);
+	assert(y >= 0 && y < 8);
+
+	std::string result;
+	result += 'A' + x;
+	result += std::to_string(y + 1);
+	
+
+	return result;
 }
