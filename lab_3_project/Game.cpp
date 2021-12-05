@@ -865,7 +865,7 @@ void Game::update(sf::RenderWindow& window) {
 			window.draw(text_warn1);
 		}
 		if (warning2) {
-			sf::Text text_warn2("Impossible moving to this point", font, 40);
+			sf::Text text_warn2("Impossible move to this point", font, 40);
 			text_warn2.setFillColor(sf::Color::Red);
 			text_warn2.setPosition(10*w + w/2, 3*w / 2);
 			window.draw(text_warn2);

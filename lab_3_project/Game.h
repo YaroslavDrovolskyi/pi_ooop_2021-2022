@@ -28,13 +28,15 @@ enum class FigType {
 
 
 class Figure {
-public:
+private:
 	Color color;
 	FigType type;
 	int value;
 	bool is_alive;
 	Point position;
 
+	friend class Field;
+	friend class Game;
 public:
 	Figure() {}
 	Figure(Color color, FigType type, const Point& pos) : color(color), type(type), is_alive(true), position(pos), value(get_figure_value()) {}
@@ -50,9 +52,7 @@ struct Move {
 	Point from;
 	Point dest;
 
-	Move(const Point& from, const Point& dest) : from(from), dest(dest) {
-
-	}
+	Move(const Point& from, const Point& dest) : from(from), dest(dest) {}
 
 	bool is_valid() {
 		if (from.x == -1 && from.y == -1 && dest.x == -1 && dest.y == -1) {
@@ -74,18 +74,21 @@ public:
 
 
 class Army {
-public:
+private:
 	Color color;
 	std::vector<Figure> figures;
 
-	Army(Color color);
-
-
-private:
 	int count_value(int val) {
 		assert(val > 0);
 		return this->color == Color::black ? (-1) * val : val;
 	}
+
+	friend class Field;
+	friend class Game;
+public:
+	
+	Army(Color color);
+
 };
 
 class Field {
