@@ -224,17 +224,27 @@ void Game::exec() {
 				std::cout << "w = " << w << std::endl << std::endl;
 			}
 			*/
-			if (cur_player == Player::user) {
-				if (event.type == sf::Event::MouseButtonPressed) {
-					int x = event.mouseButton.x / w;
-					int y = event.mouseButton.y / w;
-					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+			if (this->winner == 0) {
+				if (cur_player == Player::ai) {
+					aiMove(team_b, b_moves_count);
+				}
 
-					if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
-						handleFieldClick(Point(x - 2, 8 - y));
+				if (cur_player == Player::user) {
+					if (event.type == sf::Event::MouseButtonPressed) {
+						int x = event.mouseButton.x / w;
+						int y = event.mouseButton.y / w;
+						std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+
+						if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
+							handleFieldClick(Point(x - 2, 8 - y));
+						}
 					}
 				}
 			}
+			else {
+
+			}
+			
 			
 		}
 
@@ -721,22 +731,25 @@ void Game::undoMove(const Point& from, const Point& dest, Figure* removed_figure
 
 void Game::aiMove(const Army& team, int& moves_number) {
 	Move best_move = calculateBestMove(team, moves_number);
-	if (!best_move.is_valid()) {
+	if (!best_move.is_valid() || !team.figures[15].is_alive) { // when AI hasn't possible moves or hasn't king
 		markAsWinner(getOppositeTeam(team));
 		return;
 	}
 
 	
 	std::string str = team.color == Color::white ? "white: " : "black: ";
-	std::cout << str << best_move.from << " -> " << best_move.dest << std::endl;
+	std::cout << str << best_move.from.getString() << " -> " << best_move.dest.getString() << std::endl;
 	
 	makeMove(best_move.from, best_move.dest);
 
 	moves_number++;
 
-	if (!getOppositeTeam(team).figures[15].is_alive) { // if opposite king isn't alive
+	if (!getOppositeTeam(team).figures[15].is_alive || allPossibleMoves(getOppositeTeam(team), w_moves_count).size() == 0) { // if opposite king isn't alive or opposite hasn't moves
 		markAsWinner(team);
+		std::cout << "WINNER: " << winner << std::endl;
 	}
+
+	cur_player = Player::user;
 }
 
 void Game::userMove(const Army& team, int& moves_number) {
@@ -920,7 +933,7 @@ void Game::handleFieldClick(const Point& pos) {
 		
 	}
 	else {
-		if (figure && figure->color == Color::white) {
+		if (figure && figure->color == Color::white) { // if we selected other own figure
 			field.clearMarks();
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
@@ -933,6 +946,7 @@ void Game::handleFieldClick(const Point& pos) {
 				selected_figure = nullptr;
 				w_moves_count++;
 				field.clearMarks();
+				cur_player = Player::ai;
 			}
 			else {
 				////// WARNING: impossible to make a move!!!!!!

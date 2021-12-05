@@ -134,7 +134,7 @@ private:
 	Player cur_player;
 	int winner; // -1 -- black, 1 -- white, 0 -- nobody
 
-	enum class Mode{game};
+	enum class Mode{game, end};
 	
 	Figure* selected_figure;
 
