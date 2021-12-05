@@ -134,7 +134,7 @@ int Figure::get_figure_value() {
 }
 
 void Game::exec() {
-	/*
+	/* some tests
 	this->field.print();
 
 	std::cout << std::endl << std::endl;
@@ -185,9 +185,12 @@ void Game::exec() {
 	field.print();
 	*/
 
-	sf::RenderWindow window(sf::VideoMode(1600, 950), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close);
 	window.setVerticalSyncEnabled(true); // sync frequency
 	window.setPosition({ 150, 25 });
+	sf::Image icon;
+	icon.loadFromFile("img/icon.png");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 //	sf::CircleShape shape(100.f);
 //	shape.setFillColor(sf::Color::Green);
 
@@ -920,7 +923,7 @@ void Game::update(sf::RenderWindow& window) {
 
 void Game::displayField(sf::RenderWindow& window) {
 	sf::Texture texture;
-	texture.loadFromFile("img/figures_1.png");
+	texture.loadFromFile("img/textures.png");
 	sf::Sprite cell(texture);
 
 	
@@ -1064,7 +1067,7 @@ void Game::handleFieldClick(const Point& pos) {
 		}
 		else {
 			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
-				std::cout << selected_figure->position.getString() << " -> " << pos.getString() << std::endl;
+				std::cout << "white: " << selected_figure->position.getString() << " -> " << pos.getString() << std::endl;
 				Point from = selected_figure->position; // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
 				Figure* removed_figure = makeMove(from, pos);
 				selected_figure = nullptr;
