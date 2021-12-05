@@ -99,6 +99,8 @@ public:
 
 	Field() {}
 	Field(Army& white, Army& black, int size = 8);
+	void putMarks(const Point& from, const std::vector<Point>& points); 
+	void clearMarks();
 	void print();
 	/*
 	std::vector<Point> get_possible_moves(Point p, int move_number, bool consider_king = true);
@@ -131,6 +133,8 @@ private:
 	enum class Player { user, ai };
 	Player cur_player;
 	int winner; // -1 -- black, 1 -- white, 0 -- nobody
+
+	enum class Mode{game};
 	
 	Figure* selected_figure;
 
@@ -178,6 +182,11 @@ private:
 	void markAsWinner(const Army& team);
 
 	void displayField(sf::RenderWindow& window);
+
+	void handleFieldClick(const Point& pos);
+
+
+
 
 
 	void update(sf::RenderWindow& window);

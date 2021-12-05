@@ -191,12 +191,13 @@ void Game::exec() {
 //	sf::CircleShape shape(100.f);
 //	shape.setFillColor(sf::Color::Green);
 
+	/*
 	for (std::size_t i = 0; i < 8; i++) {
 		for(std::size_t j = 0; j < 8; j++) {
 			std::cout << Point(i,j) << ": " << Point(i, j).getString() << std::endl;
 		}
 	}
-
+	*/
 //	sf::Texture texture;
 //	texture.loadFromFile("img/field.jpg");
 
@@ -223,12 +224,18 @@ void Game::exec() {
 				std::cout << "w = " << w << std::endl << std::endl;
 			}
 			*/
+			if (cur_player == Player::user) {
+				if (event.type == sf::Event::MouseButtonPressed) {
+					int x = event.mouseButton.x / w;
+					int y = event.mouseButton.y / w;
+					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
 
-			if (event.type == sf::Event::MouseButtonPressed) {
-				int x = event.mouseButton.x;
-				int y = event.mouseButton.y;
-				std::cout << "Mouse pressed: (" << x << "; " << y  << ") " << std::endl;
+					if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
+						handleFieldClick(Point(x - 2, 8 - y));
+					}
+				}
 			}
+			
 		}
 
 		update(window);
@@ -814,11 +821,11 @@ void Game::displayField(sf::RenderWindow& window) {
 				cell.setTextureRect(sf::IntRect(9 * w0, w0, w0, w0));
 			}
 			else if (field.cells[i][j].selected) {
-				cell.setTextureRect(sf::IntRect(9 * w0, 0, w0, w0));
+				cell.setTextureRect(sf::IntRect(10 * w0, 0, w0, w0));
 			}
 			window.draw(cell);
 
-			// draw figure
+			// draw figures
 			Figure* f = field.cells[i][j].figure;
 			if (f) {
 				if (f->color == Color::white) {
@@ -894,4 +901,70 @@ std::string Point::getString() const {
 	
 
 	return result;
+}
+
+
+
+void Game::handleFieldClick(const Point& pos) {
+	assert(cur_player == Player::user);
+
+	Figure* figure = field.cells[pos.y][pos.x].figure; // figure in cell, on which user clicked
+	if (!selected_figure) {
+		if (figure&& figure->color == Color::white) {
+			selected_figure = figure;
+			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
+		}
+		else {
+			 /////// WARNING: "choose OWN figure!!!!"
+		}
+		
+	}
+	else {
+		if (figure && figure->color == Color::white) {
+			field.clearMarks();
+			selected_figure = figure;
+			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
+		}
+		else {
+			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
+				std::cout << selected_figure->position.getString() << " -> " << pos.getString() << std::endl;
+				Point from = selected_figure->position; // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
+				Figure* removed_figure = makeMove(from, pos);
+				selected_figure = nullptr;
+				w_moves_count++;
+				field.clearMarks();
+			}
+			else {
+				////// WARNING: impossible to make a move!!!!!!
+			}
+		}
+		
+	}
+}
+
+
+void Field::putMarks(const Point& selected_point, const std::vector<Point>& points) {
+	for (const Point& p : points) {
+		
+		if (this->cells[p.y][p.x].figure) {
+			this->cells[p.y][p.x].possible_fight = true;
+		}
+		else {
+			this->cells[p.y][p.x].marked = true;
+		}
+	}
+
+	this->cells[selected_point.y][selected_point.x].selected = true;
+
+}
+
+
+void Field::clearMarks() {
+	for (std::size_t i = 0; i < this->cells.size(); i++) {
+		for (std::size_t j = 0; j < this->cells[i].size(); j++) {
+			this->cells[i][j].marked = false;
+			this->cells[i][j].possible_fight = false;
+			this->cells[i][j].selected = false;
+		}
+	}
 }
