@@ -141,6 +141,8 @@ private:
 	int w;
 	int w0; // native width of one square of netting
 
+	bool warning1; // please, choose white (your) figures
+	bool warning2; // impossible move to this point
 
 public:
 	Game() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
@@ -151,6 +153,7 @@ public:
 		winner = 0;
 		w = w0 = 100;
 		selected_figure = nullptr;
+		warning1 = warning2 = false;
 	}
 	void exec();
 
@@ -169,7 +172,7 @@ private:
 	std::vector<Move> allPossibleMoves(const Army& team, int move_number, bool consider_king = true);
 	
 	std::vector<Point> movesFromPoint(Point p, int move_number, bool consider_king = true);
-	std::vector<Point> pawn_moves(Point p, int move_number);
+	std::vector<Point> pawn_moves(Point p, int move_number, bool consider_king = true);
 	std::vector<Point> rook_moves(Point p);
 	std::vector<Point> horse_moves(Point p);
 	std::vector<Point> bishop_moves(Point p);
@@ -190,6 +193,7 @@ private:
 
 
 	void update(sf::RenderWindow& window);
+	void restart();
 };
 
 

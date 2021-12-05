@@ -206,47 +206,64 @@ void Game::exec() {
 //	sprite.setScale(2, 2);
 
 	while (window.isOpen()) {
-		sf::Event event;
-		if (window.waitEvent(event)) { // while and pollEvent
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
 
-			/*
-			if (event.type == sf::Event::Resized) {
-				std::cout << "new width: " << event.size.width << std::endl;
-				std::cout << "new height: " << event.size.height << std::endl;
 
-				int new_width = event.size.width;
-				int new_height = event.size.height;
-
-				w = std::min(new_width / 16, new_height / 9);
-				std::cout << "w = " << w << std::endl << std::endl;
-			}
-			*/
-			if (this->winner == 0) {
-				if (cur_player == Player::ai) {
-					aiMove(team_b, b_moves_count);
+		if (winner == 0 && cur_player == Player::ai) {
+			aiMove(team_b, b_moves_count);
+		}
+		else {
+			sf::Event event;
+			if (window.waitEvent(event)) { // while and pollEvent
+				if (event.type == sf::Event::Closed) {
+					window.close();
 				}
 
-				if (cur_player == Player::user) {
-					if (event.type == sf::Event::MouseButtonPressed) {
-						int x = event.mouseButton.x / w;
-						int y = event.mouseButton.y / w;
-						std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+				/*
+				if (event.type == sf::Event::Resized) {
+					std::cout << "new width: " << event.size.width << std::endl;
+					std::cout << "new height: " << event.size.height << std::endl;
 
-						if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
-							handleFieldClick(Point(x - 2, 8 - y));
+					int new_width = event.size.width;
+					int new_height = event.size.height;
+
+					w = std::min(new_width / 16, new_height / 9);
+					std::cout << "w = " << w << std::endl << std::endl;
+				}
+				*/
+
+				else if (event.type == sf::Event::MouseButtonPressed) {
+					int x = event.mouseButton.x / w;
+					int y = event.mouseButton.y / w;
+					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+
+					if (this->winner == 0) {
+						if (cur_player == Player::user) {
+							if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
+								handleFieldClick(Point(x - 2, 8 - y));
+							}
+							else if (x >= 11 && x < 14 && y >= 6 && y < 7) {
+								restart();
+							}
+							else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
+								window.close();
+							}
+						}
+					}
+					else { // if game is over (winner is -1 or 1)
+						if (x >= 11 && x < 14 && y >= 6 && y < 7) {
+							restart();
+						}
+						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
+							window.close();
 						}
 					}
 				}
-			}
-			else {
+
+
 
 			}
-			
-			
 		}
+		
 
 		update(window);
 	}
@@ -323,7 +340,7 @@ std::vector<Point> Game::movesFromPoint(Point p, int move_number, bool consider_
 	if (!field.cells[p.y][p.x].figure) { return std::vector<Point>(); }
 
 	switch (field.cells[p.y][p.x].figure->type) {
-	case FigType::pawn: {return pawn_moves(p, move_number); }
+	case FigType::pawn: {return pawn_moves(p, move_number, consider_king); }
 	case FigType::horse: {return horse_moves(p); }
 	case FigType::bishop: {return bishop_moves(p); }
 	case FigType::rook: {return rook_moves(p); }
@@ -336,7 +353,7 @@ std::vector<Point> Game::movesFromPoint(Point p, int move_number, bool consider_
 	}
 }
 
-std::vector<Point> Game::pawn_moves(Point p, int moves_number) {
+std::vector<Point> Game::pawn_moves(Point p, int moves_number, bool consider_king) {
 	std::vector<Point> result;
 
 	int is_white = 1;
@@ -349,31 +366,49 @@ std::vector<Point> Game::pawn_moves(Point p, int moves_number) {
 		return result;
 	}
 
-	// diagonal (fight) moves
-	Point p1(p.x + 1, p.y + is_white);
-	if (isCorrectPoint(p1) && field.cells[p1.y][p1.x].figure
-		&& field.cells[p.y][p.x].figure->color != field.cells[p1.y][p1.x].figure->color) {
-		result.push_back(p1);
-	}
+	if (consider_king) {
+		// diagonal (fight) moves
+		Point p1(p.x + 1, p.y + is_white);
+		if (isCorrectPoint(p1) && field.cells[p1.y][p1.x].figure
+			&& field.cells[p.y][p.x].figure->color != field.cells[p1.y][p1.x].figure->color) {
+			result.push_back(p1);
+		}
 
-	Point p2(p.x - 1, p.y + is_white);
-	if (isCorrectPoint(p2) && field.cells[p2.y][p2.x].figure
-		&& field.cells[p.y][p.x].figure->color != field.cells[p2.y][p2.x].figure->color) {
-		result.push_back(p2);
-	}
+		Point p2(p.x - 1, p.y + is_white);
+		if (isCorrectPoint(p2) && field.cells[p2.y][p2.x].figure
+			&& field.cells[p.y][p.x].figure->color != field.cells[p2.y][p2.x].figure->color) {
+			result.push_back(p2);
+		}
 
-	// vertical (ususal) moves
-	Point p3(p.x, p.y + is_white);
-	if (isCorrectPoint(p3) && !field.cells[p3.y][p3.x].figure) { // pawns ususal moves and fight moves are different
-		result.push_back(p3);
-	}
+		// vertical (ususal) moves
 
-	if (moves_number == 0) { // first move for pawn allow this
-		Point p4(p.x, p.y + 2 * is_white);
-		if (isCorrectPoint(p4) && !field.cells[p4.y][p4.x].figure) { // pawns ususal moves and fight moves are different
-			result.push_back(p4);
+		Point p3(p.x, p.y + is_white);
+		if (isCorrectPoint(p3) && !field.cells[p3.y][p3.x].figure) { // pawns ususal moves and fight moves are different
+			result.push_back(p3);
+		}
+
+		if (moves_number == 0) { // first move for pawn allow this
+			Point p4(p.x, p.y + 2 * is_white);
+			if (isCorrectPoint(p4) && !field.cells[p4.y][p4.x].figure) { // pawns ususal moves and fight moves are different
+				result.push_back(p4);
+			}
+		}
+		
+	}
+	else { // if we don't consider the king (we make calulations to calculate possible moves of enemy king)
+			// diagonal (fight) moves
+		Point p1(p.x + 1, p.y + is_white);
+		if (isCorrectPoint(p1) && !field.cells[p1.y][p1.x].figure) {
+			result.push_back(p1);
+		}
+
+		Point p2(p.x - 1, p.y + is_white);
+		if (isCorrectPoint(p2) && !field.cells[p2.y][p2.x].figure) {
+			result.push_back(p2);
 		}
 	}
+	
+	
 	
 	getCorrectWays(p, result);
 	
@@ -514,9 +549,11 @@ std::vector<Point> Game::king_moves(Point p, int moves_number) {
 	result.push_back(Point(p.x - 1, p.y));
 	result.push_back(Point(p.x - 1, p.y + 1));
 
-	Army& team = field.cells[p.y][p.x].figure->color == Color::white ? team_b : team_w;
-	std::vector<Move> possible_enemy_moves = allPossibleMoves(team, moves_number, false);
-	bool removed = false;
+	Army& enemy_team = field.cells[p.y][p.x].figure->color == Color::white ? team_b : team_w;
+	int enemy_moves_number = enemy_team.color == Color::black ? b_moves_count : w_moves_count;
+
+	std::vector<Move> possible_enemy_moves = allPossibleMoves(enemy_team, enemy_moves_number, false);
+//	bool removed = false;
 	
 	for (std::size_t i = 0; i < possible_enemy_moves.size(); i++) {
 		for (std::size_t j = 0; j < result.size();) {
@@ -793,9 +830,91 @@ void Game::markAsWinner(const Army& team) {
 }
 
 void Game::update(sf::RenderWindow& window) {
-	displayField(window);
-	window.clear(sf::Color(250, 220, 100, 0)); // set background
-	displayField(window);
+//	displayField(window);
+	sf::Font font;
+	font.loadFromFile("fonts/calibri.otf");
+
+	if (winner == 0) {
+		window.clear(sf::Color(250, 220, 100, 0)); // set background
+		displayField(window);
+
+
+		sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
+		button_restart.setFillColor(sf::Color(10, 103, 163));
+		button_restart.setPosition(11 * w, 6 * w);
+
+		sf::Text text_restart("Restart", font, 40);
+		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
+
+
+		sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
+		button_close.setFillColor(sf::Color(255, 7, 1));
+		button_close.setPosition(11 * w, 8 * w);
+
+		sf::Text text_close("Close", font, 40);
+		text_close.setPosition(12 * w + w / 10, 7 * w + 3 * w / 4 + w / 2);
+
+
+		if (warning1) {
+			sf::Text text_warn1("Please, choose white figure", font, 40);
+			text_warn1.setFillColor(sf::Color::Red);
+			text_warn1.setPosition(10 * w + w / 2, 3 * w / 2);
+			window.draw(text_warn1);
+		}
+		if (warning2) {
+			sf::Text text_warn2("Impossible moving to this point", font, 40);
+			text_warn2.setFillColor(sf::Color::Red);
+			text_warn2.setPosition(10*w + w/2, 3*w / 2);
+			window.draw(text_warn2);
+		}
+
+
+		window.draw(button_restart);
+		window.draw(text_restart);
+		window.draw(button_close);
+		window.draw(text_close);
+
+	}
+
+	else if (winner != 0) {
+		window.clear(sf::Color(250, 220, 100, 0));
+		displayField(window);
+		sf::Text win_text("", font, 100);
+		win_text.setFillColor(sf::Color(248, 1, 20));
+		win_text.setPosition(10 * w + w / 2, 3*w);
+
+		if (winner == 1) { // user (white) won
+			win_text.setString("YOU WON!");
+		}
+		else { // ai (black) won
+			win_text.setString("AI WINS!");
+		}
+
+		
+		sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
+		button_restart.setFillColor(sf::Color(10, 103, 163));
+		button_restart.setPosition(11 * w, 6 * w);
+
+		sf::Text text_restart("Restart", font, 40);
+		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
+
+
+		sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
+		button_close.setFillColor(sf::Color(255, 7, 1));
+		button_close.setPosition(11 * w, 8 * w);
+
+		sf::Text text_close("Close", font, 40);
+		text_close.setPosition(12 * w + w / 10, 7 * w + 3 * w / 4 + w / 2);
+		
+
+		window.draw(win_text);
+		window.draw(button_restart);
+		window.draw(text_restart);
+		window.draw(button_close);
+		window.draw(text_close);
+		
+	}
+
 	window.display();
 }
 
@@ -926,9 +1045,12 @@ void Game::handleFieldClick(const Point& pos) {
 		if (figure&& figure->color == Color::white) {
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
+
+			warning1 = false;
+			warning2 = false;
 		}
 		else {
-			 /////// WARNING: "choose OWN figure!!!!"
+			warning1 = true; // WARNING: "Please, choose own (white) figure"
 		}
 		
 	}
@@ -937,6 +1059,8 @@ void Game::handleFieldClick(const Point& pos) {
 			field.clearMarks();
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
+
+			warning2 = false;
 		}
 		else {
 			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
@@ -947,9 +1071,11 @@ void Game::handleFieldClick(const Point& pos) {
 				w_moves_count++;
 				field.clearMarks();
 				cur_player = Player::ai;
+
+				warning2 = false;
 			}
 			else {
-				////// WARNING: impossible to make a move!!!!!!
+				warning2 = true; // WARNING: "Impossible move to thos point"
 			}
 		}
 		
@@ -981,4 +1107,19 @@ void Field::clearMarks() {
 			this->cells[i][j].selected = false;
 		}
 	}
+}
+
+
+void Game::restart() {
+	this->team_w = Army(Color::white);
+	this->team_b = Army(Color::black);
+	this->field = Field(team_w, team_b);
+
+	w_moves_count = 0;
+	b_moves_count = 0;
+	cur_player = Player::user;
+	winner = 0;
+	w = w0 = 100;
+	selected_figure = nullptr;
+	warning1 = warning2 = false;
 }
