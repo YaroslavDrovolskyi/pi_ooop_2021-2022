@@ -185,7 +185,7 @@ void Game::exec() {
 	field.print();
 	*/
 
-	sf::RenderWindow window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 	window.setVerticalSyncEnabled(true); // sync frequency
 	window.setPosition({ 150, 25 });
 	sf::Image icon;
@@ -208,6 +208,8 @@ void Game::exec() {
 //	sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 //	sprite.setScale(2, 2);
 
+	sf::View view = window.getDefaultView();
+
 	while (window.isOpen()) {
 
 
@@ -221,22 +223,40 @@ void Game::exec() {
 					window.close();
 				}
 
-				/*
-				if (event.type == sf::Event::Resized) {
+				
+				else if (event.type == sf::Event::Resized) {
 					std::cout << "new width: " << event.size.width << std::endl;
 					std::cout << "new height: " << event.size.height << std::endl;
 
-					int new_width = event.size.width;
-					int new_height = event.size.height;
+					int new_width = window.getSize().x;
+					int new_height = window.getSize().y;
 
-					w = std::min(new_width / 16, new_height / 9);
+					if (new_width < 500) {
+						window.setSize({ 500, window.getSize().y });
+						new_width = 500;
+					}
+
+					if (new_height < 300) {
+						window.setSize({ window.getSize().x, 300 });
+						new_height = 300;
+					}
+
+
+					w = std::min(new_width / 16, new_height / 9); // change size of netting square
 					std::cout << "w = " << w << std::endl << std::endl;
+
+					view.setSize(new_width, new_height);
+					view.setCenter(8 * w, 5 * w);
+
+					window.setView(view);
 				}
-				*/
+				
 
 				else if (event.type == sf::Event::MouseButtonPressed) {
-					int x = event.mouseButton.x / w;
-					int y = event.mouseButton.y / w;
+					int x = window.mapPixelToCoords({event.mouseButton.x,  event.mouseButton.y}).x / w; // transform view coordinates to real coordinates
+					int y = window.mapPixelToCoords({event.mouseButton.x,  event.mouseButton.y}).y / w;
+//					int x = event.mouseButton.x / w;
+//					int y = event.mouseButton.y / w;
 					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
 
 					if (this->winner == 0) {
@@ -846,7 +866,7 @@ void Game::update(sf::RenderWindow& window) {
 		button_restart.setFillColor(sf::Color(10, 103, 163));
 		button_restart.setPosition(11 * w, 6 * w);
 
-		sf::Text text_restart("Restart", font, 40);
+		sf::Text text_restart("Restart", font, 0.4*w);
 		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
 
 
@@ -854,18 +874,18 @@ void Game::update(sf::RenderWindow& window) {
 		button_close.setFillColor(sf::Color(255, 7, 1));
 		button_close.setPosition(11 * w, 8 * w);
 
-		sf::Text text_close("Close", font, 40);
+		sf::Text text_close("Close", font, 0.4*w);
 		text_close.setPosition(12 * w + w / 10, 7 * w + 3 * w / 4 + w / 2);
 
 
 		if (warning1) {
-			sf::Text text_warn1("Please, choose white figure", font, 40);
+			sf::Text text_warn1("Please, choose white figure", font, 0.4*w);
 			text_warn1.setFillColor(sf::Color::Red);
 			text_warn1.setPosition(10 * w + w / 2, 3 * w / 2);
 			window.draw(text_warn1);
 		}
 		if (warning2) {
-			sf::Text text_warn2("Impossible move to this point", font, 40);
+			sf::Text text_warn2("Impossible move to this point", font, 0.4*w);
 			text_warn2.setFillColor(sf::Color::Red);
 			text_warn2.setPosition(10*w + w/2, 3*w / 2);
 			window.draw(text_warn2);
@@ -882,7 +902,7 @@ void Game::update(sf::RenderWindow& window) {
 	else if (winner != 0) {
 		window.clear(sf::Color(250, 220, 100, 0));
 		displayField(window);
-		sf::Text win_text("", font, 100);
+		sf::Text win_text("", font, w);
 		win_text.setFillColor(sf::Color(248, 1, 20));
 		win_text.setPosition(10 * w + w / 2, 3*w);
 
@@ -898,7 +918,7 @@ void Game::update(sf::RenderWindow& window) {
 		button_restart.setFillColor(sf::Color(10, 103, 163));
 		button_restart.setPosition(11 * w, 6 * w);
 
-		sf::Text text_restart("Restart", font, 40);
+		sf::Text text_restart("Restart", font, 0.4*w);
 		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
 
 
@@ -906,8 +926,8 @@ void Game::update(sf::RenderWindow& window) {
 		button_close.setFillColor(sf::Color(255, 7, 1));
 		button_close.setPosition(11 * w, 8 * w);
 
-		sf::Text text_close("Close", font, 40);
-		text_close.setPosition(12 * w + w / 10, 7 * w + 3 * w / 4 + w / 2);
+		sf::Text text_close("Close", font, 0.4*w);
+		text_close.setPosition(12.1 * w, 8.25 * w);
 		
 
 		window.draw(win_text);
@@ -1122,7 +1142,7 @@ void Game::restart() {
 	b_moves_count = 0;
 	cur_player = Player::user;
 	winner = 0;
-	w = w0 = 100;
+//	w = w0 = 100;
 	selected_figure = nullptr;
 	warning1 = warning2 = false;
 }
