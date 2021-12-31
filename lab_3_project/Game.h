@@ -152,7 +152,7 @@ private:
 
 
 	Move calculateBestMove(const Army& team, int move_number);
-	int minimax(int depth, const Army& team, int move_number);
+	int minimax(int depth, int max_depth, const Army& team, int move_number, int alpha, int beta);
 	std::vector<Move> allPossibleMoves(const Army& team, int move_number, bool consider_king = true);
 	
 	std::vector<Point> movesFromPoint(Point p, int move_number, bool consider_king = true);

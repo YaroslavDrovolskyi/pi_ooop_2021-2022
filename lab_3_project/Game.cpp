@@ -719,7 +719,9 @@ Move Game::calculateBestMove(const Army& team, int move_number) {
 		return Move(Point(-1, -1), Point(-1, -1)); //// need to Reimplement
 	}
 
-	int i_best = minimax(2, team, move_number);
+	unsigned int t1 = clock();
+	int i_best = minimax(0, 4, team, move_number, -10000, 10000);
+	std::cout << "minimax time: " << (double)(clock() - t1) / 1000 << "s" << std::endl << std::endl;
 
 //	std::cout << "Best move: from " << all_possible_moves[i_best].from << " to " << all_possible_moves[i_best].dest << std::endl;
 
@@ -728,8 +730,8 @@ Move Game::calculateBestMove(const Army& team, int move_number) {
 }
 
 
-int Game::minimax(int depth, const Army& team, int move_number) {
-	if (depth == 0) {
+int Game::minimax(int cur_depth, int max_depth, const Army& team, int move_number, int alpha, int beta) {
+	if (cur_depth == max_depth) {
 		return field.evaluate();
 	}
 
@@ -743,7 +745,7 @@ int Game::minimax(int depth, const Army& team, int move_number) {
 		for (std::size_t i = 0; i < possible_moves.size(); i++) {
 			Move cur_move = possible_moves[i];
 			Figure* removed_figure = makeMove(cur_move.from, cur_move.dest);
-			int next_field_value = minimax(depth - 1, team_b, move_number + 1);
+			int next_field_value = minimax(cur_depth +1, max_depth, team_b, move_number + 1, alpha, beta);
 			undoMove(cur_move.from, cur_move.dest, removed_figure);
 
 			if (next_field_value > best_move_value) { // find max
@@ -751,6 +753,8 @@ int Game::minimax(int depth, const Army& team, int move_number) {
 				best_move_index = i;
 			}
 
+			alpha = std::max(alpha, best_move_value);
+			if (beta <= alpha) { break; }
 		}
 	}
 	else {
@@ -758,7 +762,7 @@ int Game::minimax(int depth, const Army& team, int move_number) {
 		for (std::size_t i = 0; i < possible_moves.size(); i++) {
 			Move cur_move = possible_moves[i];
 			Figure* removed_figure = makeMove(cur_move.from, cur_move.dest);
-			int next_field_value = minimax(depth - 1, team_w, move_number + 1);
+			int next_field_value = minimax(cur_depth + 1, max_depth, team_w, move_number + 1, alpha, beta);
 			undoMove(cur_move.from, cur_move.dest, removed_figure);
 
 			if (next_field_value < best_move_value) { // find min
@@ -766,11 +770,13 @@ int Game::minimax(int depth, const Army& team, int move_number) {
 				best_move_index = i;
 			}
 
+			beta = std::min(beta, best_move_value);
+			if (beta <= alpha) { break; }
 		}
 	}
 
 
-	if (depth == 2) {
+	if (cur_depth == 0) {
 		return best_move_index;
 	}
 	else {
@@ -904,7 +910,7 @@ void Game::update(sf::RenderWindow& window) {
 		displayField(window);
 		sf::Text win_text("", font, w);
 		win_text.setFillColor(sf::Color(248, 1, 20));
-		win_text.setPosition(10 * w + w / 2, 3*w);
+		win_text.setPosition(10.5*w, 3*w);
 
 		if (winner == 1) { // user (white) won
 			win_text.setString("YOU WON!");
