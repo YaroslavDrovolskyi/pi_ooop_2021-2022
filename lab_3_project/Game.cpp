@@ -751,51 +751,24 @@ void ChessGame::update(sf::RenderWindow& window) {
 	sf::Font font;
 	font.loadFromFile("fonts/calibri.otf");
 
+	window.clear(sf::Color(250, 220, 100, 0)); // set background
+	displayField(window);
+
 	if (winner == 0) {
-		window.clear(sf::Color(250, 220, 100, 0)); // set background
-		displayField(window);
-
-
-		sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
-		button_restart.setFillColor(sf::Color(10, 103, 163));
-		button_restart.setPosition(11 * w, 6 * w);
-
-		sf::Text text_restart("Restart", font, 0.4 * w);
-		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
-
-
-		sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
-		button_close.setFillColor(sf::Color(255, 7, 1));
-		button_close.setPosition(11 * w, 8 * w);
-
-		sf::Text text_close("Close", font, 0.4 * w);
-		text_close.setPosition(12 * w + w / 10, 7 * w + 3 * w / 4 + w / 2);
-
-
 		if (warning1) {
 			sf::Text text_warn1("Please, choose white figure", font, 0.4 * w);
 			text_warn1.setFillColor(sf::Color::Red);
-			text_warn1.setPosition(10 * w + w / 2, 3 * w / 2);
+			text_warn1.setPosition(10.5 * w, 1.5 * w);
 			window.draw(text_warn1);
 		}
 		if (warning2) {
 			sf::Text text_warn2("Impossible move to this point", font, 0.4 * w);
 			text_warn2.setFillColor(sf::Color::Red);
-			text_warn2.setPosition(10 * w + w / 2, 3 * w / 2);
+			text_warn2.setPosition(10.5 * w, 1.5 * w);
 			window.draw(text_warn2);
 		}
-
-
-		window.draw(button_restart);
-		window.draw(text_restart);
-		window.draw(button_close);
-		window.draw(text_close);
-
 	}
-
 	else if (winner != 0) {
-		window.clear(sf::Color(250, 220, 100, 0));
-		displayField(window);
 		sf::Text win_text("", font, w);
 		win_text.setFillColor(sf::Color(248, 1, 20));
 		win_text.setPosition(10.5 * w, 3 * w);
@@ -807,30 +780,29 @@ void ChessGame::update(sf::RenderWindow& window) {
 			win_text.setString("AI WINS!");
 		}
 
-
-		sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
-		button_restart.setFillColor(sf::Color(10, 103, 163));
-		button_restart.setPosition(11 * w, 6 * w);
-
-		sf::Text text_restart("Restart", font, 0.4 * w);
-		text_restart.setPosition(12 * w - w / 10, 6 * w + w / 4);
-
-
-		sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
-		button_close.setFillColor(sf::Color(255, 7, 1));
-		button_close.setPosition(11 * w, 8 * w);
-
-		sf::Text text_close("Close", font, 0.4 * w);
-		text_close.setPosition(12.1 * w, 8.25 * w);
-
-
 		window.draw(win_text);
-		window.draw(button_restart);
-		window.draw(text_restart);
-		window.draw(button_close);
-		window.draw(text_close);
-
 	}
+
+
+	sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
+	button_restart.setFillColor(sf::Color(10, 103, 163));
+	button_restart.setPosition(11 * w, 6 * w);
+
+	sf::Text text_restart("Restart", font, 0.4 * w);
+	text_restart.setPosition(11.9 * w, 6.25 * w);
+
+
+	sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
+	button_close.setFillColor(sf::Color(255, 7, 1));
+	button_close.setPosition(11 * w, 8 * w);
+
+	sf::Text text_close("Close", font, 0.4 * w);
+	text_close.setPosition(12.1 * w, 8.25 * w);
+
+	window.draw(button_restart);
+	window.draw(text_restart);
+	window.draw(button_close);
+	window.draw(text_close);
 
 	window.display();
 }
