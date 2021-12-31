@@ -7,9 +7,12 @@ struct Point {
 	int x;
 	int y;
 
-	Point(int x = 0, int y = 0) : x(x), y(y){}
+	Point(int x = 0, int y = 0) : x(x), y(y) {}
 	std::string getString() const;
 };
+
+std::ostream& operator<<(std::ostream& stream, const Point& point);
+bool operator==(const Point& a, const Point& b);
 
 enum class Color {
 	black, white
@@ -25,8 +28,6 @@ enum class FigType {
 };
 
 
-
-
 class Figure {
 private:
 	Color color;
@@ -36,14 +37,10 @@ private:
 	Point position;
 
 	friend class Field;
-	friend class Game;
+	friend class ChessGame;
 public:
 	Figure() {}
 	Figure(Color color, FigType type, const Point& pos) : color(color), type(type), is_alive(true), position(pos), value(get_figure_value()) {}
-
-	void set_pos(const Point& position) {
-		//		this->position = position;
-	}
 
 	int get_figure_value();
 };
@@ -84,9 +81,9 @@ private:
 	}
 
 	friend class Field;
-	friend class Game;
+	friend class ChessGame;
 public:
-	
+
 	Army(Color color);
 
 };
@@ -97,7 +94,7 @@ public:
 
 	Field() {}
 	Field(Army& white, Army& black, int size = 8);
-	void putMarks(const Point& from, const std::vector<Point>& points); 
+	void putMarks(const Point& from, const std::vector<Point>& points);
 	void clearMarks();
 	void print();
 	int evaluate();
@@ -105,13 +102,13 @@ public:
 
 
 
-class Game {
+class ChessGame {
 private:
-	
+
 	Army team_w;
 	Army team_b;
 	Field field;
-	
+
 	int w_moves_count;
 	int b_moves_count;
 
@@ -120,7 +117,7 @@ private:
 	int winner; // -1 - black, 1 - white, 0 - nobody
 
 //	enum class Mode{game, end};
-	
+
 	Figure* selected_figure;
 
 	int w; // native width of one square of netting
@@ -130,15 +127,7 @@ private:
 	bool warning2; // impossible move to this point
 
 public:
-	Game() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
-		this->w_moves_count = 0;
-		this->b_moves_count = 0;
-		this->cur_player = Player::user;
-		winner = 0;
-		w = w0 = 100;
-		selected_figure = nullptr;
-		warning1 = warning2 = false;
-	}
+	ChessGame();
 	void exec();
 
 
@@ -154,7 +143,7 @@ private:
 	Move calculateBestMove(const Army& team, int move_number);
 	int minimax(int depth, int max_depth, const Army& team, int move_number, int alpha, int beta);
 	std::vector<Move> allPossibleMoves(const Army& team, int move_number, bool consider_king = true);
-	
+
 	std::vector<Point> movesFromPoint(Point p, int move_number, bool consider_king = true);
 	std::vector<Point> pawn_moves(Point p, int move_number, bool consider_king = true);
 	std::vector<Point> rook_moves(Point p);
@@ -183,6 +172,3 @@ void print(const std::vector<T>& vector);
 template <typename T>
 std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2);
 
-std::ostream& operator<<(std::ostream& stream, const Point& point);
-
-bool operator==(const Point& a, const Point& b);

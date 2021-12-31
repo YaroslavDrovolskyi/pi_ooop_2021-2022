@@ -2,7 +2,7 @@
 #include "Game.h"
 
 int main() {
-	Game game;
+	ChessGame game;
 	game.exec();
 
 	return 0;
