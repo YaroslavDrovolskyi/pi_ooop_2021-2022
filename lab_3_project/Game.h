@@ -152,7 +152,7 @@ private:
 	std::vector<Point> queen_moves(Point p);
 	std::vector<Point> king_moves(Point p, int moves_number);
 
-	void getCorrectWays(Point from, std::vector<Point>& dest); // put away incorrect destination points
+	void eraseIncorrectMoves(Point from, std::vector<Point>& dest); // put away incorrect destination points
 	bool isCorrectPoint(const Point& p);
 	Army& getOppositeTeam(const Army& team);
 	void markAsWinner(const Army& team);

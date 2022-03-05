@@ -333,7 +333,7 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 
 
 
-	getCorrectWays(p, result);
+	eraseIncorrectMoves(p, result);
 
 	return result;
 }
@@ -376,7 +376,7 @@ std::vector<Point> ChessGame::rook_moves(Point p) {
 	}
 	result.push_back(i4);
 
-	getCorrectWays(p, result);
+	eraseIncorrectMoves(p, result);
 
 	return result;
 
@@ -400,7 +400,7 @@ std::vector<Point> ChessGame::horse_moves(Point p) {
 	result.push_back(Point(p.x + 2, p.y - 1));
 	result.push_back(Point(p.x + 1, p.y - 2));
 
-	getCorrectWays(p, result);
+	eraseIncorrectMoves(p, result);
 
 	return result;
 }
@@ -448,7 +448,7 @@ std::vector<Point> ChessGame::bishop_moves(Point p) {
 	}
 	result.push_back(i4);
 
-	getCorrectWays(p, result);
+	eraseIncorrectMoves(p, result);
 
 	return result;
 
@@ -491,7 +491,7 @@ std::vector<Point> ChessGame::king_moves(Point p, int moves_number) {
 
 
 
-	getCorrectWays(p, result);
+	eraseIncorrectMoves(p, result);
 
 	return result;
 }
@@ -507,7 +507,7 @@ bool ChessGame::isCorrectPoint(const Point& p) {
 	return true;
 }
 
-void ChessGame::getCorrectWays(Point from, std::vector<Point>& destinations) {
+void ChessGame::eraseIncorrectMoves(Point from, std::vector<Point>& destinations) {
 	for (std::size_t i = 0; i < destinations.size(); ) {
 		Point dest = destinations[i];
 		if (!isCorrectPoint(destinations[i])) {
