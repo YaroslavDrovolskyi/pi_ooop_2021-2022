@@ -105,8 +105,8 @@ void ChessGame::exec() {
 
 
 				else if (event.type == sf::Event::Resized) {
-					std::cout << "new width: " << event.size.width << std::endl;
-					std::cout << "new height: " << event.size.height << std::endl;
+				//	std::cout << "new width: " << event.size.width << std::endl;
+				//	std::cout << "new height: " << event.size.height << std::endl;
 
 					int new_width = window.getSize().x;
 					int new_height = window.getSize().y;
@@ -137,7 +137,7 @@ void ChessGame::exec() {
 					int y = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
 					//					int x = event.mouseButton.x / w;
 					//					int y = event.mouseButton.y / w;
-					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+				//	std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
 
 					if (this->winner == 0) {
 						if (cur_player == Player::user) {
@@ -525,7 +525,7 @@ Move ChessGame::calculateBestMove(const Army& team, int move_number) {
 
 	unsigned int t1 = clock();
 	int i_best = minimax(0, 2, team, move_number, -10000, 10000);
-	std::cout << "minimax time: " << (double)(clock() - t1) / 1000 << "s" << std::endl << std::endl;
+	std::cout << "minimax time: " << (double)(clock() - t1) / 1000 << "s" << std::endl;
 
 	//	std::cout << "Best move: from " << all_possible_moves[i_best].from << " to " << all_possible_moves[i_best].dest << std::endl;
 
@@ -608,7 +608,7 @@ void ChessGame::aiMove(const Army& team, int& moves_number) {
 
 
 	std::string str = team.getColor() == Color::white ? "white: " : "black: ";
-	std::cout << str << best_move.from.getString() << " -> " << best_move.dest.getString() << std::endl;
+	std::cout << str << best_move.from.getString() << " -> " << best_move.dest.getString() << std::endl << std::endl;
 
 	makeMove(best_move.from, best_move.dest);
 
@@ -616,7 +616,6 @@ void ChessGame::aiMove(const Army& team, int& moves_number) {
 
 	if (!getOppositeTeam(team).isKingAlive() || allPossibleMoves(getOppositeTeam(team), w_moves_count).size() == 0) { // if opposite king isn't alive or opposite hasn't moves
 		markAsWinner(team);
-		std::cout << "WINNER: " << winner << std::endl;
 	}
 
 	cur_player = Player::user;
@@ -660,6 +659,7 @@ void ChessGame::markAsWinner(const Army& team) {
 	else {
 		winner = 1;
 	}
+	std::cout << "WINNER: " << winner << std::endl << std::endl;
 }
 
 void ChessGame::update(sf::RenderWindow& window) {
@@ -890,4 +890,5 @@ void ChessGame::restart() {
 	//	w = w0 = 100;
 	selected_figure = nullptr;
 	warning1 = warning2 = false;
+	std::cout << "RESTART" << std::endl << std::endl << std::endl;
 }
