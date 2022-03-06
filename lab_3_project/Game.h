@@ -1,104 +1,13 @@
 #pragma once
+
 #include <vector>
 #include <cassert>
 #include <SFML/Graphics.hpp>
 
-struct Point {
-	int x;
-	int y;
-
-	Point(int x = 0, int y = 0) : x(x), y(y) {}
-	std::string getString() const;
-};
-
-std::ostream& operator<<(std::ostream& stream, const Point& point);
-bool operator==(const Point& a, const Point& b);
-
-enum class Color {
-	black, white
-};
-
-enum class FigType {
-	pawn, // 10
-	horse, // 30
-	bishop, // 30, goes through diagonales
-	rook, // 50, goes through lines
-	queen, // 90
-	king // 900
-};
-
-
-class Figure {
-private:
-	Color color;
-	FigType type;
-	int value;
-	bool is_alive;
-	Point position;
-
-	friend class Field;
-	friend class ChessGame;
-public:
-	Figure() {}
-	Figure(Color color, FigType type, const Point& pos) : color(color), type(type), is_alive(true), position(pos), value(get_figure_value()) {}
-
-	int get_figure_value();
-};
-
-struct Move {
-	Point from;
-	Point dest;
-
-	Move(const Point& from, const Point& dest) : from(from), dest(dest) {}
-
-	bool is_valid() {
-		if (from.x == -1 && from.y == -1 && dest.x == -1 && dest.y == -1) {
-			return false;
-		}
-		return true;
-	}
-};
-
-
-struct Cell {
-public:
-	Figure* figure;
-	bool marked; // cell is marked (possible move and not attack)
-	bool possible_fight;
-	bool selected; // selected own figure
-	Cell();
-};
-
-
-class Army {
-private:
-	Color color;
-	std::vector<Figure> figures;
-
-	int count_value(int val) {
-		assert(val > 0);
-		return this->color == Color::black ? (-1) * val : val;
-	}
-
-	friend class Field;
-	friend class ChessGame;
-public:
-
-	Army(Color color);
-
-};
-
-class Field {
-public:
-	std::vector <std::vector <Cell>> cells;
-
-	Field() {}
-	Field(Army& white, Army& black, int size = 8);
-	void putMarks(const Point& from, const std::vector<Point>& points);
-	void clearMarks();
-	void print();
-	int evaluate();
-};
+#include "Point.h"
+#include "Figure.h"
+#include "Army.h"
+#include "Field.h"
 
 
 

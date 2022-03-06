@@ -145,12 +145,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Army.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Point.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Army.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Figure.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

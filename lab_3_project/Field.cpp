@@ -1,5 +1,5 @@
-#include "Game.h"
-
+//#include "Game.h"
+#include "Field.h"
 #include <iostream>
 
 
@@ -10,33 +10,33 @@ Field::Field(Army& white, Army& black, int size) {
 		for (std::size_t j = 0; j < size; j++) {
 			if (i == 0) { // black
 				switch (j) {
-				case 0: this->cells[i][j].figure = &white.figures[12]; break;
-				case 1: this->cells[i][j].figure = &white.figures[8]; break;
-				case 2: this->cells[i][j].figure = &white.figures[10]; break;
-				case 3: this->cells[i][j].figure = &white.figures[14]; break;
-				case 4: this->cells[i][j].figure = &white.figures[15]; break;
-				case 5: this->cells[i][j].figure = &white.figures[11]; break;
-				case 6: this->cells[i][j].figure = &white.figures[9]; break;
-				case 7: this->cells[i][j].figure = &white.figures[13]; break;
+				case 0: this->cells[i][j].figure = white.getFigurePointer(12); break;
+				case 1: this->cells[i][j].figure = white.getFigurePointer(8); break;
+				case 2: this->cells[i][j].figure = white.getFigurePointer(10); break;
+				case 3: this->cells[i][j].figure = white.getFigurePointer(14); break;
+				case 4: this->cells[i][j].figure = white.getFigurePointer(15); break;
+				case 5: this->cells[i][j].figure = white.getFigurePointer(11); break;
+				case 6: this->cells[i][j].figure = white.getFigurePointer(9); break;
+				case 7: this->cells[i][j].figure = white.getFigurePointer(13); break;
 				default: break;
 				}
 			}
 			else if (i == 1) {
-				this->cells[i][j].figure = &white.figures[j];
+				this->cells[i][j].figure = white.getFigurePointer(j);
 			}
 			else if (i == 6) { // white
-				this->cells[i][j].figure = &black.figures[j];
+				this->cells[i][j].figure = black.getFigurePointer(j);
 			}
 			else if (i == 7) {
 				switch (j) {
-				case 0: this->cells[i][j].figure = &black.figures[12]; break;
-				case 1: this->cells[i][j].figure = &black.figures[8]; break;
-				case 2: this->cells[i][j].figure = &black.figures[10]; break;
-				case 3: this->cells[i][j].figure = &black.figures[14]; break;
-				case 4: this->cells[i][j].figure = &black.figures[15]; break;
-				case 5: this->cells[i][j].figure = &black.figures[11]; break;
-				case 6: this->cells[i][j].figure = &black.figures[9]; break;
-				case 7: this->cells[i][j].figure = &black.figures[13]; break;
+				case 0: this->cells[i][j].figure = black.getFigurePointer(12); break;
+				case 1: this->cells[i][j].figure = black.getFigurePointer(8); break;
+				case 2: this->cells[i][j].figure = black.getFigurePointer(10); break;
+				case 3: this->cells[i][j].figure = black.getFigurePointer(14); break;
+				case 4: this->cells[i][j].figure = black.getFigurePointer(15); break;
+				case 5: this->cells[i][j].figure = black.getFigurePointer(11); break;
+				case 6: this->cells[i][j].figure = black.getFigurePointer(9); break;
+				case 7: this->cells[i][j].figure = black.getFigurePointer(13); break;
 				default: break;
 				}
 			}
@@ -60,26 +60,26 @@ void Field::print() {
 				str = "  "; // 00
 			}
 			else {
-				if (this->cells[i][j].figure->type == FigType::pawn) {
+				if (this->cells[i][j].figure->getType() == FigType::pawn) {
 					str = "p";
 				}
-				else if (this->cells[i][j].figure->type == FigType::horse) {
+				else if (this->cells[i][j].figure->getType() == FigType::horse) {
 					str = "h";
 				}
-				else if (this->cells[i][j].figure->type == FigType::bishop) {
+				else if (this->cells[i][j].figure->getType() == FigType::bishop) {
 					str = "b";
 				}
-				else if (this->cells[i][j].figure->type == FigType::rook) {
+				else if (this->cells[i][j].figure->getType() == FigType::rook) {
 					str = "r";
 				}
-				else if (this->cells[i][j].figure->type == FigType::queen) {
+				else if (this->cells[i][j].figure->getType() == FigType::queen) {
 					str = "q";
 				}
-				else if (this->cells[i][j].figure->type == FigType::king) {
+				else if (this->cells[i][j].figure->getType() == FigType::king) {
 					str = "k";
 				}
 
-				if (this->cells[i][j].figure->color == Color::white) {
+				if (this->cells[i][j].figure->getColor() == Color::white) {
 					str = "w" + str;
 				}
 				else {
@@ -115,7 +115,7 @@ int Field::evaluate() {
 	for (std::size_t i = 0; i < 8; i++) {
 		for (std::size_t j = 0; j < 8; j++) {
 			if (cells[i][j].figure) {
-				result += cells[i][j].figure->value;
+				result += cells[i][j].figure->getValue();
 			}
 		}
 	}

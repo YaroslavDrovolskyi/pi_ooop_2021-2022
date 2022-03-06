@@ -1,98 +1,14 @@
 #include "Game.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
 #include <SFML/Graphics.hpp>
 
 
-std::ostream& operator<<(std::ostream& stream, const Point& point) {
-	stream << "(" << point.x << "; " << point.y << ")";
-
-	return stream;
-}
-
-bool operator==(const Point& a, const Point& b) {
-	if (a.x == b.x && a.y == b.y) {
-		return true;
-	}
-	return false;
-}
-
-Cell::Cell() {
-	this->figure = nullptr;
-	this->marked = false;
-	this->possible_fight = false;
-	this->selected = false;
-}
 
 
 
-Army::Army(Color color) {
-	this->color = color;
-	this->figures.resize(16);
-
-	int pawns_row_index = color == Color::white ? 1 : 6;
-	int others_row_index = color == Color::white ? 0 : 7;
-
-	for (std::size_t i = 0; i < 16; i++) {
-		if (i < 8) { // pawns
-			Point p(i, pawns_row_index);
-			this->figures[i] = Figure(color, FigType::pawn, p);
-		}
-		else if (i < 10) { // horses
-			int j = (i == 8 ? 1 : 6);
-			Point p(j, others_row_index);
-			this->figures[i] = Figure(color, FigType::horse, p);
-		}
-		else if (i < 12) { // bishop
-			int j = (i == 10 ? 2 : 5);
-			Point p(j, others_row_index);
-			this->figures[i] = Figure(color, FigType::bishop, p);
-		}
-		else if (i < 14) { // rook
-			int j = (i == 12 ? 0 : 7);
-			Point p(j, others_row_index);
-			this->figures[i] = Figure(color, FigType::rook, p);
-		}
-		else if (i == 14) { // queen
-			Point p(3, others_row_index);
-			this->figures[i] = Figure(color, FigType::queen, p);
-		}
-		else if (i == 15) { // king
-			Point p(4, others_row_index);
-			this->figures[i] = Figure(color, FigType::king, p);
-		}
-	}
-}
-
-
-
-
-
-int Figure::get_figure_value() {
-	int result;
-	if (this->type == FigType::pawn) {
-		result = 10;
-	}
-	else if (this->type == FigType::horse || this->type == FigType::bishop) {
-		result = 30;
-	}
-	else if (this->type == FigType::rook) {
-		result = 50;
-	}
-	else if (this->type == FigType::queen) {
-		result = 90;
-	}
-	else if (this->type == FigType::king) {
-		result = 900;
-	}
-
-	if (this->color == Color::black) {
-		result *= -1;
-	}
-
-	return result;
-}
 
 
 ChessGame::ChessGame() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
@@ -262,7 +178,7 @@ void ChessGame::exec() {
 std::vector<Point> ChessGame::movesFromPoint(Point p, int move_number, bool consider_king) {
 	if (!field.cells[p.y][p.x].figure) { return std::vector<Point>(); }
 
-	switch (field.cells[p.y][p.x].figure->type) {
+	switch (field.cells[p.y][p.x].figure->getType()) {
 	case FigType::pawn: {return pawn_moves(p, move_number, consider_king); }
 	case FigType::horse: {return horse_moves(p); }
 	case FigType::bishop: {return bishop_moves(p); }
@@ -281,7 +197,7 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 
 	int is_white = 1;
 	if (field.cells[p.y][p.x].figure) {
-		if (field.cells[p.y][p.x].figure->color == Color::black) {
+		if (field.cells[p.y][p.x].figure->getColor() == Color::black) {
 			is_white = -1;
 		}
 	}
@@ -293,13 +209,13 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 		// diagonal (fight) moves
 		Point p1(p.x + 1, p.y + is_white);
 		if (isCorrectPoint(p1) && field.cells[p1.y][p1.x].figure
-			&& field.cells[p.y][p.x].figure->color != field.cells[p1.y][p1.x].figure->color) {
+			&& field.cells[p.y][p.x].figure->getColor() != field.cells[p1.y][p1.x].figure->getColor()) {
 			result.push_back(p1);
 		}
 
 		Point p2(p.x - 1, p.y + is_white);
 		if (isCorrectPoint(p2) && field.cells[p2.y][p2.x].figure
-			&& field.cells[p.y][p.x].figure->color != field.cells[p2.y][p2.x].figure->color) {
+			&& field.cells[p.y][p.x].figure->getColor() != field.cells[p2.y][p2.x].figure->getColor()) {
 			result.push_back(p2);
 		}
 
@@ -472,8 +388,8 @@ std::vector<Point> ChessGame::king_moves(Point p, int moves_number) {
 	result.push_back(Point(p.x - 1, p.y));
 	result.push_back(Point(p.x - 1, p.y + 1));
 
-	Army& enemy_team = field.cells[p.y][p.x].figure->color == Color::white ? team_b : team_w;
-	int enemy_moves_number = enemy_team.color == Color::black ? b_moves_count : w_moves_count;
+	Army& enemy_team = field.cells[p.y][p.x].figure->getColor() == Color::white ? team_b : team_w;
+	int enemy_moves_number = enemy_team.getColor() == Color::black ? b_moves_count : w_moves_count;
 
 	std::vector<Move> possible_enemy_moves = allPossibleMoves(enemy_team, enemy_moves_number, false);
 	//	bool removed = false;
@@ -513,7 +429,7 @@ void ChessGame::eraseIncorrectMoves(Point from, std::vector<Point>& destinations
 		if (!isCorrectPoint(destinations[i])) {
 			destinations.erase(destinations.begin() + i);
 		}
-		else if (field.cells[dest.y][dest.x].figure && field.cells[dest.y][dest.x].figure->color == field.cells[from.y][from.x].figure->color) { // if figures with same colors fight
+		else if (field.cells[dest.y][dest.x].figure && field.cells[dest.y][dest.x].figure->getColor() == field.cells[from.y][from.x].figure->getColor()) { // if figures with same colors fight
 			destinations.erase(destinations.begin() + i);
 		}
 		else {
@@ -554,11 +470,11 @@ Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assum
 	Figure* figure = field.cells[from_p.y][from_p.x].figure;
 	Figure* dest_figure = field.cells[dest_p.y][dest_p.x].figure;
 
-	figure->position = dest_p;
+	figure->setPosition(dest_p);
 
 	if (dest_figure) {
-		dest_figure->is_alive = false;
-		dest_figure->position = Point(-1, -1);
+		dest_figure->setIsAlive(false);
+		dest_figure->setPosition(Point(-1, -1));
 	}
 
 	//	field.makeMove(from_p, dest_p);
@@ -585,8 +501,8 @@ void Field::makeMove(const Point& from, const Point& dest) {
 std::vector<Move> ChessGame::allPossibleMoves(const Army& team, int move_number, bool consider_king) {
 	std::vector<Move> result;
 	for (const Figure& figure : team.figures) {
-		if (figure.is_alive) {
-			Point pos(figure.position);
+		if (figure.isAlive()) {
+			Point pos(figure.getPosition());
 			auto possible_moves = movesFromPoint(pos, move_number, consider_king);
 			if (possible_moves.size() > 0) {
 				for (const Point& j : possible_moves) {
@@ -628,7 +544,7 @@ int ChessGame::minimax(int cur_depth, int max_depth, const Army& team, int move_
 	int best_move_value = 0;
 	int best_move_index = -1;
 
-	if (team.color == Color::white) {
+	if (team.getColor() == Color::white) {
 		best_move_value = -10000;
 		for (std::size_t i = 0; i < possible_moves.size(); i++) {
 			Move cur_move = possible_moves[i];
@@ -677,28 +593,28 @@ int ChessGame::minimax(int cur_depth, int max_depth, const Army& team, int move_
 void ChessGame::undoMove(const Point& from, const Point& dest, Figure* removed_figure) {
 	makeMove(dest, from);
 	if (removed_figure) {
-		removed_figure->position = dest;
-		removed_figure->is_alive = true;
+		removed_figure->setPosition(dest);
+		removed_figure->setIsAlive(true);
 		field.cells[dest.y][dest.x].figure = removed_figure;
 	}
 }
 
 void ChessGame::aiMove(const Army& team, int& moves_number) {
 	Move best_move = calculateBestMove(team, moves_number);
-	if (!best_move.is_valid() || !team.figures[15].is_alive) { // when AI hasn't possible moves or hasn't king
+	if (!best_move.is_valid() || !team.isKingAlive()) { // when AI hasn't possible moves or hasn't king
 		markAsWinner(getOppositeTeam(team));
 		return;
 	}
 
 
-	std::string str = team.color == Color::white ? "white: " : "black: ";
+	std::string str = team.getColor() == Color::white ? "white: " : "black: ";
 	std::cout << str << best_move.from.getString() << " -> " << best_move.dest.getString() << std::endl;
 
 	makeMove(best_move.from, best_move.dest);
 
 	moves_number++;
 
-	if (!getOppositeTeam(team).figures[15].is_alive || allPossibleMoves(getOppositeTeam(team), w_moves_count).size() == 0) { // if opposite king isn't alive or opposite hasn't moves
+	if (!getOppositeTeam(team).isKingAlive() || allPossibleMoves(getOppositeTeam(team), w_moves_count).size() == 0) { // if opposite king isn't alive or opposite hasn't moves
 		markAsWinner(team);
 		std::cout << "WINNER: " << winner << std::endl;
 	}
@@ -715,14 +631,14 @@ void ChessGame::userMove(const Army& team, int& moves_number) {
 	Move best_move = possible_moves[rand() % possible_moves.size()];
 
 
-	std::string str = team.color == Color::white ? "white: " : "black: ";
+	std::string str = team.getColor() == Color::white ? "white: " : "black: ";
 	std::cout << str << best_move.from << " -> " << best_move.dest << std::endl;
 
 	makeMove(best_move.from, best_move.dest);
 
 	moves_number++;
 
-	if (!getOppositeTeam(team).figures[15].is_alive) { // if opposite king isn't alive
+	if (!getOppositeTeam(team).isKingAlive()) { // if opposite king isn't alive
 		markAsWinner(team);
 	}
 }
@@ -730,7 +646,7 @@ void ChessGame::userMove(const Army& team, int& moves_number) {
 
 
 Army& ChessGame::getOppositeTeam(const Army& team) {
-	if (team.color == Color::black) {
+	if (team.getColor() == Color::black) {
 		return team_w;
 	}
 	return team_b;
@@ -738,7 +654,7 @@ Army& ChessGame::getOppositeTeam(const Army& team) {
 
 
 void ChessGame::markAsWinner(const Army& team) {
-	if (team.color == Color::black) {
+	if (team.getColor() == Color::black) {
 		winner = -1;
 	}
 	else {
@@ -849,8 +765,8 @@ void ChessGame::displayField(sf::RenderWindow& window) {
 			// draw figures
 			Figure* f = field.cells[i][j].figure;
 			if (f) {
-				if (f->color == Color::white) {
-					switch (f->type) {
+				if (f->getColor() == Color::white) {
+					switch (f->getType()) {
 					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, 0, w0, w0)); break; }
 					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, 0, w0, w0)); break; }
 					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, 0, w0, w0)); break; }
@@ -861,7 +777,7 @@ void ChessGame::displayField(sf::RenderWindow& window) {
 					}
 				}
 				else {
-					switch (f->type) {
+					switch (f->getType()) {
 					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, w0, w0, w0)); break; }
 					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, w0, w0, w0)); break; }
 					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, w0, w0, w0)); break; }
@@ -912,17 +828,7 @@ void ChessGame::displayField(sf::RenderWindow& window) {
 
 }
 
-std::string Point::getString() const {
-	assert(x >= 0 && x < 8);
-	assert(y >= 0 && y < 8);
 
-	std::string result;
-	result += 'A' + x;
-	result += std::to_string(y + 1);
-
-
-	return result;
-}
 
 
 
@@ -931,7 +837,7 @@ void ChessGame::handleFieldClick(const Point& pos) {
 
 	Figure* figure = field.cells[pos.y][pos.x].figure; // figure in cell, on which user clicked
 	if (!selected_figure) {
-		if (figure && figure->color == Color::white) {
+		if (figure && figure->getColor() == Color::white) {
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
 
@@ -944,7 +850,7 @@ void ChessGame::handleFieldClick(const Point& pos) {
 
 	}
 	else {
-		if (figure && figure->color == Color::white) { // if we selected other own figure
+		if (figure && figure->getColor() == Color::white) { // if we selected other own figure
 			field.clearMarks();
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
@@ -953,8 +859,8 @@ void ChessGame::handleFieldClick(const Point& pos) {
 		}
 		else {
 			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
-				std::cout << "white: " << selected_figure->position.getString() << " -> " << pos.getString() << std::endl;
-				Point from = selected_figure->position; // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
+				std::cout << "white: " << selected_figure->getPosition().getString() << " -> " << pos.getString() << std::endl;
+				Point from = selected_figure->getPosition(); // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
 				Figure* removed_figure = makeMove(from, pos);
 				selected_figure = nullptr;
 				w_moves_count++;
