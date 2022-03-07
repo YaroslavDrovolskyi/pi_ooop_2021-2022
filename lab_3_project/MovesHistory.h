@@ -15,7 +15,11 @@ private:
 	std::size_t current_index;
 
 public:
-	MovesHistory();
+	MovesHistory() : size(0), current_index(0) {};
 	void insert(const Move& move, Figure* removed_figure = nullptr);
 	std::pair<Move, Figure*> undoMove();
+
+	std::size_t getSize() const;
+	std::size_t getCurIndex() const;
+	bool isEmpty() const;
 };
