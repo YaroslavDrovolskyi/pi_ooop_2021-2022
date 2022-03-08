@@ -27,3 +27,13 @@ bool operator==(const Point& a, const Point& b) {
 	}
 	return false;
 }
+
+bool operator==(const Move& a, const Move& b) {
+	return (a.from == b.from && a.dest == b.dest);
+}
+
+std::ostream& operator<<(std::ostream& stream, const Move& move) {
+	stream << move.from.getString() << " -> " << move.dest.getString();
+
+	return stream;
+}

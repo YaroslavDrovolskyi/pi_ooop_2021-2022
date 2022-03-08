@@ -38,3 +38,5 @@ public:
 	void setPosition(const Point& new_pos);
 	void setIsAlive(bool new_is_alive);
 };
+
+bool operator==(const Figure& a, const Figure& b);

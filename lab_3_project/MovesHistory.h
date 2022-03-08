@@ -21,11 +21,16 @@ public:
 	void clear();
 
 	std::size_t getSize() const;
+
+	bool setCurIndex();
 	std::size_t getCurIndex() const;
 	bool isEmpty() const;
 	void print() const;
 
-	int writeInFile(const std::string& filename);
-	int readFromFile(const std::string& filename);
+	Move getMove(std::size_t index) const;
+	bool setRemovedFigure(std::size_t index, Figure* fig = nullptr);
+
+	int writeInFile(const wchar_t* filepath);
+	int readFromFile(const wchar_t* filepath);
 	
 };

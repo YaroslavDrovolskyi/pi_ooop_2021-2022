@@ -18,6 +18,7 @@ struct Move {
 	Point from;
 	Point dest;
 
+	Move() : from{Point{ -1,-1 }}, dest{Point{ -1,-1 }} {}
 	Move(const Point& from, const Point& dest) : from(from), dest(dest) {}
 
 	bool is_valid() {
@@ -27,3 +28,6 @@ struct Move {
 		return true;
 	}
 };
+
+bool operator==(const Move& a, const Move& b);
+std::ostream& operator<<(std::ostream& stream, const Move& point);

@@ -77,8 +77,8 @@ void MovesHistory::print() const {
 	std::cout << std::endl << std::endl << std::endl;
 }
 
-int MovesHistory::writeInFile(const std::string& filename) {
-	std::ofstream file(filename, std::ios::binary);
+int MovesHistory::writeInFile(const wchar_t* filepath) {
+	std::ofstream file(filepath, std::ios::binary);
 
 	if (!file.is_open()) {
 		return -1;
@@ -93,8 +93,8 @@ int MovesHistory::writeInFile(const std::string& filename) {
 	return 0;
 }
 
-int MovesHistory::readFromFile(const std::string& filename) {
-	std::ifstream file(filename, std::ios::binary);
+int MovesHistory::readFromFile(const wchar_t* filepath) {
+	std::ifstream file(filepath, std::ios::binary);
 
 	if (!file.is_open()) {
 		return -1;
@@ -110,4 +110,19 @@ int MovesHistory::readFromFile(const std::string& filename) {
 	file.close(); 
 
 	return 0;
+}
+
+Move MovesHistory::getMove(std::size_t index) const {
+	assert(index < size);
+
+	return moves[index];
+}
+
+bool MovesHistory::setRemovedFigure(std::size_t index, Figure* fig) {
+	if (index < size) {
+		removed_figures[index] = fig;
+		return true;
+	}
+
+	return false;
 }

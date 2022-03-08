@@ -48,3 +48,8 @@ void Figure::setPosition(const Point& new_pos) {
 void Figure::setIsAlive(bool new_is_alive) {
 	this->is_alive = new_is_alive;
 }
+
+bool operator==(const Figure& a, const Figure& b) {
+	return (a.getColor() == b.getColor() && a.getPosition() == b.getPosition() &&
+		a.getType() == b.getType() && a.isAlive() == b.isAlive());
+}
