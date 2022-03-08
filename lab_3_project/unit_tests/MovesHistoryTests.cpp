@@ -8,6 +8,7 @@
 
 
 #include <random>
+//#include <cstdio>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -17,8 +18,7 @@ namespace GameUnitTests
 	{
 	public:
 
-		TEST_METHOD(Test)
-		{
+		TEST_METHOD(testSimpleInserting) {
 			MovesHistory arr;
 			std::vector<Move> moves;
 			std::vector<Figure*> removed_figures;
@@ -70,6 +70,43 @@ namespace GameUnitTests
 			for (std::size_t i = 0; i < N; i++) {
 				delete removed_figures[i];
 			}
+		}
+
+		TEST_METHOD(testWritingReadingFile) {
+			std::size_t N = 10000; // number of inserted items
+			const char* filename = "testfile.txt";
+
+			MovesHistory written_list, read_list;
+
+			std::default_random_engine gen;
+			std::uniform_int_distribution<int> dis(0, 7);
+						
+			// insert random items
+			for (std::size_t i = 0; i < N; i++) {
+				Move move{ Point{dis(gen), dis(gen)}, Point{dis(gen), dis(gen)} }; // get random item
+
+				written_list.insert(move);
+			}
+
+			int w_result = written_list.writeInFile(filename);
+			int r_result = read_list.readFromFile(filename);
+
+			Assert::AreEqual(0, w_result);
+			Assert::AreEqual(0, r_result);
+
+			Assert::AreEqual(N, written_list.getSize());
+			Assert::AreEqual(N, read_list.getSize());
+			
+			// check if written item == read items
+			while (!written_list.isEmpty()) {
+				Move m1 = written_list.undoMove().first;
+				Move m2 = read_list.undoMove().first;
+
+				Assert::IsTrue(m1 == m2);
+			}
+
+			std::remove(filename); // remove file
+
 		}
 	};
 }

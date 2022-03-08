@@ -18,8 +18,14 @@ public:
 	MovesHistory() : size(0), current_index(0) {};
 	void insert(const Move& move, Figure* removed_figure = nullptr);
 	std::pair<Move, Figure*> undoMove();
+	void clear();
 
 	std::size_t getSize() const;
 	std::size_t getCurIndex() const;
 	bool isEmpty() const;
+	void print() const;
+
+	int writeInFile(const std::string& filename);
+	int readFromFile(const std::string& filename);
+	
 };

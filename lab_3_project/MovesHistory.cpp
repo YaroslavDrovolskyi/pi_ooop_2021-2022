@@ -1,5 +1,7 @@
 #include "MovesHistory.h"
 #include <cassert>
+#include <iostream>
+#include <fstream>
 
 
 void MovesHistory::insert(const Move& move, Figure* removed_figure) {
@@ -49,4 +51,63 @@ std::size_t MovesHistory::getCurIndex() const {
 
 bool MovesHistory::isEmpty() const {
 	return (size == 0);
+}
+
+void MovesHistory::clear() {
+	this->current_index = 0;
+	this->size = 0;
+
+	this->moves.resize(size);
+	this->removed_figures.resize(size);
+}
+
+void MovesHistory::print() const {
+	std::cout << "Moves History:" << std::endl;
+	if (size == 0) {
+		std::cout << "Empty";
+	}
+
+	for (std::size_t i = 0; i < size; i++) {
+		std::cout << moves[i] << " " << removed_figures[i];
+		if (i == current_index) {
+			std::cout << " [current index]";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl << std::endl << std::endl;
+}
+
+int MovesHistory::writeInFile(const std::string& filename) {
+	std::ofstream file(filename, std::ios::binary);
+
+	if (!file.is_open()) {
+		return -1;
+	}
+
+	for (const Move& move : moves) {
+		file.write((char*)&move, sizeof(Move));
+	}
+
+	file.close();
+
+	return 0;
+}
+
+int MovesHistory::readFromFile(const std::string& filename) {
+	std::ifstream file(filename, std::ios::binary);
+
+	if (!file.is_open()) {
+		return -1;
+	}
+
+	clear();
+
+	Move move; // create buffer
+	while (file.read((char*)&move, sizeof(Move))) {
+		insert(move);
+	}
+
+	file.close(); 
+
+	return 0;
 }

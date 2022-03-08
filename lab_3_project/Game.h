@@ -8,6 +8,7 @@
 #include "Figure.h"
 #include "Army.h"
 #include "Field.h"
+#include "MovesHistory.h"
 
 
 
@@ -17,6 +18,7 @@ private:
 	Army team_w;
 	Army team_b;
 	Field field;
+	MovesHistory moves_list;
 
 	int w_moves_count;
 	int b_moves_count;
