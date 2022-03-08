@@ -5,7 +5,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-
+#include <windows.h>
+#include <WinUser.h>
 
 
 
@@ -23,6 +24,17 @@ ChessGame::ChessGame() : team_w(Color::white), team_b(Color::black), field(team_
 
 
 void ChessGame::exec() {
+//	loadMovesHistory();
+	/*
+	int msgboxID = MessageBox(
+		NULL,
+		L"temp.txt already exists.\nDo you want to replace it?",
+		L"Confirm Save As",
+		MB_ICONEXCLAMATION | MB_YESNO
+	);
+	*/
+
+
 	/* some tests
 	this->field.print();
 	std::cout << std::endl << std::endl;
@@ -133,18 +145,29 @@ void ChessGame::exec() {
 
 
 				else if (event.type == sf::Event::MouseButtonPressed) {
-					int x = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
-					int y = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
+					double x = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
+					double y = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
+
+					int x_int = static_cast<int>(x); // round down
+					int y_int = static_cast<int>(y);
+
 					//					int x = event.mouseButton.x / w;
 					//					int y = event.mouseButton.y / w;
-				//	std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << std::endl;
+					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << "=  (" << x_int << "; " << y_int << ") " << std::endl;
 
 					if (this->winner == 0) {
 						if (cur_player == Player::user) {
-							if (x >= 2 && x <= 9 && y >= 1 && y <= 8) {
-								handleFieldClick(Point(x - 2, 8 - y));
+							if (x_int >= 2 && x_int <= 9 && y_int >= 1 && y_int <= 8) {
+								
+								handleFieldClick(Point(x_int - 2, 8 - y_int));
 							}
-							else if (x >= 11 && x < 14 && y >= 6 && y < 7) {
+							else if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
+								saveMovesHistory();
+							}
+							else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
+								loadMovesHistory();
+							}
+							else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
 								restart();
 							}
 							else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
@@ -153,7 +176,13 @@ void ChessGame::exec() {
 						}
 					}
 					else { // if game is over (winner is -1 or 1)
-						if (x >= 11 && x < 14 && y >= 6 && y < 7) {
+						if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
+							saveMovesHistory();
+						}
+						else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
+							loadMovesHistory();
+						}
+						if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
 							restart();
 						}
 						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
@@ -610,7 +639,8 @@ void ChessGame::aiMove(const Army& team, int& moves_number) {
 	std::string str = team.getColor() == Color::white ? "white: " : "black: ";
 	std::cout << str << best_move.from.getString() << " -> " << best_move.dest.getString() << std::endl << std::endl;
 
-	makeMove(best_move.from, best_move.dest);
+	Figure* removed_figure = makeMove(best_move.from, best_move.dest);
+	moves_list.insert(best_move, removed_figure);
 
 	moves_number++;
 
@@ -687,7 +717,7 @@ void ChessGame::update(sf::RenderWindow& window) {
 	else if (winner != 0) {
 		sf::Text win_text("", font, w);
 		win_text.setFillColor(sf::Color(248, 1, 20));
-		win_text.setPosition(10.5 * w, 3 * w);
+		win_text.setPosition(10.5 * w, 1 * w);
 
 		if (winner == 1) { // user (white) won
 			win_text.setString("YOU WON!");
@@ -698,27 +728,53 @@ void ChessGame::update(sf::RenderWindow& window) {
 
 		window.draw(win_text);
 	}
+	
+	// button_save
+	sf::RectangleShape button_save(sf::Vector2f(3 * w, w));
+	button_save.setFillColor(sf::Color(10, 103, 163));
+	button_save.setPosition(11 * w, 3.5 * w);
+	window.draw(button_save);
+
+	sf::Text text_save("Save game", font, 0.4 * w);
+	text_save.setPosition(11.7 * w, 3.75 * w);
+	window.draw(text_save);
+
+	// button_load
+	sf::RectangleShape button_load(sf::Vector2f(3 * w, w));
+	button_load.setFillColor(sf::Color(10, 103, 163));
+	button_load.setPosition(11 * w, 5 * w);
+	window.draw(button_load);
+
+	sf::Text text_load("Load game", font, 0.4 * w);
+	text_load.setPosition(11.7 * w, 5.25 * w);
+	window.draw(text_load);
 
 
+	// button_restart
 	sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
 	button_restart.setFillColor(sf::Color(10, 103, 163));
-	button_restart.setPosition(11 * w, 6 * w);
+	button_restart.setPosition(11 * w, 6.5 * w);
+	window.draw(button_restart);
 
 	sf::Text text_restart("Restart", font, 0.4 * w);
-	text_restart.setPosition(11.9 * w, 6.25 * w);
+	text_restart.setPosition(11.9 * w, 6.75 * w);
+	window.draw(text_restart);
 
 
+	// button_close
 	sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
 	button_close.setFillColor(sf::Color(255, 7, 1));
 	button_close.setPosition(11 * w, 8 * w);
+	window.draw(button_close);
 
 	sf::Text text_close("Close", font, 0.4 * w);
 	text_close.setPosition(12.1 * w, 8.25 * w);
-
-	window.draw(button_restart);
-	window.draw(text_restart);
-	window.draw(button_close);
 	window.draw(text_close);
+
+	
+	
+	
+	
 
 	window.display();
 }
@@ -862,6 +918,7 @@ void ChessGame::handleFieldClick(const Point& pos) {
 				std::cout << "white: " << selected_figure->getPosition().getString() << " -> " << pos.getString() << std::endl;
 				Point from = selected_figure->getPosition(); // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
 				Figure* removed_figure = makeMove(from, pos);
+				moves_list.insert(Move{from, pos}, removed_figure); // add move to the list
 				selected_figure = nullptr;
 				w_moves_count++;
 				field.clearMarks();
@@ -878,10 +935,119 @@ void ChessGame::handleFieldClick(const Point& pos) {
 }
 
 
+
+void ChessGame::saveMovesHistory() {
+	OPENFILENAME ofn;
+	wchar_t szFile[260];
+	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFile; // file path
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrTitle = L"Select a file to save game";
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+
+	if (GetSaveFileName(&ofn) == TRUE) {
+		std::wcout << L"Game saved in file: " << szFile << std::endl;
+		moves_list.writeInFile(szFile);
+	}
+}
+
+
+void ChessGame::loadMovesHistory() {
+	restart(); // because sequense of moves we'll apply started from new game
+
+	OPENFILENAME ofn; 
+	wchar_t szFile[260];
+	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0 
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = szFile; // file path
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+
+	if (GetOpenFileName(&ofn) == TRUE) {
+		std::wcout << L"Game loaded from file: " << szFile << std::endl;
+		moves_list.readFromFile(szFile);
+
+		applyMoves(moves_list); // apply moves
+
+		moves_list.print();
+	}
+}
+
+// GetOpenFileName() example from: https://www.cyberforum.ru/win-api/thread2439941.html
+// Explanations of OPENFILENAME attribures: http://www.vsokovikov.narod.ru/New_MSDN_API/Com_dlg_lib/str_openfilename.htm
+// About ZeroMemory: https://stackoverflow.com/questions/16210598/null-vs-zeromemory
+
+
+// function to apply moves when we got them from file. Also upgrade moves with &removed_figure for each move
+void ChessGame::applyMoves(MovesHistory& moves) {
+	for (std::size_t i = 0; i < moves.getSize(); i++) {
+		Move move = moves.getMove(i);
+		Figure* fig = makeMove(move.from, move.dest);
+
+		moves.setRemovedFigure(i, fig);
+	}
+
+	field.clearMarks();
+
+	// Change current player according to even/odd of size of MovesHistory
+	// if white is winner, black is current
+	// else if black is winner, white is current
+	
+	if (moves.getSize() % 2 == 0) {
+		cur_player = Player::user;
+	}
+	else {
+		cur_player = Player::ai;
+	}
+
+	// update b_move_count and w_moves_count assuming game started from white move
+	w_moves_count = moves.getSize() / 2;
+	b_moves_count = moves.getSize() - w_moves_count;
+
+	// if it is a winner
+	winner = checkForWinner();
+
+	selected_figure = nullptr;
+}
+
+// check who is winner and return: -1 - black, 0 - nobody, 1 - white
+int ChessGame::checkForWinner() {
+	if (!team_w.isKingAlive() || allPossibleMoves(team_w, w_moves_count).size() == 0) { // if white king isn't alive or team hasn't moves
+		return -1;
+	}
+	if (!team_b.isKingAlive() || allPossibleMoves(team_b, b_moves_count).size() == 0) { // if black king isn't alive or team hasn't moves
+		return 1;
+	}
+	return 0;
+}
+	
+
+
+
 void ChessGame::restart() {
+	moves_list.print();
+
 	this->team_w = Army(Color::white);
 	this->team_b = Army(Color::black);
 	this->field = Field(team_w, team_b);
+	this->moves_list.clear();
 
 	w_moves_count = 0;
 	b_moves_count = 0;
