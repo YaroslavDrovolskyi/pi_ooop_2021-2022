@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-#include "../lab_3_project/MovesHistory.h"
-#include "../lab_3_project/MovesHistory.cpp"
-#include "../lab_3_project/Figure.cpp"
-#include "../lab_3_project/Point.cpp"
+#include "../MovesHistory.h"
+#include "../MovesHistory.cpp"
+#include "../Figure.cpp"
+#include "../Point.cpp"
 
 
 #include <random>
@@ -16,7 +16,7 @@ namespace GameUnitTests
 	TEST_CLASS(MovesHistoryTests)
 	{
 	public:
-		
+
 		TEST_METHOD(Test)
 		{
 			MovesHistory arr;
@@ -44,17 +44,17 @@ namespace GameUnitTests
 			for (std::size_t i = 0; i < N; i++) {
 				Assert::AreEqual(N - i, arr.getSize());
 				Assert::AreEqual(N - 1 - i, arr.getCurIndex());
-				
+
 				auto result = arr.undoMove();
 				Move move = result.first;
 				Figure* fig = result.second;
 
-				
+
 				Assert::IsTrue(moves[N - 1 - i] == move);
 				Assert::IsTrue(removed_figures[N - 1 - i] == fig);
-				
-			//	Assert::AreEqual(moves[N - 1 - i], move);
-			//	Assert::AreEqual(removed_figures[N - 1 - i], fig);
+
+				//	Assert::AreEqual(moves[N - 1 - i], move);
+				//	Assert::AreEqual(removed_figures[N - 1 - i], fig);
 
 				if (i == N - 1) { // end, container must be empty
 					Assert::AreEqual(true, arr.isEmpty());
@@ -63,7 +63,7 @@ namespace GameUnitTests
 					Assert::AreEqual(false, arr.isEmpty());
 					Assert::AreEqual(N - i, arr.getSize() + 1);
 					Assert::AreEqual(N - 1 - i, arr.getCurIndex() + 1);
-				}	
+				}
 			}
 
 			// need to clean allocated memory
