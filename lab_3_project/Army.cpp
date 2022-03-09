@@ -1,7 +1,16 @@
+/*!
+	\file
+	\brief File with implementation of class Army
+*/
+
 #include "Army.h"
 
 #include <cassert>
 
+/*!
+	\brief Constructor
+	Create and init all figures
+*/
 Army::Army(Color color) {
 	this->color = color;
 	this->figures.resize(16);
@@ -40,14 +49,32 @@ Army::Army(Color color) {
 	}
 }
 
+/*!
+	Getter for color of army
+
+	\returns color of army
+*/
 Color Army::getColor() const {
 	return this->color;
 }
 
+
+/*!
+	Getter for figure by index
+
+	\param[in] index correct index of figure that we need
+
+	\returns pointer on figure, that we need
+*/
 Figure* Army::getFigurePointer(std::size_t index) {
 	return &this->figures[index];
 }
 
+/*!
+	Shows if king is alive or not
+
+	\returns true if king is alive, and false otherwise
+*/
 bool Army::isKingAlive() const {
 	return this->figures[15].isAlive();
 }

@@ -1,3 +1,8 @@
+/*!
+	\file
+	\brief Header file for class MovesHistory
+*/
+
 #pragma once
 #include "Point.h"
 #include "Figure.h"
@@ -6,6 +11,14 @@
 
 #include <vector>
 
+
+/*!
+	\brief Class that describes list of moves made during the game
+
+	It stores list of moves and list of figures removed while corresponding move.\n
+
+	Also it contains current index - something like read/write head.
+*/
 class MovesHistory {
 private:
 	std::vector<Move> moves;

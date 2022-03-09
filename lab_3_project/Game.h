@@ -1,3 +1,10 @@
+/*!
+	\file 
+	\brief Header file for class ChessGame
+
+*/
+
+
 #pragma once
 
 #include <vector>
@@ -11,7 +18,12 @@
 #include "MovesHistory.h"
 
 
+/*!
+	\brief The main class in application
 
+	Object of this class create, manage and finish the game.\n
+	All you need are: create instatce of the class and call method exec() 
+*/
 class ChessGame {
 private:
 

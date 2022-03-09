@@ -1,8 +1,18 @@
-//#include "Game.h"
+/*!
+	\file
+	\brief File with implementation of struct Cell and class Field
+*/
+
 #include "Field.h"
 #include <iostream>
 
+/*!
+	Constructor initialize chess board, put figures on places
 
+	\param[in,out] white is a white team
+	\param[in,out] black is a black team
+	\param[in] size is a size of board (usually it is 8)
+*/
 Field::Field(Army& white, Army& black, int size) {
 	this->cells.resize(size);
 	for (std::size_t i = 0; i < size; i++) {
@@ -44,7 +54,10 @@ Field::Field(Army& white, Army& black, int size) {
 	}
 }
 
-
+/*!
+	Print chess board in console \n
+	Figures prints as two letters: 'w' or 'b' - means team, and first letter of figure type name: 'p', 'h', 'b', 'r', 'q', 'k'. For example: "wp", "wb".
+*/
 void Field::print() {
 	std::cout << std::endl << "  ";
 	for (std::size_t i = 0; i < 23; i++) {
@@ -110,6 +123,11 @@ void Field::print() {
 }
 
 
+/*!
+	Evaluate the chess board. This method used in minimax algorithm
+
+	\returns current value of board
+*/
 int Field::evaluate() {
 	int result = 0;
 	for (std::size_t i = 0; i < 8; i++) {
@@ -123,7 +141,13 @@ int Field::evaluate() {
 	return result;
 }
 
+/*!
+	Put logical marks on board cells.\n 
+	We can see them, when player chose figure: this marks show player possible cells to move.
 
+	\param[in] selected_point is point selected by player
+	\param[in] points is points where user can move
+*/
 void Field::putMarks(const Point& selected_point, const std::vector<Point>& points) {
 	for (const Point& p : points) {
 
@@ -139,7 +163,9 @@ void Field::putMarks(const Point& selected_point, const std::vector<Point>& poin
 
 }
 
-
+/*!
+	Clear all logical marks from board cells.
+*/
 void Field::clearMarks() {
 	for (std::size_t i = 0; i < this->cells.size(); i++) {
 		for (std::size_t j = 0; j < this->cells[i].size(); j++) {

@@ -74,7 +74,7 @@ namespace GameUnitTests
 
 		TEST_METHOD(testWritingReadingFile) {
 			std::size_t N = 10000; // number of inserted items
-			const char* filename = "testfile.txt";
+			const wchar_t* filename = L"testfile.txt";
 
 			MovesHistory written_list, read_list;
 
@@ -105,7 +105,7 @@ namespace GameUnitTests
 				Assert::IsTrue(m1 == m2);
 			}
 
-			std::remove(filename); // remove file
+		//	std::remove(filename); // remove file
 
 		}
 	};

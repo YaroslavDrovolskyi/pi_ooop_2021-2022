@@ -1,11 +1,24 @@
+/*!
+	\file
+	\brief Header file for enum Color, enum FigType and class Figure
+*/
+
 #pragma once
 #include "Point.h"
 
 
+/*!
+	\enum Color
+	\brief Enum that describes color of chess figure
+*/
 enum class Color {
 	black, white
 };
 
+/*!
+	\enum FigType
+	\brief Enum that describes type of chess figure
+*/
 enum class FigType {
 	pawn, // 10
 	horse, // 30
@@ -15,7 +28,12 @@ enum class FigType {
 	king // 900
 };
 
+/*!
+	\brief Class that describes chess figure
 
+	It contains color, type, value and position of figure. \n
+	== operator is overloaded fro this class
+*/
 class Figure {
 private:
 	Color color;

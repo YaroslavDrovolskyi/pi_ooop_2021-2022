@@ -1,3 +1,9 @@
+/*!
+	\file
+	\brief File with implementation of class ChessGame
+
+*/
+
 #include "Game.h"
 
 #include <iostream>
@@ -22,7 +28,10 @@ ChessGame::ChessGame() : team_w(Color::white), team_b(Color::black), field(team_
 	warning1 = warning2 = false;
 }
 
-
+/*!
+	\brief The main function in class ChessGame.\n
+	It manage the program and handle all situations via auxiliary methods.
+*/
 void ChessGame::exec() {
 //	loadMovesHistory();
 	/*
@@ -544,7 +553,8 @@ std::vector<Move> ChessGame::allPossibleMoves(const Army& team, int move_number,
 	return result;
 }
 
-
+// return best move for team (according to minimax)
+// or invalid move if there are any possible moves
 Move ChessGame::calculateBestMove(const Army& team, int move_number) {
 	std::vector<Move> all_possible_moves = allPossibleMoves(team, move_number);
 
@@ -630,7 +640,7 @@ void ChessGame::undoMove(const Point& from, const Point& dest, Figure* removed_f
 
 void ChessGame::aiMove(const Army& team, int& moves_number) {
 	Move best_move = calculateBestMove(team, moves_number);
-	if (!best_move.is_valid() || !team.isKingAlive()) { // when AI hasn't possible moves or hasn't king
+	if (!best_move.isValid() || !team.isKingAlive()) { // when AI hasn't possible moves or hasn't king
 		markAsWinner(getOppositeTeam(team));
 		return;
 	}
@@ -962,7 +972,7 @@ void ChessGame::saveMovesHistory() {
 
 
 void ChessGame::loadMovesHistory() {
-	restart(); // because sequense of moves we'll apply started from new game
+	
 
 	OPENFILENAME ofn; 
 	wchar_t szFile[260];
@@ -977,10 +987,12 @@ void ChessGame::loadMovesHistory() {
 	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
 	ofn.nMaxFileTitle = 0;
 	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrTitle = L"Select a file to load game";
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
 
 	if (GetOpenFileName(&ofn) == TRUE) {
+		restart(); // because sequense of moves we'll apply started from new game
 		std::wcout << L"Game loaded from file: " << szFile << std::endl;
 		moves_list.readFromFile(szFile);
 
