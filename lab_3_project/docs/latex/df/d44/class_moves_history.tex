@@ -1,0 +1,195 @@
+\hypertarget{class_moves_history}{}\doxysection{Moves\+History Class Reference}
+\label{class_moves_history}\index{MovesHistory@{MovesHistory}}
+
+
+Class that describes list of moves made during the game.  
+
+
+
+
+{\ttfamily \#include $<$Moves\+History.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_moves_history_af8753eefc7e12026de07f8da096680bd}{insert}} (const \mbox{\hyperlink{struct_move}{Move}} \&move, \mbox{\hyperlink{class_figure}{Figure}} $\ast$removed\+\_\+figure=nullptr)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{struct_move}{Move}}, \mbox{\hyperlink{class_figure}{Figure}} $\ast$ $>$ \mbox{\hyperlink{class_moves_history_a4209ce6b9cb01bac16e7cec830f5c1df}{undo\+Move}} ()
+\item 
+void \mbox{\hyperlink{class_moves_history_ad73b6c2a57b628cbdb70eb53da1f7695}{clear}} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_moves_history_a654afe7a113f482589f19470f9872319}{get\+Size}} () const
+\item 
+\mbox{\Hypertarget{class_moves_history_a29ebaea54a1eb00c59a94fda5aef68d5}\label{class_moves_history_a29ebaea54a1eb00c59a94fda5aef68d5}} 
+bool {\bfseries set\+Cur\+Index} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{class_moves_history_a38e679891a419851d347412d72c567fa}{get\+Cur\+Index}} () const
+\item 
+bool \mbox{\hyperlink{class_moves_history_a1660160262a91759a874571f3bd83410}{is\+Empty}} () const
+\item 
+void \mbox{\hyperlink{class_moves_history_a79247c436b03c146ec84a18fce0a9df2}{print}} () const
+\item 
+\mbox{\hyperlink{struct_move}{Move}} \mbox{\hyperlink{class_moves_history_a708125daf284c0ede12b945a8b0187b4}{get\+Move}} (std\+::size\+\_\+t index) const
+\item 
+bool \mbox{\hyperlink{class_moves_history_aa17429bc244066e139e6bae812644a25}{set\+Removed\+Figure}} (std\+::size\+\_\+t index, \mbox{\hyperlink{class_figure}{Figure}} $\ast$fig=nullptr)
+\item 
+int \mbox{\hyperlink{class_moves_history_a590e9e7e9427c059517d16650581bcd3}{write\+In\+File}} (const wchar\+\_\+t $\ast$filepath)
+\item 
+int \mbox{\hyperlink{class_moves_history_a3aa1610e816c48a39ae0da57ecb94a84}{read\+From\+File}} (const wchar\+\_\+t $\ast$filepath)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that describes list of moves made during the game. 
+
+It stores list of moves and list of figures removed while corresponding move.~\newline
+ Also it contains current index -\/ something like read/write head. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_moves_history_ad73b6c2a57b628cbdb70eb53da1f7695}\label{class_moves_history_ad73b6c2a57b628cbdb70eb53da1f7695}} 
+\index{MovesHistory@{MovesHistory}!clear@{clear}}
+\index{clear@{clear}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily void Moves\+History\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Remove all stored items~\newline
+Also reset size and current index \mbox{\Hypertarget{class_moves_history_a38e679891a419851d347412d72c567fa}\label{class_moves_history_a38e679891a419851d347412d72c567fa}} 
+\index{MovesHistory@{MovesHistory}!getCurIndex@{getCurIndex}}
+\index{getCurIndex@{getCurIndex}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{getCurIndex()}{getCurIndex()}}
+{\footnotesize\ttfamily std\+::size\+\_\+t Moves\+History\+::get\+Cur\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for current index
+
+\begin{DoxyReturn}{Returns}
+current index 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_a708125daf284c0ede12b945a8b0187b4}\label{class_moves_history_a708125daf284c0ede12b945a8b0187b4}} 
+\index{MovesHistory@{MovesHistory}!getMove@{getMove}}
+\index{getMove@{getMove}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{getMove()}{getMove()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_move}{Move}} Moves\+History\+::get\+Move (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{index }\end{DoxyParamCaption}) const}
+
+Getter for move
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & \+: correct index of move that we need\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+move, that we need 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_a654afe7a113f482589f19470f9872319}\label{class_moves_history_a654afe7a113f482589f19470f9872319}} 
+\index{MovesHistory@{MovesHistory}!getSize@{getSize}}
+\index{getSize@{getSize}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{getSize()}{getSize()}}
+{\footnotesize\ttfamily std\+::size\+\_\+t Moves\+History\+::get\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for size
+
+\begin{DoxyReturn}{Returns}
+size of it (number of stored items) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_af8753eefc7e12026de07f8da096680bd}\label{class_moves_history_af8753eefc7e12026de07f8da096680bd}} 
+\index{MovesHistory@{MovesHistory}!insert@{insert}}
+\index{insert@{insert}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily void Moves\+History\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_move}{Move}} \&}]{move,  }\item[{\mbox{\hyperlink{class_figure}{Figure}} $\ast$}]{removed\+\_\+figure = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+Insert move and corresponding removed figure after current index (moves after current index will be removed)
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em move} & move to insert \\
+\hline
+\mbox{\texttt{ in}}  & {\em removed\+\_\+figure} & removed figure to insert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_moves_history_a1660160262a91759a874571f3bd83410}\label{class_moves_history_a1660160262a91759a874571f3bd83410}} 
+\index{MovesHistory@{MovesHistory}!isEmpty@{isEmpty}}
+\index{isEmpty@{isEmpty}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{isEmpty()}{isEmpty()}}
+{\footnotesize\ttfamily bool Moves\+History\+::is\+Empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Shows if it is empty or not
+
+\begin{DoxyReturn}{Returns}
+true if it is empty, and false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_a79247c436b03c146ec84a18fce0a9df2}\label{class_moves_history_a79247c436b03c146ec84a18fce0a9df2}} 
+\index{MovesHistory@{MovesHistory}!print@{print}}
+\index{print@{print}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Moves\+History\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Prints a list of stored items in format\+:~\newline
+\mbox{[}move.\+from\mbox{]} -\/\texorpdfstring{$>$}{>} \mbox{[}move.\+destination\mbox{]} \mbox{[}address of removed figure\mbox{]}~\newline
+Also it marks item that lies below current index \mbox{\Hypertarget{class_moves_history_a3aa1610e816c48a39ae0da57ecb94a84}\label{class_moves_history_a3aa1610e816c48a39ae0da57ecb94a84}} 
+\index{MovesHistory@{MovesHistory}!readFromFile@{readFromFile}}
+\index{readFromFile@{readFromFile}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{readFromFile()}{readFromFile()}}
+{\footnotesize\ttfamily int Moves\+History\+::read\+From\+File (\begin{DoxyParamCaption}\item[{const wchar\+\_\+t $\ast$}]{filepath }\end{DoxyParamCaption})}
+
+Read all items from the file
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em filepath} & \+: full or relative path to file (file must exist) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if all are OK, and -\/1 if something wrong with opening a file 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_aa17429bc244066e139e6bae812644a25}\label{class_moves_history_aa17429bc244066e139e6bae812644a25}} 
+\index{MovesHistory@{MovesHistory}!setRemovedFigure@{setRemovedFigure}}
+\index{setRemovedFigure@{setRemovedFigure}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{setRemovedFigure()}{setRemovedFigure()}}
+{\footnotesize\ttfamily bool Moves\+History\+::set\+Removed\+Figure (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{index,  }\item[{\mbox{\hyperlink{class_figure}{Figure}} $\ast$}]{fig = {\ttfamily nullptr} }\end{DoxyParamCaption})}
+
+Setter for removed figure
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & correct index where we need to place fig \\
+\hline
+\mbox{\texttt{ in}}  & {\em fig} & pointer of removed figure\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all are OK, and false if index is incorrect 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_a4209ce6b9cb01bac16e7cec830f5c1df}\label{class_moves_history_a4209ce6b9cb01bac16e7cec830f5c1df}} 
+\index{MovesHistory@{MovesHistory}!undoMove@{undoMove}}
+\index{undoMove@{undoMove}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{undoMove()}{undoMove()}}
+{\footnotesize\ttfamily std\+::pair$<$ \mbox{\hyperlink{struct_move}{Move}}, \mbox{\hyperlink{class_figure}{Figure}} $\ast$ $>$ Moves\+History\+::undo\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Give you and remove current move, removed figure; (Moves after current index also will be removed)
+
+\begin{DoxyReturn}{Returns}
+move and corresponding removed figure 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_moves_history_a590e9e7e9427c059517d16650581bcd3}\label{class_moves_history_a590e9e7e9427c059517d16650581bcd3}} 
+\index{MovesHistory@{MovesHistory}!writeInFile@{writeInFile}}
+\index{writeInFile@{writeInFile}!MovesHistory@{MovesHistory}}
+\doxysubsubsection{\texorpdfstring{writeInFile()}{writeInFile()}}
+{\footnotesize\ttfamily int Moves\+History\+::write\+In\+File (\begin{DoxyParamCaption}\item[{const wchar\+\_\+t $\ast$}]{filepath }\end{DoxyParamCaption})}
+
+Write all moves in the file (file will be overwritten) ~\newline
+It don\textquotesingle{}t write removed figures, because that addresses are valid only during one game session (they are useless during loading the saved game)
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em filepath} & full or relative correct path to file (non-\/existent file is possible, it we\textquotesingle{}ll be created) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 if all are OK, and -\/1 if something wrong with opening a file 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_moves_history_8h}{Moves\+History.\+h}}\item 
+\mbox{\hyperlink{_moves_history_8cpp}{Moves\+History.\+cpp}}\end{DoxyCompactItemize}

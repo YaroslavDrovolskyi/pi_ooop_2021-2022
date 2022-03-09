@@ -1,0 +1,56 @@
+\hypertarget{struct_move}{}\doxysection{Move Struct Reference}
+\label{struct_move}\index{Move@{Move}}
+
+
+Struct that describes move on the chess board.~\newline
+.  
+
+
+
+
+{\ttfamily \#include $<$Point.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_move_a4b1acc3a67d30c385ad9a6000526393a}\label{struct_move_a4b1acc3a67d30c385ad9a6000526393a}} 
+{\bfseries Move} ()
+\begin{DoxyCompactList}\small\item\em constructor, that initialize object as invalid \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct_move_a891f301df97a1f8bb6872030a2c0cec4}\label{struct_move_a891f301df97a1f8bb6872030a2c0cec4}} 
+{\bfseries Move} (const \mbox{\hyperlink{struct_point}{Point}} \&from, const \mbox{\hyperlink{struct_point}{Point}} \&dest)
+\item 
+bool \mbox{\hyperlink{struct_move_a6e80a6c039ba805bac3ff6402c56b76c}{is\+Valid}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_move_a0f6632a530908d513d16083dd58f86a8}\label{struct_move_a0f6632a530908d513d16083dd58f86a8}} 
+\mbox{\hyperlink{struct_point}{Point}} {\bfseries from}
+\item 
+\mbox{\Hypertarget{struct_move_ab433036d29649b960607309508123d86}\label{struct_move_ab433036d29649b960607309508123d86}} 
+\mbox{\hyperlink{struct_point}{Point}} {\bfseries dest}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that describes move on the chess board.~\newline
+. 
+
+Operators \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} and == are overloaded for this struct. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_move_a6e80a6c039ba805bac3ff6402c56b76c}\label{struct_move_a6e80a6c039ba805bac3ff6402c56b76c}} 
+\index{Move@{Move}!isValid@{isValid}}
+\index{isValid@{isValid}!Move@{Move}}
+\doxysubsubsection{\texorpdfstring{isValid()}{isValid()}}
+{\footnotesize\ttfamily bool Move\+::is\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Shows if move is valid \begin{DoxyReturn}{Returns}
+true if move is valid, and false if not 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_point_8h}{Point.\+h}}\item 
+\mbox{\hyperlink{_point_8cpp}{Point.\+cpp}}\end{DoxyCompactItemize}

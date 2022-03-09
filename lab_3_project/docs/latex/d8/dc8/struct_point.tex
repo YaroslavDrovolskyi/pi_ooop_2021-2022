@@ -1,0 +1,52 @@
+\hypertarget{struct_point}{}\doxysection{Point Struct Reference}
+\label{struct_point}\index{Point@{Point}}
+
+
+Struct that describes cell position on the chess board.  
+
+
+
+
+{\ttfamily \#include $<$Point.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_point_a1c8a6881ed0f11828299033c5959d147}\label{struct_point_a1c8a6881ed0f11828299033c5959d147}} 
+{\bfseries Point} (int x=0, int y=0)
+\item 
+std\+::string \mbox{\hyperlink{struct_point_a2ad47c41fa562ee83fb5245bff4806ca}{get\+String}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_point_a8c779e11e694b20e0946105a9f5de842}\label{struct_point_a8c779e11e694b20e0946105a9f5de842}} 
+int {\bfseries x}
+\item 
+\mbox{\Hypertarget{struct_point_a2e1b5fb2b2a83571f5c0bc0f66a73cf7}\label{struct_point_a2e1b5fb2b2a83571f5c0bc0f66a73cf7}} 
+int {\bfseries y}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Struct that describes cell position on the chess board. 
+
+Counting starts from left bottom corner. It starts from (0,0).~\newline
+ Operators \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} and == are overloaded for this struct. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{struct_point_a2ad47c41fa562ee83fb5245bff4806ca}\label{struct_point_a2ad47c41fa562ee83fb5245bff4806ca}} 
+\index{Point@{Point}!getString@{getString}}
+\index{getString@{getString}!Point@{Point}}
+\doxysubsubsection{\texorpdfstring{getString()}{getString()}}
+{\footnotesize\ttfamily std\+::string Point\+::get\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Converts \char`\"{}math\char`\"{} coordinate (x;y) on chess board into \char`\"{}game\char`\"{} representation (for example\+: A5, F8) \begin{DoxyReturn}{Returns}
+\char`\"{}game representation of (x;y) coordinate\char`\"{} 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_point_8h}{Point.\+h}}\item 
+\mbox{\hyperlink{_point_8cpp}{Point.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,33 @@
+\hypertarget{_point_8h_source}{}\doxysection{Point.\+h}
+\mbox{\hyperlink{_point_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_point}{Point}} \{}
+\DoxyCodeLine{17     \textcolor{keywordtype}{int} x;}
+\DoxyCodeLine{18     \textcolor{keywordtype}{int} y;}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \mbox{\hyperlink{struct_point}{Point}}(\textcolor{keywordtype}{int} x = 0, \textcolor{keywordtype}{int} y = 0) : x(x), y(y) \{\}}
+\DoxyCodeLine{21     std::string \mbox{\hyperlink{struct_point_a2ad47c41fa562ee83fb5245bff4806ca}{getString}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{22 \};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 std::ostream\& \mbox{\hyperlink{_point_8h_a2d73f8747efa3592c8db456a79aeb50f}{operator<<}}(std::ostream\& stream, \textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& point);}
+\DoxyCodeLine{25 \textcolor{keywordtype}{bool} \mbox{\hyperlink{_point_8h_a177528c8a1eee37fcda25a89084b8ed6}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& a, \textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& b);}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{33 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_move}{Move}} \{}
+\DoxyCodeLine{34     \mbox{\hyperlink{struct_point}{Point}} from;}
+\DoxyCodeLine{35     \mbox{\hyperlink{struct_point}{Point}} dest;}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \mbox{\hyperlink{struct_move_a4b1acc3a67d30c385ad9a6000526393a}{Move}}() : from\{\mbox{\hyperlink{struct_point}{Point}}\{ -\/1,-\/1 \}\}, dest\{\mbox{\hyperlink{struct_point}{Point}}\{ -\/1,-\/1 \}\} \{\} }
+\DoxyCodeLine{38     \mbox{\hyperlink{struct_move_a4b1acc3a67d30c385ad9a6000526393a}{Move}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& from, \textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& dest) : from(from), dest(dest) \{\}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40     \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_move_a6e80a6c039ba805bac3ff6402c56b76c}{isValid}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{41 \};}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{keywordtype}{bool} \mbox{\hyperlink{_point_8h_a177528c8a1eee37fcda25a89084b8ed6}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct_move}{Move}}\& a, \textcolor{keyword}{const} \mbox{\hyperlink{struct_move}{Move}}\& b);}
+\DoxyCodeLine{44 std::ostream\& \mbox{\hyperlink{_point_8h_a2d73f8747efa3592c8db456a79aeb50f}{operator<<}}(std::ostream\& stream, \textcolor{keyword}{const} \mbox{\hyperlink{struct_move}{Move}}\& point);}
+
+\end{DoxyCode}

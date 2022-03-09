@@ -1,0 +1,85 @@
+\hypertarget{class_army}{}\doxysection{Army Class Reference}
+\label{class_army}\index{Army@{Army}}
+
+
+Class that describes chess team\+: set of same-\/colored figures.  
+
+
+
+
+{\ttfamily \#include $<$Army.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_army_a63492519c225192d95135163b8ec59b3}\label{class_army_a63492519c225192d95135163b8ec59b3}} 
+{\bfseries Army} (\mbox{\hyperlink{_figure_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} color)
+\begin{DoxyCompactList}\small\item\em Constructor Create and init all figures. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_figure_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} \mbox{\hyperlink{class_army_ab2e99d067fddfda31798f5e22a0267e5}{get\+Color}} () const
+\item 
+\mbox{\hyperlink{class_figure}{Figure}} $\ast$ \mbox{\hyperlink{class_army_ac7c9727a3ac56572f2c8076247ca2c45}{get\+Figure\+Pointer}} (std\+::size\+\_\+t index)
+\item 
+bool \mbox{\hyperlink{class_army_a5d7f2e16839348863496d6e138bc4f12}{is\+King\+Alive}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_army_a9895d4fe93bb7ae1d814d926985a560d}\label{class_army_a9895d4fe93bb7ae1d814d926985a560d}} 
+class {\bfseries Chess\+Game}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class that describes chess team\+: set of same-\/colored figures. 
+
+It stores list of figures and color of team.
+
+\begin{DoxyRefDesc}{Todo}
+\item[\mbox{\hyperlink{todo__todo000001}{Todo}}]replace friend class \mbox{\hyperlink{class_chess_game}{Chess\+Game}} by getters, setters and other methods to use \end{DoxyRefDesc}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_army_ab2e99d067fddfda31798f5e22a0267e5}\label{class_army_ab2e99d067fddfda31798f5e22a0267e5}} 
+\index{Army@{Army}!getColor@{getColor}}
+\index{getColor@{getColor}!Army@{Army}}
+\doxysubsubsection{\texorpdfstring{getColor()}{getColor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_figure_8h_ab87bacfdad76e61b9412d7124be44c1c}{Color}} Army\+::get\+Color (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Getter for color of army
+
+\begin{DoxyReturn}{Returns}
+color of army 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_army_ac7c9727a3ac56572f2c8076247ca2c45}\label{class_army_ac7c9727a3ac56572f2c8076247ca2c45}} 
+\index{Army@{Army}!getFigurePointer@{getFigurePointer}}
+\index{getFigurePointer@{getFigurePointer}!Army@{Army}}
+\doxysubsubsection{\texorpdfstring{getFigurePointer()}{getFigurePointer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_figure}{Figure}} $\ast$ Army\+::get\+Figure\+Pointer (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{index }\end{DoxyParamCaption})}
+
+Getter for figure by index
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & correct index of figure that we need\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer on figure, that we need 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_army_a5d7f2e16839348863496d6e138bc4f12}\label{class_army_a5d7f2e16839348863496d6e138bc4f12}} 
+\index{Army@{Army}!isKingAlive@{isKingAlive}}
+\index{isKingAlive@{isKingAlive}!Army@{Army}}
+\doxysubsubsection{\texorpdfstring{isKingAlive()}{isKingAlive()}}
+{\footnotesize\ttfamily bool Army\+::is\+King\+Alive (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Shows if king is alive or not
+
+\begin{DoxyReturn}{Returns}
+true if king is alive, and false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_army_8h}{Army.\+h}}\item 
+\mbox{\hyperlink{_army_8cpp}{Army.\+cpp}}\end{DoxyCompactItemize}

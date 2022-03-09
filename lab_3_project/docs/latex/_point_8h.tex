@@ -1,0 +1,95 @@
+\hypertarget{_point_8h}{}\doxysection{Point.\+h File Reference}
+\label{_point_8h}\index{Point.h@{Point.h}}
+
+
+header file for structs \mbox{\hyperlink{struct_point}{Point}} and \mbox{\hyperlink{struct_move}{Move}}  
+
+
+{\ttfamily \#include $<$string$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_point}{Point}}
+\begin{DoxyCompactList}\small\item\em Struct that describes cell position on the chess board. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_move}{Move}}
+\begin{DoxyCompactList}\small\item\em Struct that describes move on the chess board.~\newline
+. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{_point_8h_a2d73f8747efa3592c8db456a79aeb50f}{operator$<$$<$}} (std\+::ostream \&stream, const \mbox{\hyperlink{struct_point}{Point}} \&point)
+\item 
+bool \mbox{\hyperlink{_point_8h_a177528c8a1eee37fcda25a89084b8ed6}{operator==}} (const \mbox{\hyperlink{struct_point}{Point}} \&a, const \mbox{\hyperlink{struct_point}{Point}} \&b)
+\item 
+bool \mbox{\hyperlink{_point_8h_a59d8a3eae88b358f8d8039ec725b0ded}{operator==}} (const \mbox{\hyperlink{struct_move}{Move}} \&a, const \mbox{\hyperlink{struct_move}{Move}} \&b)
+\item 
+std\+::ostream \& \mbox{\hyperlink{_point_8h_a345e6f4ed8eb5f5be1590fe981a20aec}{operator$<$$<$}} (std\+::ostream \&stream, const \mbox{\hyperlink{struct_move}{Move}} \&point)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+header file for structs \mbox{\hyperlink{struct_point}{Point}} and \mbox{\hyperlink{struct_move}{Move}} 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_point_8h_a345e6f4ed8eb5f5be1590fe981a20aec}\label{_point_8h_a345e6f4ed8eb5f5be1590fe981a20aec}} 
+\index{Point.h@{Point.h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Point.h@{Point.h}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::ostream \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{stream,  }\item[{const \mbox{\hyperlink{struct_move}{Move}} \&}]{move }\end{DoxyParamCaption})}
+
+\texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} Operator for class \mbox{\hyperlink{struct_point}{Point}}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em stream} & is a left operand \\
+\hline
+\mbox{\texttt{ in}}  & {\em move} & is a right operand \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_point_8h_a2d73f8747efa3592c8db456a79aeb50f}\label{_point_8h_a2d73f8747efa3592c8db456a79aeb50f}} 
+\index{Point.h@{Point.h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!Point.h@{Point.h}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::ostream \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{stream,  }\item[{const \mbox{\hyperlink{struct_point}{Point}} \&}]{point }\end{DoxyParamCaption})}
+
+\texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} Operator for class \mbox{\hyperlink{struct_point}{Point}}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em stream} & is a left operand \\
+\hline
+\mbox{\texttt{ in}}  & {\em point} & is a right operand \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_point_8h_a59d8a3eae88b358f8d8039ec725b0ded}\label{_point_8h_a59d8a3eae88b358f8d8039ec725b0ded}} 
+\index{Point.h@{Point.h}!operator==@{operator==}}
+\index{operator==@{operator==}!Point.h@{Point.h}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_move}{Move}} \&}]{a,  }\item[{const \mbox{\hyperlink{struct_move}{Move}} \&}]{b }\end{DoxyParamCaption})}
+
+== Operator for class \mbox{\hyperlink{struct_move}{Move}}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a} & is a left operand \\
+\hline
+\mbox{\texttt{ in}}  & {\em b} & is a right operand \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{_point_8h_a177528c8a1eee37fcda25a89084b8ed6}\label{_point_8h_a177528c8a1eee37fcda25a89084b8ed6}} 
+\index{Point.h@{Point.h}!operator==@{operator==}}
+\index{operator==@{operator==}!Point.h@{Point.h}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_point}{Point}} \&}]{a,  }\item[{const \mbox{\hyperlink{struct_point}{Point}} \&}]{b }\end{DoxyParamCaption})}
+
+== Operator for class \mbox{\hyperlink{struct_point}{Point}}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em a} & is a left operand \\
+\hline
+\mbox{\texttt{ in}}  & {\em b} & is a right operand \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,33 @@
+\hypertarget{_field_8h_source}{}\doxysection{Field.\+h}
+\mbox{\hyperlink{_field_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_army_8h}{Army.h}}"{}}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 }
+\DoxyCodeLine{16 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_cell}{Cell}} \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{class_figure}{Figure}}* figure;}
+\DoxyCodeLine{19     \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_cell_a9e5f16ef7afb56ae0d8a95b829836d68}{marked}}; }
+\DoxyCodeLine{20     \textcolor{keywordtype}{bool} possible\_fight;}
+\DoxyCodeLine{21     \textcolor{keywordtype}{bool} \mbox{\hyperlink{struct_cell_a14e494dfb2fe3fb4f21717aeb21b9418}{selected}}; }
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23     \mbox{\hyperlink{struct_cell}{Cell}}() : figure(nullptr), \mbox{\hyperlink{struct_cell_a9e5f16ef7afb56ae0d8a95b829836d68}{marked}}(false), possible\_fight(false), \mbox{\hyperlink{struct_cell_a14e494dfb2fe3fb4f21717aeb21b9418}{selected}}(false) \{\};}
+\DoxyCodeLine{24 \};}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{class_field}{Field}} \{}
+\DoxyCodeLine{34 \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     std::vector <std::vector <Cell>> \mbox{\hyperlink{class_field_aa8ff9803c0b1a8ffad39c5b604e1a57f}{cells}}; }
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \mbox{\hyperlink{class_field}{Field}}() \{\}}
+\DoxyCodeLine{38     \mbox{\hyperlink{class_field}{Field}}(\mbox{\hyperlink{class_army}{Army}}\& white, \mbox{\hyperlink{class_army}{Army}}\& black, \textcolor{keywordtype}{int} size = 8);}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_field_a3a48758b323e83169353b0e348f347d8}{putMarks}}(\textcolor{keyword}{const} \mbox{\hyperlink{struct_point}{Point}}\& from, \textcolor{keyword}{const} std::vector<Point>\& points);}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_field_a75748f87031bff9b46627b68a29c7edc}{clearMarks}}();}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_field_a969c08bc0d7ab0a322e80fcae8b072f1}{print}}();}
+\DoxyCodeLine{42     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_field_a237354aa572abd3a9777823147056a94}{evaluate}}();}
+\DoxyCodeLine{43 \};}
+
+\end{DoxyCode}
