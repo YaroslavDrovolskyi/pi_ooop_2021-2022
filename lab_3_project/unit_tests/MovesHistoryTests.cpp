@@ -1,3 +1,8 @@
+/*!
+	\file
+	\brief File with implementation of unit test for class MovesHistory
+*/
+
 #include "pch.h"
 #include "CppUnitTest.h"
 
@@ -14,10 +19,16 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace GameUnitTests
 {
+	/*!
+		\brief Class that describes unit tests for class MovesHistory
+	*/
 	TEST_CLASS(MovesHistoryTests)
 	{
 	public:
 
+		/*!
+			Tests simple inserting and pop_back in class MovesHistory
+		*/
 		TEST_METHOD(testSimpleInserting) {
 			MovesHistory arr;
 			std::vector<Move> moves;
@@ -72,6 +83,9 @@ namespace GameUnitTests
 			}
 		}
 
+		/*!
+			Tests writing and reading in/from file for class MovesHistory
+		*/
 		TEST_METHOD(testWritingReadingFile) {
 			std::size_t N = 10000; // number of inserted items
 			const wchar_t* filename = L"testfile.txt";
