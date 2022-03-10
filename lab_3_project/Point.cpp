@@ -7,6 +7,7 @@
 #include "Point.h"
 
 #include <cassert>
+#include <iostream>
 
 /*!
 	Converts "math" coordinate (x;y) on chess board into "game" representation (for example: A5, F8)
