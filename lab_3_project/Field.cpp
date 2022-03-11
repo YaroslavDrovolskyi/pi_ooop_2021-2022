@@ -6,6 +6,20 @@
 #include "Field.h"
 #include <iostream>
 
+
+/*!
+	Method that clear a cell (clear all marks and put away figure) \n
+	This method is using for restoring the field (chess board)
+*/
+void Cell::clean() {
+	figure = nullptr;
+	marked = false;
+	possible_fight = false;
+	selected = false;
+}
+
+
+
 /*!
 	Constructor initialize chess board, put figures on places
 
@@ -13,10 +27,27 @@
 	\param[in,out] black is a black team
 	\param[in] size is a size of board (usually it is 8)
 */
-Field::Field(Army& white, Army& black, int size) {
-	this->cells.resize(size);
+Field::Field(Army& white, Army& black, int size) : cells(size, std::vector<Cell>(size,Cell())) {
+	putFiguresOnField(white, black);
+}
+
+/*!
+	Method that restore positions of all figures on the chess board \n
+	This method is using for restarting the game
+*/
+void Field::restore(Army& white, Army& black) {
+	// clean chess board
+	for (auto& row : cells) {
+		for (Cell& cell : row) {
+			cell.clean();
+		}
+	}
+	putFiguresOnField(white, black); // put figures on board
+}
+
+void Field::putFiguresOnField(Army& white, Army& black) {
+	std::size_t size = this->cells.size();
 	for (std::size_t i = 0; i < size; i++) {
-		this->cells[i].resize(size);
 		for (std::size_t j = 0; j < size; j++) {
 			if (i == 0) { // black
 				switch (j) {

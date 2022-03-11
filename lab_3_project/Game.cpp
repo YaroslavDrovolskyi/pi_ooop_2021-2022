@@ -95,7 +95,7 @@ void ChessGame::exec() {
 	field.print();
 	*/
 
-	sf::RenderWindow main_window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+//	sf::RenderWindow main_window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 	main_window.setVerticalSyncEnabled(true); // sync frequency
 	main_window.setPosition({ 150, 25 });
 	sf::Image icon;
@@ -1038,9 +1038,12 @@ int ChessGame::checkForWinner() {
 void ChessGame::restart() {
 	moves_list.print();
 
-	this->team_w = Army(Color::white);
-	this->team_b = Army(Color::black);
-	this->field = Field(team_w, team_b);
+//	this->team_w = Army(Color::white);
+//	this->team_b = Army(Color::black);
+//	this->field = Field(team_w, team_b);
+	team_w.restore();
+	team_b.restore();
+	field.restore(team_w, team_b);
 	this->moves_list.clear();
 
 	w_moves_count = 0;

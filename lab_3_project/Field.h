@@ -21,6 +21,7 @@ public:
 	bool selected; ///< selected own figure
 
 	Cell() : figure(nullptr), marked(false), possible_fight(false), selected(false) {};
+	void clean();
 };
 
 
@@ -31,11 +32,14 @@ public:
 	As for structure: it is a matrix 8x8 of struct Cell
 */
 class Field {
+private:
+	void putFiguresOnField(Army& white, Army& black);
 public:
 	std::vector <std::vector <Cell>> cells; ///<implementation of matrix
 
 	Field() {}
 	Field(Army& white, Army& black, int size = 8);
+	void restore(Army& white, Army& black);
 	void putMarks(const Point& from, const std::vector<Point>& points);
 	void clearMarks();
 	void print();
