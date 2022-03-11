@@ -28,6 +28,7 @@ ChessGame::ChessGame() : team_w(Color::white), team_b(Color::black), field(team_
 	w = w0 = 100;
 	selected_figure = nullptr;
 	warning1 = warning2 = false;
+	// ui don't initialized
 }
 
 /*!
@@ -94,6 +95,9 @@ void ChessGame::exec() {
 	sf::Image icon;
 	icon.loadFromFile("img/icon.png");
 	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+
+	ui.init(&window, &field);
 	//	sf::CircleShape shape(100.f);
 	//	shape.setFillColor(sf::Color::Green);
 
@@ -912,8 +916,9 @@ void ChessGame::handleFieldClick(const Point& pos) {
 			warning1 = false;
 			warning2 = false;
 		}
-		else {
-			warning1 = true; // WARNING: "Please, choose own (white) figure"
+		else if (figure && figure->getColor() == Color::black) {
+		//	warning1 = true; // WARNING: "Please, choose own (white) figure"
+			ui.displayMessageBox(L"Please, choose own (white) figure");
 		}
 
 	}
@@ -939,7 +944,8 @@ void ChessGame::handleFieldClick(const Point& pos) {
 				warning2 = false;
 			}
 			else {
-				warning2 = true; // WARNING: "Impossible move to thos point"
+			//	warning2 = true; // WARNING: "Impossible move to thos point"
+				ui.displayMessageBox(L"Impossible move to this cell");
 			}
 		}
 
@@ -947,73 +953,27 @@ void ChessGame::handleFieldClick(const Point& pos) {
 }
 
 
-std::string ChessGame::getCurrentTimeAsString() {
-	time_t time = std::time(nullptr);
-	tm local_time;
-	localtime_s(&local_time, &time);
-	char buffer[80];
 
-	strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &local_time);
-
-	return std::string(buffer);
-}
 
 
 void ChessGame::saveMovesHistory() {
-	std::string name = "game_" + getCurrentTimeAsString() + ".txt";
-	std::wstring w_name{ name.begin(), name.end() }; // convertation init filename from std::string into std::wstring
+	wchar_t filepath[260];
 
-
-	OPENFILENAME ofn;
-	wchar_t filePath[260]; // initial filename
-	std:copy(w_name.begin(), w_name.end(), filePath); // convertation init filename from std::wstring into char*
-	filePath[w_name.length()] = '\0';
-
-	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = filePath; // file path
-//	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(filePath);
-	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.lpstrTitle = L"Select a file to save game";
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-
-
-	if (GetSaveFileName(&ofn) == TRUE) {
-		std::wcout << L"Game saved in file: " << filePath << std::endl;
-		moves_list.writeInFile(filePath);
+	if (ui.getSavePath(filepath, sizeof(filepath)) == TRUE) {
+		moves_list.writeInFile(filepath);
+		std::wcout << L"Game saved in file: " << filepath << std::endl;
 	}
 }
 
 
 void ChessGame::loadMovesHistory() {
-	OPENFILENAME ofn; 
-	wchar_t filePath[260];
-	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0 
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = filePath; // file path
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(filePath);
-	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.lpstrTitle = L"Select a file to load game";
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+	wchar_t filepath[260];
 
-
-	if (GetOpenFileName(&ofn) == TRUE) {
+	if (ui.getLoadPath(filepath, sizeof(filepath)) == TRUE) {
 		restart(); // because sequense of moves we'll apply started from new game
-		std::wcout << L"Game loaded from file: " << filePath << std::endl;
-		moves_list.readFromFile(filePath);
-
+		moves_list.readFromFile(filepath);
+		std::wcout << L"Game loaded from file: " << filepath << std::endl;
+		
 		applyMoves(moves_list); // apply moves
 
 		moves_list.print();
@@ -1087,4 +1047,6 @@ void ChessGame::restart() {
 	selected_figure = nullptr;
 	warning1 = warning2 = false;
 	std::cout << "RESTART" << std::endl << std::endl << std::endl;
+
+	ui.init(nullptr, &field);
 }

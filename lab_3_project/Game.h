@@ -16,6 +16,7 @@
 #include "Army.h"
 #include "Field.h"
 #include "MovesHistory.h"
+#include "Ui.h"
 
 
 /*!
@@ -48,6 +49,8 @@ private:
 
 	bool warning1; // please, choose white (your) figures
 	bool warning2; // impossible move to this point
+
+	Ui ui;
 
 public:
 	ChessGame();
@@ -89,7 +92,7 @@ private:
 	void applyMoves(MovesHistory& moves); // function to apply moves when we got them from file. Also upgrade moves with &removed_figure for each move
 	int checkForWinner(); // check who is winner and return: -1 - black, 0 - nobody, 1 - white
 
-	std::string getCurrentTimeAsString();
+//	std::string getCurrentTimeAsString();
 
 	void update(sf::RenderWindow& window); // display window
 	void restart();
