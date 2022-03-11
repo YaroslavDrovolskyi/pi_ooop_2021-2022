@@ -160,16 +160,16 @@ void ChessGame::exec() {
 					int x_int = static_cast<int>(x); // round down
 					int y_int = static_cast<int>(y);
 
-					//					int x = event.mouseButton.x / w;
-					//					int y = event.mouseButton.y / w;
+					// int x = event.mouseButton.x / w;
+					// int y = event.mouseButton.y / w;
 					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << "=  (" << x_int << "; " << y_int << ") " << std::endl;
+
 
 					if (this->winner == 0) {
 						if (cur_player == Player::user) {
 							if (x_int >= 2 && x_int <= 9 && y_int >= 1 && y_int <= 8) {
-								
 								handleFieldClick(Point(x_int - 2, 8 - y_int));
-							}
+							}	
 							else if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
 								saveMovesHistory();
 							}
@@ -191,7 +191,7 @@ void ChessGame::exec() {
 						else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
 							loadMovesHistory();
 						}
-						if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
+						else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
 							restart();
 						}
 						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
@@ -948,25 +948,25 @@ void ChessGame::handleFieldClick(const Point& pos) {
 
 void ChessGame::saveMovesHistory() {
 	OPENFILENAME ofn;
-	wchar_t szFile[260];
+	wchar_t filePath[260];
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFile; // file path
+	ofn.lpstrFile = filePath; // file path
 	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(szFile);
+	ofn.nMaxFile = sizeof(filePath);
 	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
 	ofn.nMaxFileTitle = 0;
 	ofn.lpstrInitialDir = NULL;
 	ofn.lpstrTitle = L"Select a file to save game";
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
 
 	if (GetSaveFileName(&ofn) == TRUE) {
-		std::wcout << L"Game saved in file: " << szFile << std::endl;
-		moves_list.writeInFile(szFile);
+		std::wcout << L"Game saved in file: " << filePath << std::endl;
+		moves_list.writeInFile(filePath);
 	}
 }
 
@@ -988,7 +988,7 @@ void ChessGame::loadMovesHistory() {
 	ofn.nMaxFileTitle = 0;
 	ofn.lpstrInitialDir = NULL;
 	ofn.lpstrTitle = L"Select a file to load game";
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
 
 
 	if (GetOpenFileName(&ofn) == TRUE) {
