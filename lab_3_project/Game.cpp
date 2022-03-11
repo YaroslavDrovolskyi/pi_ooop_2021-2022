@@ -20,14 +20,20 @@
 
 
 
-ChessGame::ChessGame() : team_w(Color::white), team_b(Color::black), field(team_w, team_b) {
-	this->w_moves_count = 0;
-	this->b_moves_count = 0;
-	this->cur_player = Player::user;
-	winner = 0;
-	w = w0 = 100;
-	selected_figure = nullptr;
-	warning1 = warning2 = false;
+ChessGame::ChessGame() : 
+	team_w(Color::white),
+	team_b(Color::black), 
+	field(team_w, team_b),
+	main_window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize),
+	w_moves_count(0),
+	b_moves_count(0),
+	cur_player(Player::user),
+	winner(0),
+	w(100),
+	w0(100),
+	selected_figure(nullptr),
+	warning1(false),
+	warning2(false) {
 	// ui don't initialized
 }
 
@@ -89,15 +95,15 @@ void ChessGame::exec() {
 	field.print();
 	*/
 
-	sf::RenderWindow window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
-	window.setVerticalSyncEnabled(true); // sync frequency
-	window.setPosition({ 150, 25 });
+	sf::RenderWindow main_window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+	main_window.setVerticalSyncEnabled(true); // sync frequency
+	main_window.setPosition({ 150, 25 });
 	sf::Image icon;
 	icon.loadFromFile("img/icon.png");
-	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	main_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 
-	ui.init(&window, &field);
+	ui.init(&main_window, &field);
 	//	sf::CircleShape shape(100.f);
 	//	shape.setFillColor(sf::Color::Green);
 
@@ -115,9 +121,9 @@ void ChessGame::exec() {
 		//	sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 		//	sprite.setScale(2, 2);
 
-	sf::View view = window.getDefaultView();
+	sf::View view = main_window.getDefaultView();
 
-	while (window.isOpen()) {
+	while (main_window.isOpen()) {
 
 
 		if (winner == 0 && cur_player == Player::ai) {
@@ -125,9 +131,9 @@ void ChessGame::exec() {
 		}
 		else {
 			sf::Event event;
-			if (window.waitEvent(event)) { // while and pollEvent
+			if (main_window.waitEvent(event)) { // while and pollEvent
 				if (event.type == sf::Event::Closed) {
-					window.close();
+					main_window.close();
 				}
 
 
@@ -135,16 +141,16 @@ void ChessGame::exec() {
 				//	std::cout << "new width: " << event.size.width << std::endl;
 				//	std::cout << "new height: " << event.size.height << std::endl;
 
-					int new_width = window.getSize().x;
-					int new_height = window.getSize().y;
+					int new_width = main_window.getSize().x;
+					int new_height = main_window.getSize().y;
 
 					if (new_width < 500) {
-						window.setSize({ 500, window.getSize().y });
+						main_window.setSize({ 500, main_window.getSize().y });
 						new_width = 500;
 					}
 
 					if (new_height < 300) {
-						window.setSize({ window.getSize().x, 300 });
+						main_window.setSize({ main_window.getSize().x, 300 });
 						new_height = 300;
 					}
 
@@ -155,13 +161,13 @@ void ChessGame::exec() {
 					view.setSize(new_width, new_height);
 					view.setCenter(8 * w, 5 * w);
 
-					window.setView(view);
+					main_window.setView(view);
 				}
 
 
 				else if (event.type == sf::Event::MouseButtonPressed) {
-					double x = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
-					double y = window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
+					double x = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
+					double y = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
 
 					int x_int = static_cast<int>(x); // round down
 					int y_int = static_cast<int>(y);
@@ -186,7 +192,7 @@ void ChessGame::exec() {
 								restart();
 							}
 							else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-								window.close();
+								main_window.close();
 							}
 						}
 					}
@@ -201,7 +207,7 @@ void ChessGame::exec() {
 							restart();
 						}
 						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-							window.close();
+							main_window.close();
 						}
 					}
 				}
@@ -210,7 +216,7 @@ void ChessGame::exec() {
 
 			}
 		}
-		update(window);
+		update(main_window);
 	}
 }
 
@@ -980,9 +986,7 @@ void ChessGame::loadMovesHistory() {
 	}
 }
 
-// GetOpenFileName() example from: https://www.cyberforum.ru/win-api/thread2439941.html
-// Explanations of OPENFILENAME attribures: http://www.vsokovikov.narod.ru/New_MSDN_API/Com_dlg_lib/str_openfilename.htm
-// About ZeroMemory: https://stackoverflow.com/questions/16210598/null-vs-zeromemory
+
 
 
 // function to apply moves when we got them from file. Also upgrade moves with &removed_figure for each move

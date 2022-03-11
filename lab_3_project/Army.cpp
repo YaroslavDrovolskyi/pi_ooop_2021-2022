@@ -11,8 +11,7 @@
 	\brief Constructor
 	Create and init all figures
 */
-Army::Army(Color color) {
-	this->color = color;
+Army::Army(Color color) : color(color) {
 	this->figures.resize(16);
 
 	int pawns_row_index = color == Color::white ? 1 : 6;
@@ -45,6 +44,40 @@ Army::Army(Color color) {
 		else if (i == 15) { // king
 			Point p(4, others_row_index);
 			this->figures[i] = Figure(color, FigType::king, p);
+		}
+	}
+}
+
+/*!
+	Method that restore position and aliveness of all figures in a team \n
+	This method is using for restarting the game
+*/
+void Army::restore() {
+	int pawns_row_index = color == Color::white ? 1 : 6;
+	int others_row_index = color == Color::white ? 0 : 7;
+
+	for (std::size_t i = 0; i < 16; i++) {
+		figures[i].setIsAlive(true);
+		if (i < 8) { // pawns
+			figures[i].setPosition(Point(i, pawns_row_index));
+		}
+		else if (i < 10) { // horses
+			int j = (i == 8 ? 1 : 6);
+			figures[i].setPosition(Point(j, others_row_index));
+		}
+		else if (i < 12) { // bishop
+			int j = (i == 10 ? 2 : 5);
+			figures[i].setPosition(Point(j, others_row_index));
+		}
+		else if (i < 14) { // rook
+			int j = (i == 12 ? 0 : 7);
+			figures[i].setPosition(Point(j, others_row_index));
+		}
+		else if (i == 14) { // queen
+			figures[i].setPosition(Point(3, others_row_index));
+		}
+		else if (i == 15) { // king
+			figures[i].setPosition(Point(4, others_row_index));
 		}
 	}
 }

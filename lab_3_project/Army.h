@@ -29,6 +29,7 @@ private:
 public:
 
 	Army(Color color);
+	void restore();
 	Color getColor() const;
 	Figure* getFigurePointer(std::size_t index);
 	bool isKingAlive() const;

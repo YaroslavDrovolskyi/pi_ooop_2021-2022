@@ -52,6 +52,8 @@ private:
 
 	Ui ui;
 
+	sf::RenderWindow main_window;
+
 public:
 	ChessGame();
 	void exec();
