@@ -89,6 +89,8 @@ private:
 	void applyMoves(MovesHistory& moves); // function to apply moves when we got them from file. Also upgrade moves with &removed_figure for each move
 	int checkForWinner(); // check who is winner and return: -1 - black, 0 - nobody, 1 - white
 
+	std::string getCurrentTimeAsString();
+
 	void update(sf::RenderWindow& window); // display window
 	void restart();
 };

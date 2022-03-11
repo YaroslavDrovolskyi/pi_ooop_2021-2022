@@ -11,6 +11,8 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
+
+#include <ctime>
 #include <windows.h>
 #include <WinUser.h>
 
@@ -945,15 +947,33 @@ void ChessGame::handleFieldClick(const Point& pos) {
 }
 
 
+std::string ChessGame::getCurrentTimeAsString() {
+	time_t time = std::time(nullptr);
+	tm local_time;
+	localtime_s(&local_time, &time);
+	char buffer[80];
+
+	strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &local_time);
+
+	return std::string(buffer);
+}
+
 
 void ChessGame::saveMovesHistory() {
+	std::string name = "game_" + getCurrentTimeAsString() + ".txt";
+	std::wstring w_name{ name.begin(), name.end() }; // convertation init filename from std::string into std::wstring
+
+
 	OPENFILENAME ofn;
-	wchar_t filePath[260];
+	wchar_t filePath[260]; // initial filename
+	std:copy(w_name.begin(), w_name.end(), filePath); // convertation init filename from std::wstring into char*
+	filePath[w_name.length()] = '\0';
+
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;
 	ofn.lpstrFile = filePath; // file path
-	ofn.lpstrFile[0] = '\0';
+//	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = sizeof(filePath);
 	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
 	ofn.nFilterIndex = 1;
@@ -972,16 +992,14 @@ void ChessGame::saveMovesHistory() {
 
 
 void ChessGame::loadMovesHistory() {
-	
-
 	OPENFILENAME ofn; 
-	wchar_t szFile[260];
+	wchar_t filePath[260];
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;
-	ofn.lpstrFile = szFile; // file path
+	ofn.lpstrFile = filePath; // file path
 	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(szFile);
+	ofn.nMaxFile = sizeof(filePath);
 	ofn.lpstrFilter = L"Text files (*.txt)\0*.txt\0\0";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL; // file title (name + file extension)
@@ -993,8 +1011,8 @@ void ChessGame::loadMovesHistory() {
 
 	if (GetOpenFileName(&ofn) == TRUE) {
 		restart(); // because sequense of moves we'll apply started from new game
-		std::wcout << L"Game loaded from file: " << szFile << std::endl;
-		moves_list.readFromFile(szFile);
+		std::wcout << L"Game loaded from file: " << filePath << std::endl;
+		moves_list.readFromFile(filePath);
 
 		applyMoves(moves_list); // apply moves
 
