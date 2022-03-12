@@ -29,12 +29,8 @@ ChessGame::ChessGame() :
 	b_moves_count(0),
 	cur_player(Player::user),
 	winner(0),
-	w(100),
-	w0(100),
 	selected_figure(nullptr),
-	warning1(false),
-	warning2(false),
-	ui(main_window, field, w, w0, winner)
+	ui(main_window, field, winner)
 {
 
 }
@@ -146,50 +142,35 @@ void ChessGame::exec() {
 
 
 				else if (event.type == sf::Event::MouseButtonPressed) {
-					double x = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
-					double y = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
+					Point field_point;
+					Ui::Place clicked_place = ui.getClickedPlace(event, field_point);
 
-					int x_int = static_cast<int>(x); // round down
-					int y_int = static_cast<int>(y);
 
-					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << "=  (" << x_int << "; " << y_int << ") " << std::endl;
+					// check places, where reaction doesn't depend on is there a winner or not
+					if (clicked_place == Ui::Place::button_save) {
+						saveMovesHistory();
+					}
+					else if (clicked_place == Ui::Place::button_load) {
+						loadMovesHistory();
+					}
+					else if (clicked_place == Ui::Place::button_restart) {
+						restart();
+					}
+					else if (clicked_place == Ui::Place::button_close) {
+						handleClose();
+					}
+
 
 
 					if (this->winner == 0) {
 						if (cur_player == Player::user) {
-							if (x_int >= 2 && x_int <= 9 && y_int >= 1 && y_int <= 8) {
-								handleFieldClick(Point(x_int - 2, 8 - y_int));
+							if (clicked_place == Ui::Place::field) {
+								handleFieldClick(field_point);
 							}	
-							else if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
-								saveMovesHistory();
-							}
-							else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
-								loadMovesHistory();
-							}
-							else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
-								restart();
-							}
-							else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-								//	main_window.close();
-								handleClose();
-							//	main_window.close();
-							}
 						}
 					}
 					else { // if game is over (winner is -1 or 1)
-						if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
-							saveMovesHistory();
-						}
-						else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
-							loadMovesHistory();
-						}
-						else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
-							restart();
-						}
-						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-						//	main_window.close();
-							handleClose();
-						}
+						// nothing to check anymore
 					}
 				}
 			}
@@ -433,8 +414,6 @@ std::vector<Point> ChessGame::king_moves(Point p, int moves_number) {
 		}
 	}
 
-
-
 	eraseIncorrectMoves(p, result);
 
 	return result;
@@ -512,17 +491,6 @@ Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assum
 
 	return dest_figure; // return removed figure
 }
-
-
-/*
-void Field::makeMove(const Point& from, const Point& dest) {
-	assert(isCorrectPoint(from));
-	assert(isCorrectPoint(dest));
-	cells[dest.y][dest.x].figure = cells[from.y][from.x].figure;
-	cells[from.y][from.x].figure = nullptr;
-}
-*/
-
 
 
 
@@ -702,12 +670,8 @@ void ChessGame::handleFieldClick(const Point& pos) {
 		if (figure && figure->getColor() == Color::white) {
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
-
-			warning1 = false;
-			warning2 = false;
 		}
 		else if (figure && figure->getColor() == Color::black) {
-		//	warning1 = true; // WARNING: "Please, choose own (white) figure"
 			ui.displayMessageBox(L"Please, choose own (white) figure");
 		}
 
@@ -717,8 +681,6 @@ void ChessGame::handleFieldClick(const Point& pos) {
 			field.clearMarks();
 			selected_figure = figure;
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
-
-			warning2 = false;
 		}
 		else {
 			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
@@ -730,11 +692,8 @@ void ChessGame::handleFieldClick(const Point& pos) {
 				w_moves_count++;
 				field.clearMarks();
 				cur_player = Player::ai;
-
-				warning2 = false;
 			}
 			else {
-			//	warning2 = true; // WARNING: "Impossible move to thos point"
 				ui.displayMessageBox(L"Impossible move to this cell");
 			}
 		}
@@ -820,7 +779,7 @@ int ChessGame::checkForWinner() {
 
 
 void ChessGame::restart() {
-	moves_list.print();
+//	moves_list.print();
 
 	team_w.restore();
 	team_b.restore();
@@ -831,9 +790,8 @@ void ChessGame::restart() {
 	b_moves_count = 0;
 	cur_player = Player::user;
 	winner = 0;
-	//	w = w0 = 100;
 	selected_figure = nullptr;
-	warning1 = warning2 = false;
+
 	std::cout << "RESTART" << std::endl << std::endl << std::endl;
 
 }

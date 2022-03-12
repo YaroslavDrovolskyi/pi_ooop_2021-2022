@@ -1,12 +1,41 @@
+/*!
+	\file
+	\brief File with implementation of class Ui
+
+*/
+
+
+
 #include "Ui.h"
+
+#include <SFML/Graphics.hpp>
 
 #include <windows.h>
 #include <WinUser.h>
 
 #include <iostream>
+#include <cassert>
 
 
 
+
+/*!
+	Constructor initialize object
+
+	\param[in, out] main_window is main window of game. It must be created in class ChessGame
+	\param[in,out] field is a chess board
+
+*/
+Ui::Ui(sf::RenderWindow& main_window, Field& field, const int& winner) : 
+	main_window{ main_window }, 
+	field{ field }, 
+	w(100), 
+	w0(100), 
+	winner(winner) 
+{
+	initWindow();
+	window_view = main_window.getDefaultView();
+};
 
 
 
@@ -162,6 +191,11 @@ bool Ui::getLoadPath(wchar_t* filePath, std::size_t buffer_size) {
 // About ZeroMemory: https://stackoverflow.com/questions/16210598/null-vs-zeromemory
 
 
+
+/*!
+	Method that resize the main window of the game. \n
+	It is implemented using changing the view of window and changing size of netting square.
+*/
 void Ui::resizeWindow() {
 	int new_width = main_window.getSize().x;
 	int new_height = main_window.getSize().y;
@@ -189,7 +223,9 @@ void Ui::resizeWindow() {
 //		<< "new height:" << new_height << std::endl;
 }
 
-
+/*!
+	Method that display main window.
+*/
 void Ui::displayWindow() {
 
 	sf::Font font;
@@ -342,7 +378,6 @@ void Ui::displayField() {
 
 	// draw number labels
 
-
 	for (std::size_t i = 0; i < 16; i++) {
 		if (i < 4) {
 			number_label.setTextureRect(sf::IntRect(6 * w0 + (double)i * w0 / 4, 0, w0 / 4, w0));
@@ -370,6 +405,49 @@ void Ui::displayField() {
 	}
 
 	
+}
+
+
+/*!
+	Method that tell place where mouse clicked.
+
+	\param[in] event contains coordinates where mouse clicked
+	\param[out] filed_point is for returning point on field if mouse clicked on field
+
+	\returns place where mouse clicked in terms of enum class Ui::Place
+*/
+Ui::Place Ui::getClickedPlace(const sf::Event& event, Point& field_point) {
+	assert(event.type == sf::Event::MouseButtonPressed);
+
+	double x = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).x / w; // transform view coordinates to real coordinates
+	double y = main_window.mapPixelToCoords({ event.mouseButton.x,  event.mouseButton.y }).y / w;
+
+	int x_int = static_cast<int>(x); // round down
+	int y_int = static_cast<int>(y);
+
+//	std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") "
+//		<< " =  (" << x << "; " << y << ") " << "=  (" << x_int << "; " << y_int << ") " << std::endl;
+
+
+	if (x_int >= 2 && x_int <= 9 && y_int >= 1 && y_int <= 8) {
+		field_point.x = x_int - 2;
+		field_point.y = 8 - y_int;
+		return Place::field;
+	}
+	else if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
+		return Place::button_save;
+	}
+	else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
+		return Place::button_load;
+	}
+	else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
+		return Place::button_restart;
+	}
+	else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
+		return Place::button_close;
+	}
+
+
 }
 
 

@@ -44,12 +44,6 @@ private:
 
 	Figure* selected_figure;
 
-	int w; // native width of one square of netting
-	int w0; // width of one texture in image files
-
-	bool warning1; // please, choose white (your) figures
-	bool warning2; // impossible move to this point
-
 	sf::RenderWindow main_window;
 
 	Ui ui;
@@ -87,7 +81,6 @@ private:
 	Army& getOppositeTeam(const Army& team);
 	void markAsWinner(const Army& team);
 
-//	void displayField(sf::RenderWindow& window);
 
 	void handleFieldClick(const Point& pos);
 
@@ -96,9 +89,6 @@ private:
 	void applyMoves(MovesHistory& moves); // function to apply moves when we got them from file. Also upgrade moves with &removed_figure for each move
 	int checkForWinner(); // check who is winner and return: -1 - black, 0 - nobody, 1 - white
 
-//	std::string getCurrentTimeAsString();
-
-//	void update(sf::RenderWindow& window); // display window
 	void restart();
 	bool handleClose();
 };

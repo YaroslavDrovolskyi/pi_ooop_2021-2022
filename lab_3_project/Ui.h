@@ -1,3 +1,9 @@
+/*!
+	\file
+	\brief Header file for class Ui
+
+*/
+
 #pragma once
 #include <SFML/Graphics.hpp>
 
@@ -10,13 +16,12 @@
 */
 class Ui {
 public:
-	class Button {
-
-	};
+	class Button;
+	enum class Place;
 private:
-	int& w; // native width of one square of netting
-	int& w0; // width of one texture in image files
-	int& winner;
+	int w; // native width of one square of netting
+	int w0; // width of one texture in image files
+	const int& winner;
 	sf::RenderWindow& main_window;
 	sf::View window_view;
 	Field& field;
@@ -26,11 +31,7 @@ private:
 	void initWindow();
 	void displayField();
 public:
-	Ui(sf::RenderWindow& main_window, Field& field, int& w, int& w0, int& winner) : main_window{ main_window }, field{ field }, w(w), w0(w0), winner(winner) {
-		initWindow();
-		window_view = main_window.getDefaultView();
-	};
-//	void init(sf::RenderWindow* window, Field* field);
+	Ui(sf::RenderWindow& main_window, Field& field, const int& winner);
 
 	
 	int displayMessageBox(const wchar_t* message, const wchar_t* title = L"Warning");
@@ -39,7 +40,24 @@ public:
 	bool getLoadPath(wchar_t* filePath, std::size_t buffer_size);
 	void resizeWindow();
 	void displayWindow();
+	Place getClickedPlace(const sf::Event& event, Point& field_point);
 
+};
 
+class Ui::Button {
+
+};
+
+/*!
+	\enum Place
+	\brief Enum that describes place on main window
+*/
+enum class Ui::Place {
+	field,
+	button_save,
+	button_load,
+	button_restart,
+	button_close,
+	nowhere
 };
 
