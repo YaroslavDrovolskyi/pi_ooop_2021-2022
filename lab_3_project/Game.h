@@ -87,7 +87,7 @@ private:
 	Army& getOppositeTeam(const Army& team);
 	void markAsWinner(const Army& team);
 
-	void displayField(sf::RenderWindow& window);
+//	void displayField(sf::RenderWindow& window);
 
 	void handleFieldClick(const Point& pos);
 
@@ -98,7 +98,7 @@ private:
 
 //	std::string getCurrentTimeAsString();
 
-	void update(sf::RenderWindow& window); // display window
+//	void update(sf::RenderWindow& window); // display window
 	void restart();
 	bool handleClose();
 };

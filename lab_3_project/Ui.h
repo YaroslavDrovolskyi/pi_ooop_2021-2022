@@ -16,6 +16,7 @@ public:
 private:
 	int& w; // native width of one square of netting
 	int& w0; // width of one texture in image files
+	int& winner;
 	sf::RenderWindow& main_window;
 	sf::View window_view;
 	Field& field;
@@ -23,8 +24,9 @@ private:
 
 	std::string getCurrentTimeAsString();
 	void initWindow();
+	void displayField();
 public:
-	Ui(sf::RenderWindow& main_window, Field& field, int& w, int& w0) : main_window{ main_window }, field{ field }, w(w), w0(w0) {
+	Ui(sf::RenderWindow& main_window, Field& field, int& w, int& w0, int& winner) : main_window{ main_window }, field{ field }, w(w), w0(w0), winner(winner) {
 		initWindow();
 		window_view = main_window.getDefaultView();
 	};
@@ -36,6 +38,7 @@ public:
 	bool getSavePath(wchar_t* filePath, std::size_t buffer_size);
 	bool getLoadPath(wchar_t* filePath, std::size_t buffer_size);
 	void resizeWindow();
+	void displayWindow();
 
 
 };

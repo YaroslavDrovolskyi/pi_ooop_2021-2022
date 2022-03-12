@@ -34,7 +34,7 @@ ChessGame::ChessGame() :
 	selected_figure(nullptr),
 	warning1(false),
 	warning2(false),
-	ui(main_window, field, w, w0)
+	ui(main_window, field, w, w0, winner)
 {
 
 }
@@ -192,12 +192,9 @@ void ChessGame::exec() {
 						}
 					}
 				}
-
-
-
 			}
 		}
-		update(main_window);
+		ui.displayWindow();
 	}
 }
 
@@ -694,200 +691,6 @@ void ChessGame::markAsWinner(const Army& team) {
 	}
 	std::cout << "WINNER: " << winner << std::endl << std::endl;
 }
-
-void ChessGame::update(sf::RenderWindow& window) {
-	//	displayField(window);
-	sf::Font font;
-	font.loadFromFile("fonts/calibri.otf");
-
-	window.clear(sf::Color(250, 220, 100, 0)); // set background
-	displayField(window);
-
-	if (winner == 0) {
-		if (warning1) {
-			sf::Text text_warn1("Please, choose white figure", font, 0.4 * w);
-			text_warn1.setFillColor(sf::Color::Red);
-			text_warn1.setPosition(10.5 * w, 1.5 * w);
-			window.draw(text_warn1);
-		}
-		if (warning2) {
-			sf::Text text_warn2("Impossible move to this point", font, 0.4 * w);
-			text_warn2.setFillColor(sf::Color::Red);
-			text_warn2.setPosition(10.5 * w, 1.5 * w);
-			window.draw(text_warn2);
-		}
-	}
-	else if (winner != 0) {
-		sf::Text win_text("", font, w);
-		win_text.setFillColor(sf::Color(248, 1, 20));
-		win_text.setPosition(10.5 * w, 1 * w);
-
-		if (winner == 1) { // user (white) won
-			win_text.setString("YOU WON!");
-		}
-		else { // ai (black) won
-			win_text.setString("AI WINS!");
-		}
-
-		window.draw(win_text);
-	}
-	
-	// button_save
-	sf::RectangleShape button_save(sf::Vector2f(3 * w, w));
-	button_save.setFillColor(sf::Color(10, 103, 163));
-	button_save.setPosition(11 * w, 3.5 * w);
-	window.draw(button_save);
-
-	sf::Text text_save("Save game", font, 0.4 * w);
-	text_save.setPosition(11.7 * w, 3.75 * w);
-	window.draw(text_save);
-
-	// button_load
-	sf::RectangleShape button_load(sf::Vector2f(3 * w, w));
-	button_load.setFillColor(sf::Color(10, 103, 163));
-	button_load.setPosition(11 * w, 5 * w);
-	window.draw(button_load);
-
-	sf::Text text_load("Load game", font, 0.4 * w);
-	text_load.setPosition(11.7 * w, 5.25 * w);
-	window.draw(text_load);
-
-
-	// button_restart
-	sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
-	button_restart.setFillColor(sf::Color(10, 103, 163));
-	button_restart.setPosition(11 * w, 6.5 * w);
-	window.draw(button_restart);
-
-	sf::Text text_restart("Restart", font, 0.4 * w);
-	text_restart.setPosition(11.9 * w, 6.75 * w);
-	window.draw(text_restart);
-
-
-	// button_close
-	sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
-	button_close.setFillColor(sf::Color(255, 7, 1));
-	button_close.setPosition(11 * w, 8 * w);
-	window.draw(button_close);
-
-	sf::Text text_close("Close", font, 0.4 * w);
-	text_close.setPosition(12.1 * w, 8.25 * w);
-	window.draw(text_close);
-
-	
-	
-	
-	
-
-	window.display();
-}
-
-void ChessGame::displayField(sf::RenderWindow& window) {
-	sf::Texture texture;
-	texture.loadFromFile("img/textures.png");
-	sf::Sprite cell(texture);
-
-
-	sf::Sprite figure(texture);
-
-	sf::Sprite number_label(texture);
-
-
-
-	for (std::size_t i = 0; i < field.cells.size(); i++) {
-		for (std::size_t j = 0; j < field.cells[i].size(); j++) {
-			// draw cell
-			if ((i + j) % 2 == 0) { // cell is white
-				cell.setTextureRect(sf::IntRect(8 * w0, 0, w0, w0));
-			}
-			else {
-				cell.setTextureRect(sf::IntRect(8 * w0, w0, w0, w0));
-			}
-
-			cell.setScale((double)w / w0, (double)w / w0);
-			cell.setPosition(j * w, (7 - i) * w);
-			cell.move(2 * w, w);
-			window.draw(cell);
-
-			// draw marks
-			if (field.cells[i][j].marked) {
-				cell.setTextureRect(sf::IntRect(9 * w0, 0, w0, w0));
-			}
-			else if (field.cells[i][j].possible_fight) {
-				cell.setTextureRect(sf::IntRect(9 * w0, w0, w0, w0));
-			}
-			else if (field.cells[i][j].selected) {
-				cell.setTextureRect(sf::IntRect(10 * w0, 0, w0, w0));
-			}
-			window.draw(cell);
-
-			// draw figures
-			Figure* f = field.cells[i][j].figure;
-			if (f) {
-				if (f->getColor() == Color::white) {
-					switch (f->getType()) {
-					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, 0, w0, w0)); break; }
-					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, 0, w0, w0)); break; }
-					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, 0, w0, w0)); break; }
-					case FigType::rook: {figure.setTextureRect(sf::IntRect(3 * w0, 0, w0, w0)); break; }
-					case FigType::queen: {figure.setTextureRect(sf::IntRect(4 * w0, 0, w0, w0)); break; }
-					case FigType::king: {figure.setTextureRect(sf::IntRect(5 * w0, 0, w0, w0)); break; }
-					default: {break; }
-					}
-				}
-				else {
-					switch (f->getType()) {
-					case FigType::pawn: {figure.setTextureRect(sf::IntRect(0, w0, w0, w0)); break; }
-					case FigType::horse: {figure.setTextureRect(sf::IntRect(w0, w0, w0, w0)); break; }
-					case FigType::bishop: {figure.setTextureRect(sf::IntRect(2 * w0, w0, w0, w0)); break; }
-					case FigType::rook: {figure.setTextureRect(sf::IntRect(3 * w0, w0, w0, w0)); break; }
-					case FigType::queen: {figure.setTextureRect(sf::IntRect(4 * w0, w0, w0, w0)); break; }
-					case FigType::king: {figure.setTextureRect(sf::IntRect(5 * w0, w0, w0, w0)); break; }
-					default: {break; }
-					}
-				}
-
-				figure.setScale((double)w / w0, (double)w / w0);
-
-				figure.setPosition(j * w, (7 - i) * w);
-				figure.move(2 * w, w);
-				window.draw(figure);
-			}
-		}
-	}
-
-	// draw number labels
-
-
-	for (std::size_t i = 0; i < 16; i++) {
-		if (i < 4) {
-			number_label.setTextureRect(sf::IntRect(6 * w0 + (double)i * w0 / 4, 0, w0 / 4, w0));
-			number_label.setPosition((double)7 * w / 4, w * i + w);
-		}
-		else if (i < 8) {
-			number_label.setTextureRect(sf::IntRect(6 * w0 + (double)(i - 4) * w0 / 4, w0, w0 / 4, w0));
-			number_label.setPosition((double)7 * w / 4, w * i + w);
-
-		}
-		else if (i < 12) {
-			number_label.setTextureRect(sf::IntRect(7 * w0, 0 + (i - 8) * w0 / 4, w0, w0 / 4));
-			number_label.setPosition(2 * w + (i - 8) * w, 9 * w);
-			//			number_label.setPosition(0,0);
-		}
-		else {
-			number_label.setTextureRect(sf::IntRect(7 * w0, w0 + (i - 12) * w0 / 4, w0, w0 / 4));
-			number_label.setPosition(2 * w + (i - 8) * w, 9 * w);
-		}
-
-		number_label.setScale((double)w / w0, (double)w / w0);
-		// set position
-
-		window.draw(number_label);
-	}
-
-}
-
-
 
 
 
