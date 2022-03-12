@@ -50,9 +50,11 @@ private:
 	bool warning1; // please, choose white (your) figures
 	bool warning2; // impossible move to this point
 
+	sf::RenderWindow main_window;
+
 	Ui ui;
 
-	sf::RenderWindow main_window;
+	
 
 public:
 	ChessGame();

@@ -33,8 +33,10 @@ ChessGame::ChessGame() :
 	w0(100),
 	selected_figure(nullptr),
 	warning1(false),
-	warning2(false) {
-	// ui don't initialized
+	warning2(false),
+	ui(main_window, field, w, w0)
+{
+
 }
 
 /*!
@@ -96,14 +98,16 @@ void ChessGame::exec() {
 	*/
 
 //	sf::RenderWindow main_window(sf::VideoMode(1600, 950), "Chess", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+
+	/* ============================== initWindow()   =================================
 	main_window.setVerticalSyncEnabled(true); // sync frequency
 	main_window.setPosition({ 150, 25 });
 	sf::Image icon;
 	icon.loadFromFile("img/icon.png");
 	main_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	*/
 
-
-	ui.init(&main_window, &field);
+//	ui.init(&main_window, &field);
 	//	sf::CircleShape shape(100.f);
 	//	shape.setFillColor(sf::Color::Green);
 
@@ -121,7 +125,6 @@ void ChessGame::exec() {
 		//	sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
 		//	sprite.setScale(2, 2);
 
-	sf::View view = main_window.getDefaultView();
 
 	while (main_window.isOpen()) {
 
@@ -136,32 +139,8 @@ void ChessGame::exec() {
 					main_window.close();
 				}
 
-
 				else if (event.type == sf::Event::Resized) {
-				//	std::cout << "new width: " << event.size.width << std::endl;
-				//	std::cout << "new height: " << event.size.height << std::endl;
-
-					int new_width = main_window.getSize().x;
-					int new_height = main_window.getSize().y;
-
-					if (new_width < 500) {
-						main_window.setSize({ 500, main_window.getSize().y });
-						new_width = 500;
-					}
-
-					if (new_height < 300) {
-						main_window.setSize({ main_window.getSize().x, 300 });
-						new_height = 300;
-					}
-
-
-					w = std::min(new_width / 16, new_height / 9); // change size of netting square
-					std::cout << "w = " << w << std::endl << std::endl;
-
-					view.setSize(new_width, new_height);
-					view.setCenter(8 * w, 5 * w);
-
-					main_window.setView(view);
+					ui.resizeWindow();
 				}
 
 
@@ -172,8 +151,6 @@ void ChessGame::exec() {
 					int x_int = static_cast<int>(x); // round down
 					int y_int = static_cast<int>(y);
 
-					// int x = event.mouseButton.x / w;
-					// int y = event.mouseButton.y / w;
 					std::cout << "Mouse pressed: (" << event.mouseButton.x << "; " << event.mouseButton.y << ") " << " =  (" << x << "; " << y << ") " << "=  (" << x_int << "; " << y_int << ") " << std::endl;
 
 
@@ -1038,13 +1015,10 @@ int ChessGame::checkForWinner() {
 void ChessGame::restart() {
 	moves_list.print();
 
-//	this->team_w = Army(Color::white);
-//	this->team_b = Army(Color::black);
-//	this->field = Field(team_w, team_b);
 	team_w.restore();
 	team_b.restore();
 	field.restore(team_w, team_b);
-	this->moves_list.clear();
+	moves_list.clear();
 
 	w_moves_count = 0;
 	b_moves_count = 0;
@@ -1055,5 +1029,4 @@ void ChessGame::restart() {
 	warning1 = warning2 = false;
 	std::cout << "RESTART" << std::endl << std::endl << std::endl;
 
-	ui.init(nullptr, &field);
 }

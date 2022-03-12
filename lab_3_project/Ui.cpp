@@ -2,6 +2,26 @@
 
 #include <windows.h>
 #include <WinUser.h>
+#include <iostream>
+
+
+
+
+
+
+
+void Ui::initWindow() {
+	main_window.setVerticalSyncEnabled(true); // sync frequency
+	main_window.setPosition({ 150, 25 });
+	sf::Image icon;
+	icon.loadFromFile("img/icon.png");
+	main_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+}
+
+
+
+
+
 
 
 /*!
@@ -15,25 +35,13 @@
 */
 int Ui::displayMessageBox(const wchar_t* message, const wchar_t* title) {
 	int respond = MessageBox(
-		window->getSystemHandle(),
+		main_window.getSystemHandle(),
 		message,
 		title,
 		MB_ICONEXCLAMATION | MB_OK
 	);
 
 	return respond;
-}
-
-Ui::Ui() {
-	window = nullptr;
-	field = nullptr;
-}
-
-void Ui::init(sf::RenderWindow* window, Field* field) {
-	if (window) {
-		this->window = window;
-	}
-	this->field = field;
 }
 
 
@@ -75,7 +83,7 @@ bool Ui::getSavePath(wchar_t* filePath, std::size_t buffer_size) {
 
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = this->window->getSystemHandle();
+	ofn.hwndOwner = this->main_window.getSystemHandle();
 	ofn.lpstrFile = filePath; // file path
 //	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = buffer_size;
@@ -105,7 +113,7 @@ bool Ui::getLoadPath(wchar_t* filePath, std::size_t buffer_size) {
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0 
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = this->window->getSystemHandle();
+	ofn.hwndOwner = this->main_window.getSystemHandle();
 	ofn.hwndOwner = NULL;
 	ofn.lpstrFile = filePath; // file path
 	ofn.lpstrFile[0] = '\0';
@@ -123,4 +131,36 @@ bool Ui::getLoadPath(wchar_t* filePath, std::size_t buffer_size) {
 //	auto problem = CommDlgExtendedError(); // in taht way we can get info about problem (if exists)
 
 	return result;
+}
+
+// GetOpenFileName() example from: https://www.cyberforum.ru/win-api/thread2439941.html
+// Explanations of OPENFILENAME attribures: http://www.vsokovikov.narod.ru/New_MSDN_API/Com_dlg_lib/str_openfilename.htm
+// About ZeroMemory: https://stackoverflow.com/questions/16210598/null-vs-zeromemory
+
+
+void Ui::resizeWindow() {
+	int new_width = main_window.getSize().x;
+	int new_height = main_window.getSize().y;
+
+	if (new_width < 500) {
+		main_window.setSize({ 500, main_window.getSize().y });
+		new_width = 500;
+	}
+
+	if (new_height < 300) {
+		main_window.setSize({ main_window.getSize().x, 300 });
+		new_height = 300;
+	}
+
+
+	w = std::min(new_width / 16, new_height / 9); // change size of netting square
+	std::cout << "w = " << w << std::endl << std::endl;
+
+	window_view.setSize(new_width, new_height);
+	window_view.setCenter(8 * w, 5 * w);
+
+	main_window.setView(window_view); // apply wiev for window
+
+//	std::cout << "new width: " << new_width << std::endl
+//		<< "new height:" << new_height << std::endl;
 }
