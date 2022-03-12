@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <WinUser.h>
+
 #include <iostream>
 
 
@@ -26,7 +27,7 @@ void Ui::initWindow() {
 
 /*!
 	Method that allow to display exclamation Message Box using a WinAPI \n
-	It is a "wrapper" of MessageBox function
+	It is a "wrapper" of MessageBox() function
 
 	\param[in] message is a message to display
 	\param[in] title is a title of a message box
@@ -43,6 +44,29 @@ int Ui::displayMessageBox(const wchar_t* message, const wchar_t* title) {
 
 	return respond;
 }
+
+
+/*!
+	Method that allow to display question Message Box using a WinAPI \n
+	It is a "wrapper" of MessageBox() function
+
+	\param[in] question is a question to display
+	\param[in] title is a title of a message box
+
+	\returns the code of user respond
+*/
+int Ui::displayQuestionBox(const wchar_t* question, const wchar_t* title) {
+	int respond = MessageBox(
+		main_window.getSystemHandle(),
+		question,
+		title,
+		MB_ICONQUESTION | MB_YESNO
+	);
+
+	return respond;
+}
+
+// MessageBox() documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
 
 
 /*!
@@ -114,7 +138,7 @@ bool Ui::getLoadPath(wchar_t* filePath, std::size_t buffer_size) {
 	ZeroMemory(&ofn, sizeof(ofn)); // set memory to 0 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = this->main_window.getSystemHandle();
-	ofn.hwndOwner = NULL;
+//	ofn.hwndOwner = NULL;
 	ofn.lpstrFile = filePath; // file path
 	ofn.lpstrFile[0] = '\0';
 	ofn.nMaxFile = buffer_size;
@@ -164,3 +188,64 @@ void Ui::resizeWindow() {
 //	std::cout << "new width: " << new_width << std::endl
 //		<< "new height:" << new_height << std::endl;
 }
+
+
+
+/* Tried to implement better way to call Message Box */
+/*
+	Method that allow to display Question Task Dialog using a WinAPI \n
+	It is a "wrapper" of TaskDialogIndirect() function
+
+	\param[in] title is a title of a message box
+	\param[in] question is a question to display
+	\param[in] text_btn1 is a text for button1
+	\param[in] text_btn2 is a text for button2
+	\param[in] text_btn3 is a text for button3
+
+	\returns -1 if something is wrong, else the number of button user pressed: 1 if 1st button and so on
+*/
+
+/*
+int Ui::displayQuestionBox(const wchar_t* title, const wchar_t* question, const wchar_t* text_btn1,
+							const wchar_t* text_btn2, const wchar_t* text_btn3) {
+	int nButtonPressed = 0;
+	TASKDIALOGCONFIG config = { 0 };
+	const TASKDIALOG_BUTTON buttons[] = {
+											{ IDOK, L"Save & exit" }, // define button with custom text, but ID can't be custom
+											{ IDYES, L"Exit" },
+											{ IDNO, L"Continue" }
+	};
+	config.cbSize = sizeof(config);
+	config.hwndParent = main_window.getSystemHandle();
+	config.hInstance = NULL;
+	config.dwCommonButtons = NULL;
+	config.pszWindowTitle = title;
+	config.pszMainIcon = TD_SHIELD_ICON;
+	config.pszMainInstruction = question;
+//	config.pszContent = L"Remember your changed password.";
+	config.pButtons = buttons;
+	config.cButtons = ARRAYSIZE(buttons);
+
+	int result = TaskDialogIndirect(&config, &nButtonPressed, NULL, NULL);
+	if (result == S_OK) {
+		switch (nButtonPressed){
+		case IDOK:
+			return 1; break;
+		case IDYES:
+			return 2; break;
+		case IDNO:
+			return 3; break;
+		default:
+			return -1; // should never happen
+			break;
+		}
+	}
+	else {
+		return -1;
+	}
+}
+
+// about function TaskDialogIndirect(): https://docs.microsoft.com/uk-ua/windows/win32/api/commctrl/nf-commctrl-taskdialogindirect?redirectedfrom=MSDN
+// about TASKDIALOGCONFIG: https://docs.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-taskdialogconfig
+*/
+

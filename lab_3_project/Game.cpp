@@ -136,7 +136,8 @@ void ChessGame::exec() {
 			sf::Event event;
 			if (main_window.waitEvent(event)) { // while and pollEvent
 				if (event.type == sf::Event::Closed) {
-					main_window.close();
+					handleClose();
+				//	main_window.close();
 				}
 
 				else if (event.type == sf::Event::Resized) {
@@ -169,7 +170,9 @@ void ChessGame::exec() {
 								restart();
 							}
 							else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-								main_window.close();
+								//	main_window.close();
+								handleClose();
+							//	main_window.close();
 							}
 						}
 					}
@@ -184,7 +187,8 @@ void ChessGame::exec() {
 							restart();
 						}
 						else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-							main_window.close();
+						//	main_window.close();
+							handleClose();
 						}
 					}
 				}
@@ -1029,4 +1033,19 @@ void ChessGame::restart() {
 	warning1 = warning2 = false;
 	std::cout << "RESTART" << std::endl << std::endl << std::endl;
 
+}
+
+// returns true if window is closed, and false if player want to continue
+bool ChessGame::handleClose() {
+	int close = ui.displayQuestionBox(L"Do you want to exit?", L"Exit?");
+	if (close == IDYES) { 
+		if (ui.displayQuestionBox(L"Do you want to save game?", L"Save?") == IDYES) { // save & exit
+			saveMovesHistory();
+		}
+		main_window.close();
+		return true;
+	}
+	else { // continue game
+		return false;
+	}
 }

@@ -100,6 +100,7 @@ private:
 
 	void update(sf::RenderWindow& window); // display window
 	void restart();
+	bool handleClose();
 };
 
 

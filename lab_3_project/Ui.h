@@ -30,7 +30,9 @@ public:
 	};
 //	void init(sf::RenderWindow* window, Field* field);
 
+	
 	int displayMessageBox(const wchar_t* message, const wchar_t* title = L"Warning");
+	int displayQuestionBox(const wchar_t* question, const wchar_t* title);
 	bool getSavePath(wchar_t* filePath, std::size_t buffer_size);
 	bool getLoadPath(wchar_t* filePath, std::size_t buffer_size);
 	void resizeWindow();
