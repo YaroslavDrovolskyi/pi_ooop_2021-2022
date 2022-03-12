@@ -6,6 +6,7 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
 
 #include "Field.h"
 
@@ -16,7 +17,7 @@
 */
 class Ui {
 public:
-	class Button;
+	struct Button;
 	enum class Place;
 private:
 	int w; // native width of one square of netting
@@ -26,26 +27,47 @@ private:
 	sf::View window_view;
 	Field& field;
 
+	std::vector<Button> buttons;
+
 
 	std::string getCurrentTimeAsString();
 	void initWindow();
 	void displayField();
+	void displayButtons(const sf::Font& font);
 public:
 	Ui(sf::RenderWindow& main_window, Field& field, const int& winner);
 
 	
 	int displayMessageBox(const wchar_t* message, const wchar_t* title = L"Warning");
 	int displayQuestionBox(const wchar_t* question, const wchar_t* title);
+
 	bool getSavePath(wchar_t* filePath, std::size_t buffer_size);
 	bool getLoadPath(wchar_t* filePath, std::size_t buffer_size);
+
 	void resizeWindow();
 	void displayWindow();
 	Place getClickedPlace(const sf::Event& event, Point& field_point);
 
 };
 
-class Ui::Button {
 
+
+/*!
+	\brief Class that describes button - element of UI
+
+	All positions, size have unit of measurement: it is a size of netting square
+*/
+struct Ui::Button {
+	Ui::Place id;
+	std::string label;
+	sf::Color color;
+	sf::Vector2f size;
+	sf::Vector2f position;
+	sf::Vector2f label_pos;
+
+	Button(const Ui::Place& id, const std::string& label, const sf::Color& color, const sf::Vector2f& size,
+		const sf::Vector2f& position, const sf::Vector2f& label_pos);
+	bool isContains(double x, double y) const;
 };
 
 /*!

@@ -35,11 +35,19 @@ Ui::Ui(sf::RenderWindow& main_window, Field& field, const int& winner) :
 {
 	initWindow();
 	window_view = main_window.getDefaultView();
+
+	buttons = { // initialize buttons
+		Button(Place::button_save, "Save game", sf::Color(10, 103, 163), { 3, 1 }, { 11, 3.5 }, { 0.7, 0.25 }),
+		Button(Place::button_load, "Load game", sf::Color(10, 103, 163), { 3, 1 }, { 11, 5 }, { 0.7, 0.25 }),
+		Button(Place::button_restart, "Restart", sf::Color(10, 103, 163), { 3, 1 }, { 11, 6.5 }, { 0.9, 0.25 }),
+		Button(Place::button_close, "Close", sf::Color(255, 7, 1), { 3, 1 }, { 11, 8 }, { 1.1, 0.25 }),
+	};
+
 };
 
 
 
-
+// set some initial settings for main window
 void Ui::initWindow() {
 	main_window.setVerticalSyncEnabled(true); // sync frequency
 	main_window.setPosition({ 150, 25 });
@@ -47,11 +55,6 @@ void Ui::initWindow() {
 	icon.loadFromFile("img/icon.png");
 	main_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 }
-
-
-
-
-
 
 
 /*!
@@ -248,53 +251,9 @@ void Ui::displayWindow() {
 
 		main_window.draw(win_text);
 	}
-
-	// button_save
-	sf::RectangleShape button_save(sf::Vector2f(3 * w, w));
-	button_save.setFillColor(sf::Color(10, 103, 163));
-	button_save.setPosition(11 * w, 3.5 * w);
-	main_window.draw(button_save);
-
-	sf::Text text_save("Save game", font, 0.4 * w);
-	text_save.setPosition(11.7 * w, 3.75 * w);
-	main_window.draw(text_save);
-
-	// button_load
-	sf::RectangleShape button_load(sf::Vector2f(3 * w, w));
-	button_load.setFillColor(sf::Color(10, 103, 163));
-	button_load.setPosition(11 * w, 5 * w);
-	main_window.draw(button_load);
-
-	sf::Text text_load("Load game", font, 0.4 * w);
-	text_load.setPosition(11.7 * w, 5.25 * w);
-	main_window.draw(text_load);
-
-
-	// button_restart
-	sf::RectangleShape button_restart(sf::Vector2f(3 * w, w));
-	button_restart.setFillColor(sf::Color(10, 103, 163));
-	button_restart.setPosition(11 * w, 6.5 * w);
-	main_window.draw(button_restart);
-
-	sf::Text text_restart("Restart", font, 0.4 * w);
-	text_restart.setPosition(11.9 * w, 6.75 * w);
-	main_window.draw(text_restart);
-
-
-	// button_close
-	sf::RectangleShape button_close(sf::Vector2f(3 * w, w));
-	button_close.setFillColor(sf::Color(255, 7, 1));
-	button_close.setPosition(11 * w, 8 * w);
-	main_window.draw(button_close);
-
-	sf::Text text_close("Close", font, 0.4 * w);
-	text_close.setPosition(12.1 * w, 8.25 * w);
-	main_window.draw(text_close);
-
-
-
-
-
+	
+	displayButtons(font);
+	
 
 	main_window.display();
 	
@@ -434,23 +393,64 @@ Ui::Place Ui::getClickedPlace(const sf::Event& event, Point& field_point) {
 		field_point.y = 8 - y_int;
 		return Place::field;
 	}
-	else if (x >= 11 && x < 14 && y >= 3.5 && y < 4.5) {
-		return Place::button_save;
+	else {
+		// check if some button pressed
+		for (const Button& button : buttons) {
+			if (button.isContains(x, y)) {
+				return button.id;
+			}
+		}
+		return Place::nowhere; // return nowhere when not clicked in some object
 	}
-	else if (x >= 11 && x < 14 && y >= 5 && y < 6) {
-		return Place::button_load;
-	}
-	else if (x >= 11 && x < 14 && y >= 6.5 && y < 7.5) {
-		return Place::button_restart;
-	}
-	else if (x >= 11 && x < 14 && y >= 8 && y < 9) {
-		return Place::button_close;
-	}
-
 
 }
 
 
+/*!
+	Constructor that initialize button
+*/
+Ui::Button::Button(const Ui::Place& id, const std::string& label, const sf::Color& color, const sf::Vector2f& size,
+	const sf::Vector2f& position, const sf::Vector2f& label_pos) :
+	id(id),
+	label(label),
+	color(color),
+	size(size),
+	position(position),
+	label_pos(label_pos)
+{
+
+}
+
+
+void Ui::displayButtons(const sf::Font& font) {
+	float ws = static_cast<float>(w); // this convertion is to get possibility to myltiply sf::Vector2f by w
+	for (const Button& button : buttons) {
+		sf::RectangleShape shape(ws * button.size);
+		shape.setFillColor(button.color);
+		shape.setPosition(ws * button.position);
+		main_window.draw(shape);
+
+		sf::Text text(button.label, font, 0.4 * w);
+		text.setPosition(ws*(button.position + button.label_pos));
+		main_window.draw(text);
+	}
+	
+}
+
+/*!
+	Method that show if button contains point ot not
+
+	\param[in] x is x coordinate of point we need to check
+	\param[in] y is y coordinate of point we need to check
+
+	\returns true if button contains point, and false if not
+*/
+bool Ui::Button::isContains(double x, double y) const{
+	if (x >= position.x && x < position.x + size.x && y >= position.y && y < position.y + size.y) {
+		return true;
+	}
+	return false;
+}
 
 /* Tried to implement better way to call Message Box */
 /*
