@@ -7,7 +7,6 @@
 
 
 #include "Ui.h"
-#include "AuxFunctions.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -16,6 +15,8 @@
 
 #include <iostream>
 #include <cassert>
+
+#include "AuxFunctions.h"
 
 
 

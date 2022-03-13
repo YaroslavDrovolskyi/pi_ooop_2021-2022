@@ -1,5 +1,13 @@
-#include "AuxFunctions.h"
+/*!
+	\file
+	\brief File with implementation of non-template functions declarated in file AuxFunctions.h
+*/
+
+#include "pch.h"
+#include <iostream>
 #include <ctime>
+#include "AuxFunctions.h"
+
 
 /*!
 	Function that allow to get current date and time as string

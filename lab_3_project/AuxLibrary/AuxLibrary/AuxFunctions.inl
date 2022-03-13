@@ -1,18 +1,21 @@
 /*!
 	\file
-	\brief File with implementation of functions declarated in file AuxFunctions.h
+	\brief File with implementation of template functions declarated in file AuxFunctions.h
 */
 
 #ifndef AUXFUNCTIONS_INL
 #define AUXFUNCTIONS_INL
 
+
+#include "pch.h"
+#include <iostream>
 #include "AuxFunctions.h"
 
-#include <iostream>
+
 
 
 /*!
-	Function that prints all elements of std::vector \n
+	Function that prints all elements of vector \n
 	\warning Operator << must be overloaded for vector items
 
 	\param[in] vector is vector to print
