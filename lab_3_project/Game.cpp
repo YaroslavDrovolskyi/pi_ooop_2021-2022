@@ -5,14 +5,13 @@
 */
 
 #include "Game.h"
+#include "AuxFunctions.h"
 
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <string>
-#include <SFML/Graphics.hpp>
 
-
-#include <ctime>
 #include <windows.h>
 #include <WinUser.h>
 
@@ -445,29 +444,7 @@ void ChessGame::eraseIncorrectMoves(Point from, std::vector<Point>& destinations
 	}
 }
 
-template <typename T>
-void print(const std::vector<T>& vector) {
-	if (vector.size() == 0) { return; }
-	for (const T& t : vector) {
-		std::cout << t << " ";
-	}
-	std::cout << std::endl;
-}
 
-template <typename T>
-std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2) {
-	std::vector<T> result;
-
-	for (const T& i : vec1) {
-		result.push_back(i);
-	}
-
-	for (const T& i : vec2) {
-		result.push_back(i);
-	}
-
-	return result;
-}
 
 // return removed figure
 Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assuming coordinates are correct

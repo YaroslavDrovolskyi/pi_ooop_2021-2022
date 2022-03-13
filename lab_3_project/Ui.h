@@ -30,7 +30,7 @@ private:
 	std::vector<Button> buttons;
 
 
-	std::string getCurrentTimeAsString();
+	
 	void initWindow();
 	void displayField();
 	void displayButtons(const sf::Font& font);
@@ -53,7 +53,7 @@ public:
 
 
 /*!
-	\brief Class that describes button - element of UI
+	\brief Struct that logically describes button - element of UI
 
 	All positions, size have unit of measurement: it is a size of netting square
 */

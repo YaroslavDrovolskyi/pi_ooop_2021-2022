@@ -93,10 +93,3 @@ private:
 	bool handleClose();
 };
 
-
-template <typename T>
-void print(const std::vector<T>& vector);
-
-template <typename T>
-std::vector<T> concatinate(const std::vector<T>& vec1, const std::vector<T>& vec2);
-

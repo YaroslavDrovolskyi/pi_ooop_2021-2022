@@ -145,10 +145,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="AuxFunctions.inl" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Army.cpp" />
+    <ClCompile Include="AuxFunctions.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -159,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Army.h" />
+    <ClInclude Include="AuxFunctions.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="Game.h" />

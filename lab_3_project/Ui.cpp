@@ -7,6 +7,7 @@
 
 
 #include "Ui.h"
+#include "AuxFunctions.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -100,22 +101,6 @@ int Ui::displayQuestionBox(const wchar_t* question, const wchar_t* title) {
 
 // MessageBox() documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
 
-
-/*!
-	Method that allow to get current date and time as string
-
-	\returns string in a format: "dd-mm-yyyy_hh-mm-ss"
-*/
-std::string Ui::getCurrentTimeAsString() {
-	time_t time = std::time(nullptr);
-	tm local_time;
-	localtime_s(&local_time, &time);
-	char buffer[80];
-
-	strftime(buffer, sizeof(buffer), "%d-%m-%Y_%H-%M-%S", &local_time);
-
-	return std::string(buffer);
-}
 
 
 /*!
@@ -235,7 +220,7 @@ void Ui::displayWindow() {
 	font.loadFromFile("fonts/calibri.otf");
 
 	main_window.clear(sf::Color(250, 220, 100, 0)); // set background
-	displayField(); ///////////////////////////
+	displayField();
 
 	if (winner != 0) {
 		sf::Text win_text("", font, w);
@@ -509,4 +494,8 @@ int Ui::displayQuestionBox(const wchar_t* title, const wchar_t* question, const 
 // about function TaskDialogIndirect(): https://docs.microsoft.com/uk-ua/windows/win32/api/commctrl/nf-commctrl-taskdialogindirect?redirectedfrom=MSDN
 // about TASKDIALOGCONFIG: https://docs.microsoft.com/en-us/windows/win32/api/commctrl/ns-commctrl-taskdialogconfig
 */
+
+
+
+
 
