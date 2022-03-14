@@ -79,8 +79,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1c8a6881ed0f11828299033c5959d147"><td class="memItemLeft" align="right" valign="top"><a id="a1c8a6881ed0f11828299033c5959d147" name="a1c8a6881ed0f11828299033c5959d147"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Point</b> (int x=0, int y=0)</td></tr>
+<tr class="memitem:a1c8a6881ed0f11828299033c5959d147"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_point.html#a1c8a6881ed0f11828299033c5959d147">Point</a> (int x=0, int y=0)</td></tr>
 <tr class="separator:a1c8a6881ed0f11828299033c5959d147"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ad47c41fa562ee83fb5245bff4806ca"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_point.html#a2ad47c41fa562ee83fb5245bff4806ca">getString</a> () const</td></tr>
 <tr class="separator:a2ad47c41fa562ee83fb5245bff4806ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -98,7 +97,44 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
 <div class="textblock"><p >Struct that describes cell position on the chess board. </p>
 <p >Counting starts from left bottom corner. It starts from (0,0).<br  />
  Operators &lt;&lt; and == are overloaded for this struct. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a1c8a6881ed0f11828299033c5959d147" name="a1c8a6881ed0f11828299033c5959d147"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c8a6881ed0f11828299033c5959d147">&#9670;&nbsp;</a></span>Point()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Point::Point </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Constructor.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>is x coordinate of point </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>is y coordinate of point </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2ad47c41fa562ee83fb5245bff4806ca" name="a2ad47c41fa562ee83fb5245bff4806ca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ad47c41fa562ee83fb5245bff4806ca">&#9670;&nbsp;</a></span>getString()</h2>
 
@@ -113,7 +149,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Converts "math" coordinate (x;y) on chess board into "game" representation (for example: A5, F8) </p><dl class="section return"><dt>Returns</dt><dd>"game representation of (x;y) coordinate" </dd></dl>
+<p >Converts "math" coordinate (x;y) on chess board into "game" representation (for example: A5, F8) </p><dl class="section return"><dt>Returns</dt><dd>"game" representation of (x;y) coordinate </dd></dl>
 
 </div>
 </div>

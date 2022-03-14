@@ -66,7 +66,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="class_army-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Army Class Reference</div></div>
 </div><!--header-->
@@ -79,28 +78,68 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a63492519c225192d95135163b8ec59b3"><td class="memItemLeft" align="right" valign="top"><a id="a63492519c225192d95135163b8ec59b3" name="a63492519c225192d95135163b8ec59b3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Army</b> (<a class="el" href="_figure_8h.html#ab87bacfdad76e61b9412d7124be44c1c">Color</a> color)</td></tr>
-<tr class="memdesc:a63492519c225192d95135163b8ec59b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor Create and init all figures. <br /></td></tr>
-<tr class="separator:a63492519c225192d95135163b8ec59b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d8db2f0a1021b5a84537fe6b234d8fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#a7d8db2f0a1021b5a84537fe6b234d8fd">Army</a> (const <a class="el" href="_figure_8h.html#ab87bacfdad76e61b9412d7124be44c1c">Color</a> &amp;color)</td></tr>
+<tr class="separator:a7d8db2f0a1021b5a84537fe6b234d8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c1e48a78ecbb4fee655e3d6841e77aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#a1c1e48a78ecbb4fee655e3d6841e77aa">restore</a> ()</td></tr>
+<tr class="separator:a1c1e48a78ecbb4fee655e3d6841e77aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2e99d067fddfda31798f5e22a0267e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_figure_8h.html#ab87bacfdad76e61b9412d7124be44c1c">Color</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#ab2e99d067fddfda31798f5e22a0267e5">getColor</a> () const</td></tr>
 <tr class="separator:ab2e99d067fddfda31798f5e22a0267e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7c9727a3ac56572f2c8076247ca2c45"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_figure.html">Figure</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#ac7c9727a3ac56572f2c8076247ca2c45">getFigurePointer</a> (std::size_t index)</td></tr>
 <tr class="separator:ac7c9727a3ac56572f2c8076247ca2c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f0c15bd3042d7b27832abff17c6aab"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="class_figure.html">Figure</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#a78f0c15bd3042d7b27832abff17c6aab">getAllFigures</a> () const</td></tr>
+<tr class="separator:a78f0c15bd3042d7b27832abff17c6aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d7f2e16839348863496d6e138bc4f12"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_army.html#a5d7f2e16839348863496d6e138bc4f12">isKingAlive</a> () const</td></tr>
 <tr class="separator:a5d7f2e16839348863496d6e138bc4f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a9895d4fe93bb7ae1d814d926985a560d"><td class="memItemLeft" align="right" valign="top"><a id="a9895d4fe93bb7ae1d814d926985a560d" name="a9895d4fe93bb7ae1d814d926985a560d"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>ChessGame</b></td></tr>
-<tr class="separator:a9895d4fe93bb7ae1d814d926985a560d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class that describes chess team: set of same-colored figures. </p>
-<p >It stores list of figures and color of team.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>replace friend class <a class="el" href="class_chess_game.html" title="The main class in application.">ChessGame</a> by getters, setters and other methods to use </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<p >It stores list of figures and color of team. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a7d8db2f0a1021b5a84537fe6b234d8fd" name="a7d8db2f0a1021b5a84537fe6b234d8fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d8db2f0a1021b5a84537fe6b234d8fd">&#9670;&nbsp;</a></span>Army()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Army::Army </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_figure_8h.html#ab87bacfdad76e61b9412d7124be44c1c">Color</a> &amp;&#160;</td>
+          <td class="paramname"><em>color</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Constructor. It creates and init all figures</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>of chess team </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a78f0c15bd3042d7b27832abff17c6aab" name="a78f0c15bd3042d7b27832abff17c6aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f0c15bd3042d7b27832abff17c6aab">&#9670;&nbsp;</a></span>getAllFigures()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="class_figure.html">Figure</a> &gt; &amp; Army::getAllFigures </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Getter for all figures</p>
+<dl class="section return"><dt>Returns</dt><dd>const reference on vector that contains all figures </dd></dl>
+
+</div>
+</div>
 <a id="ab2e99d067fddfda31798f5e22a0267e5" name="ab2e99d067fddfda31798f5e22a0267e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2e99d067fddfda31798f5e22a0267e5">&#9670;&nbsp;</a></span>getColor()</h2>
 
@@ -138,7 +177,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ChessGame</b></td></
 <p >Getter for figure by index</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>correct index of figure that we need</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">index</td><td>is correct index of figure that we need</td></tr>
   </table>
   </dd>
 </dl>
@@ -162,6 +201,25 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ChessGame</b></td></
 </div><div class="memdoc">
 <p >Shows if king is alive or not</p>
 <dl class="section return"><dt>Returns</dt><dd>true if king is alive, and false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="a1c1e48a78ecbb4fee655e3d6841e77aa" name="a1c1e48a78ecbb4fee655e3d6841e77aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c1e48a78ecbb4fee655e3d6841e77aa">&#9670;&nbsp;</a></span>restore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Army::restore </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Method that restore position and aliveness of all figures in a team <br  />
+This method is using for restarting the game </p>
 
 </div>
 </div>

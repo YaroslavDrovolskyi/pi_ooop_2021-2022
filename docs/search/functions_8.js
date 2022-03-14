@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['print_0',['print',['../class_field.html#a969c08bc0d7ab0a322e80fcae8b072f1',1,'Field::print()'],['../class_moves_history.html#a79247c436b03c146ec84a18fce0a9df2',1,'MovesHistory::print()']]],
-  ['putmarks_1',['putMarks',['../class_field.html#a3a48758b323e83169353b0e348f347d8',1,'Field']]]
+  ['move_0',['Move',['../struct_move.html#a4b1acc3a67d30c385ad9a6000526393a',1,'Move::Move()'],['../struct_move.html#a891f301df97a1f8bb6872030a2c0cec4',1,'Move::Move(const Point &amp;from, const Point &amp;dest)']]]
 ];

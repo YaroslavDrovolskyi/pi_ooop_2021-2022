@@ -76,16 +76,13 @@ $(function() {
 .  
  <a href="struct_move.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_point_8h_source.html">Point.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_move_8h_source.html">Move.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4b1acc3a67d30c385ad9a6000526393a"><td class="memItemLeft" align="right" valign="top"><a id="a4b1acc3a67d30c385ad9a6000526393a" name="a4b1acc3a67d30c385ad9a6000526393a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Move</b> ()</td></tr>
-<tr class="memdesc:a4b1acc3a67d30c385ad9a6000526393a"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor, that initialize object as invalid <br /></td></tr>
+<tr class="memitem:a4b1acc3a67d30c385ad9a6000526393a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move.html#a4b1acc3a67d30c385ad9a6000526393a">Move</a> ()</td></tr>
 <tr class="separator:a4b1acc3a67d30c385ad9a6000526393a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a891f301df97a1f8bb6872030a2c0cec4"><td class="memItemLeft" align="right" valign="top"><a id="a891f301df97a1f8bb6872030a2c0cec4" name="a891f301df97a1f8bb6872030a2c0cec4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Move</b> (const <a class="el" href="struct_point.html">Point</a> &amp;from, const <a class="el" href="struct_point.html">Point</a> &amp;dest)</td></tr>
+<tr class="memitem:a891f301df97a1f8bb6872030a2c0cec4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move.html#a891f301df97a1f8bb6872030a2c0cec4">Move</a> (const <a class="el" href="struct_point.html">Point</a> &amp;from, const <a class="el" href="struct_point.html">Point</a> &amp;dest)</td></tr>
 <tr class="separator:a891f301df97a1f8bb6872030a2c0cec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e80a6c039ba805bac3ff6402c56b76c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move.html#a6e80a6c039ba805bac3ff6402c56b76c">isValid</a> () const</td></tr>
 <tr class="separator:a6e80a6c039ba805bac3ff6402c56b76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,7 +100,62 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p >Struct that describes move on the chess board.<br  />
 . </p>
 <p >Operators &lt;&lt; and == are overloaded for this struct. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4b1acc3a67d30c385ad9a6000526393a" name="a4b1acc3a67d30c385ad9a6000526393a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1acc3a67d30c385ad9a6000526393a">&#9670;&nbsp;</a></span>Move() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Move::Move </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Default constructor, that initialize move as invalid </p>
+
+</div>
+</div>
+<a id="a891f301df97a1f8bb6872030a2c0cec4" name="a891f301df97a1f8bb6872030a2c0cec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a891f301df97a1f8bb6872030a2c0cec4">&#9670;&nbsp;</a></span>Move() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Move::Move </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_point.html">Point</a> &amp;&#160;</td>
+          <td class="paramname"><em>from</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_point.html">Point</a> &amp;&#160;</td>
+          <td class="paramname"><em>dest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Constructor for move</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">from</td><td>is move departure point on the chess board </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dest</td><td>is move destination point on the chess board </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6e80a6c039ba805bac3ff6402c56b76c" name="a6e80a6c039ba805bac3ff6402c56b76c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6e80a6c039ba805bac3ff6402c56b76c">&#9670;&nbsp;</a></span>isValid()</h2>
 
@@ -123,8 +175,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li><a class="el" href="_point_8h_source.html">Point.h</a></li>
-<li><a class="el" href="_point_8cpp.html">Point.cpp</a></li>
+<li><a class="el" href="_move_8h_source.html">Move.h</a></li>
+<li><a class="el" href="_move_8cpp.html">Move.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

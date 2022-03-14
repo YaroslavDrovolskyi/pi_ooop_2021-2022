@@ -70,47 +70,49 @@ $(function() {
 <a href="_moves_history_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="_point_8h.html">Point.h</a>&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="_figure_8h.html">Figure.h</a>&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="_army_8h.html">Army.h</a>&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="_field_8h.html">Field.h</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="_move_8h.html">Move.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="_figure_8h.html">Figure.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="_army_8h.html">Army.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="_field_8h.html">Field.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_moves_history.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="class_moves_history.html">MovesHistory</a> {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    std::vector&lt;Move&gt; moves;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    std::vector&lt;Figure*&gt; removed_figures;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    std::size_t size;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    std::size_t current_index;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_class" href="class_moves_history.html">MovesHistory</a>() : size(0), current_index(0) {};</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#af8753eefc7e12026de07f8da096680bd">insert</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_move.html">Move</a>&amp; move, <a class="code hl_class" href="class_figure.html">Figure</a>* removed_figure = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    std::pair&lt;Move, Figure*&gt; <a class="code hl_function" href="class_moves_history.html#a4209ce6b9cb01bac16e7cec830f5c1df">undoMove</a>();</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#ad73b6c2a57b628cbdb70eb53da1f7695">clear</a>();</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    std::size_t <a class="code hl_function" href="class_moves_history.html#a654afe7a113f482589f19470f9872319">getSize</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> setCurIndex();</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    std::size_t <a class="code hl_function" href="class_moves_history.html#a38e679891a419851d347412d72c567fa">getCurIndex</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moves_history.html#a1660160262a91759a874571f3bd83410">isEmpty</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#a79247c436b03c146ec84a18fce0a9df2">print</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_struct" href="struct_move.html">Move</a> <a class="code hl_function" href="class_moves_history.html#a708125daf284c0ede12b945a8b0187b4">getMove</a>(std::size_t index) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moves_history.html#aa17429bc244066e139e6bae812644a25">setRemovedFigure</a>(std::size_t index, <a class="code hl_class" href="class_figure.html">Figure</a>* fig = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_moves_history.html#a590e9e7e9427c059517d16650581bcd3">writeInFile</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span>* filepath);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_moves_history.html#a3aa1610e816c48a39ae0da57ecb94a84">readFromFile</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span>* filepath);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>};</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_moves_history.html">   23</a></span><span class="keyword">class </span><a class="code hl_class" href="class_moves_history.html">MovesHistory</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    std::vector&lt;Move&gt; moves;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    std::vector&lt;Figure*&gt; removed_figures;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    std::size_t size;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    std::size_t current_index;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_class" href="class_moves_history.html">MovesHistory</a>() : size(0), current_index(0) {};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#af8753eefc7e12026de07f8da096680bd">insert</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_move.html">Move</a>&amp; move, <a class="code hl_class" href="class_figure.html">Figure</a>* removed_figure = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    std::pair&lt;Move, Figure*&gt; <a class="code hl_function" href="class_moves_history.html#a4209ce6b9cb01bac16e7cec830f5c1df">undoMove</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#ad73b6c2a57b628cbdb70eb53da1f7695">clear</a>();</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    std::size_t <a class="code hl_function" href="class_moves_history.html#a654afe7a113f482589f19470f9872319">getSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">//  bool setCurIndex();</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    std::size_t <a class="code hl_function" href="class_moves_history.html#a38e679891a419851d347412d72c567fa">getCurIndex</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moves_history.html#a1660160262a91759a874571f3bd83410">isEmpty</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_moves_history.html#a79247c436b03c146ec84a18fce0a9df2">print</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <a class="code hl_struct" href="struct_move.html">Move</a> <a class="code hl_function" href="class_moves_history.html#a708125daf284c0ede12b945a8b0187b4">getMove</a>(std::size_t index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_moves_history.html#aa17429bc244066e139e6bae812644a25">setRemovedFigure</a>(std::size_t index, <a class="code hl_class" href="class_figure.html">Figure</a>* fig = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_moves_history.html#a590e9e7e9427c059517d16650581bcd3">writeInFile</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span>* filepath);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="class_moves_history.html#a3aa1610e816c48a39ae0da57ecb94a84">readFromFile</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span>* filepath);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
 <div class="ttc" id="a_army_8h_html"><div class="ttname"><a href="_army_8h.html">Army.h</a></div><div class="ttdoc">Header file for class Army.</div></div>
 <div class="ttc" id="a_field_8h_html"><div class="ttname"><a href="_field_8h.html">Field.h</a></div><div class="ttdoc">Header file for struct Cell and class Field.</div></div>
 <div class="ttc" id="a_figure_8h_html"><div class="ttname"><a href="_figure_8h.html">Figure.h</a></div><div class="ttdoc">Header file for enum Color, enum FigType and class Figure.</div></div>
-<div class="ttc" id="a_point_8h_html"><div class="ttname"><a href="_point_8h.html">Point.h</a></div><div class="ttdoc">header file for structs Point and Move</div></div>
+<div class="ttc" id="a_move_8h_html"><div class="ttname"><a href="_move_8h.html">Move.h</a></div><div class="ttdoc">header file for struct Move</div></div>
+<div class="ttc" id="a_point_8h_html"><div class="ttname"><a href="_point_8h.html">Point.h</a></div><div class="ttdoc">header file for struct Point</div></div>
 <div class="ttc" id="aclass_figure_html"><div class="ttname"><a href="class_figure.html">Figure</a></div><div class="ttdoc">Class that describes chess figure.</div><div class="ttdef"><b>Definition:</b> Figure.h:37</div></div>
-<div class="ttc" id="aclass_moves_history_html"><div class="ttname"><a href="class_moves_history.html">MovesHistory</a></div><div class="ttdoc">Class that describes list of moves made during the game.</div><div class="ttdef"><b>Definition:</b> MovesHistory.h:22</div></div>
+<div class="ttc" id="aclass_moves_history_html"><div class="ttname"><a href="class_moves_history.html">MovesHistory</a></div><div class="ttdoc">Class that describes list of moves made during the game.</div><div class="ttdef"><b>Definition:</b> MovesHistory.h:23</div></div>
 <div class="ttc" id="aclass_moves_history_html_a1660160262a91759a874571f3bd83410"><div class="ttname"><a href="class_moves_history.html#a1660160262a91759a874571f3bd83410">MovesHistory::isEmpty</a></div><div class="ttdeci">bool isEmpty() const</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:83</div></div>
 <div class="ttc" id="aclass_moves_history_html_a38e679891a419851d347412d72c567fa"><div class="ttname"><a href="class_moves_history.html#a38e679891a419851d347412d72c567fa">MovesHistory::getCurIndex</a></div><div class="ttdeci">std::size_t getCurIndex() const</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:73</div></div>
 <div class="ttc" id="aclass_moves_history_html_a3aa1610e816c48a39ae0da57ecb94a84"><div class="ttname"><a href="class_moves_history.html#a3aa1610e816c48a39ae0da57ecb94a84">MovesHistory::readFromFile</a></div><div class="ttdeci">int readFromFile(const wchar_t *filepath)</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:151</div></div>
@@ -122,7 +124,7 @@ $(function() {
 <div class="ttc" id="aclass_moves_history_html_aa17429bc244066e139e6bae812644a25"><div class="ttname"><a href="class_moves_history.html#aa17429bc244066e139e6bae812644a25">MovesHistory::setRemovedFigure</a></div><div class="ttdeci">bool setRemovedFigure(std::size_t index, Figure *fig=nullptr)</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:193</div></div>
 <div class="ttc" id="aclass_moves_history_html_ad73b6c2a57b628cbdb70eb53da1f7695"><div class="ttname"><a href="class_moves_history.html#ad73b6c2a57b628cbdb70eb53da1f7695">MovesHistory::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:91</div></div>
 <div class="ttc" id="aclass_moves_history_html_af8753eefc7e12026de07f8da096680bd"><div class="ttname"><a href="class_moves_history.html#af8753eefc7e12026de07f8da096680bd">MovesHistory::insert</a></div><div class="ttdeci">void insert(const Move &amp;move, Figure *removed_figure=nullptr)</div><div class="ttdef"><b>Definition:</b> MovesHistory.cpp:17</div></div>
-<div class="ttc" id="astruct_move_html"><div class="ttname"><a href="struct_move.html">Move</a></div><div class="ttdoc">Struct that describes move on the chess board. .</div><div class="ttdef"><b>Definition:</b> Point.h:33</div></div>
+<div class="ttc" id="astruct_move_html"><div class="ttname"><a href="struct_move.html">Move</a></div><div class="ttdoc">Struct that describes move on the chess board. .</div><div class="ttdef"><b>Definition:</b> Move.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

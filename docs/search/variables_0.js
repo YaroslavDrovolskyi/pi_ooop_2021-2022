@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cells_0',['cells',['../class_field.html#aa8ff9803c0b1a8ffad39c5b604e1a57f',1,'Field']]]
+  ['marked_0',['marked',['../struct_cell.html#a9e5f16ef7afb56ae0d8a95b829836d68',1,'Cell']]]
 ];

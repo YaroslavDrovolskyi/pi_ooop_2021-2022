@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['field_0',['Field',['../class_field.html',1,'']]],
-  ['figure_1',['Figure',['../class_figure.html',1,'']]]
+  ['cell_0',['Cell',['../struct_cell.html',1,'']]],
+  ['chessgame_1',['ChessGame',['../class_chess_game.html',1,'']]]
 ];

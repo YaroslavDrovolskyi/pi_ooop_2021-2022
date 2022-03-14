@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['cell_0',['Cell',['../struct_cell.html',1,'']]],
-  ['chessgame_1',['ChessGame',['../class_chess_game.html',1,'']]]
+  ['button_0',['Button',['../struct_ui_1_1_button.html',1,'Ui']]]
 ];

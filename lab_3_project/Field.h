@@ -29,7 +29,7 @@ public:
 /*!
 	\brief Class that describes chess board
 
-	As for structure: it is a matrix 8x8 of struct Cell
+	As for structure: it is a matrix size x size (usually 8x8) of struct Cell
 */
 class Field {
 private:

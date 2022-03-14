@@ -9,6 +9,15 @@
 #include <cassert>
 #include <iostream>
 
+
+
+/*!
+	Constructor. 
+
+	\param[in] x is x coordinate of point
+	\param[in] y is y coordinate of point
+*/
+Point::Point(int x, int y) : x(x), y(y) {}
 /*!
 	Converts "math" coordinate (x;y) on chess board into "game" representation (for example: A5, F8)
 	\returns "game" representation of (x;y) coordinate

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['move_0',['Move',['../struct_move.html',1,'']]],
-  ['moveshistory_1',['MovesHistory',['../class_moves_history.html',1,'']]]
+  ['field_0',['Field',['../class_field.html',1,'']]],
+  ['figure_1',['Figure',['../class_figure.html',1,'']]]
 ];

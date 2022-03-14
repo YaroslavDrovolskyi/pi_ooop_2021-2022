@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['operator_3c_3c_0',['operator&lt;&lt;',['../_point_8cpp.html#a2d73f8747efa3592c8db456a79aeb50f',1,'operator&lt;&lt;(std::ostream &amp;stream, const Point &amp;point):&#160;Point.cpp'],['../_point_8cpp.html#a42ff0a509297532e46d4cf8df0404cbe',1,'operator&lt;&lt;(std::ostream &amp;stream, const Move &amp;move):&#160;Point.cpp'],['../_point_8h.html#a2d73f8747efa3592c8db456a79aeb50f',1,'operator&lt;&lt;(std::ostream &amp;stream, const Point &amp;point):&#160;Point.cpp'],['../_point_8h.html#a345e6f4ed8eb5f5be1590fe981a20aec',1,'operator&lt;&lt;(std::ostream &amp;stream, const Move &amp;point):&#160;Point.cpp']]],
-  ['operator_3d_3d_1',['operator==',['../_figure_8cpp.html#a5f709387619d7d77ecbb38a1a1f8c6bb',1,'operator==(const Figure &amp;a, const Figure &amp;b):&#160;Figure.cpp'],['../_figure_8h.html#a5f709387619d7d77ecbb38a1a1f8c6bb',1,'operator==(const Figure &amp;a, const Figure &amp;b):&#160;Figure.cpp'],['../_point_8cpp.html#a177528c8a1eee37fcda25a89084b8ed6',1,'operator==(const Point &amp;a, const Point &amp;b):&#160;Point.cpp'],['../_point_8cpp.html#a59d8a3eae88b358f8d8039ec725b0ded',1,'operator==(const Move &amp;a, const Move &amp;b):&#160;Point.cpp'],['../_point_8h.html#a177528c8a1eee37fcda25a89084b8ed6',1,'operator==(const Point &amp;a, const Point &amp;b):&#160;Point.cpp'],['../_point_8h.html#a59d8a3eae88b358f8d8039ec725b0ded',1,'operator==(const Move &amp;a, const Move &amp;b):&#160;Point.cpp']]]
+  ['insert_0',['insert',['../class_moves_history.html#af8753eefc7e12026de07f8da096680bd',1,'MovesHistory']]],
+  ['isalive_1',['isAlive',['../class_figure.html#ad6fe85bdf8016a3c8680daa1f3d76e2d',1,'Figure']]],
+  ['iscontains_2',['isContains',['../struct_ui_1_1_button.html#a2a18f79816baafca79c8ab1510830d2a',1,'Ui::Button']]],
+  ['isempty_3',['isEmpty',['../class_moves_history.html#a1660160262a91759a874571f3bd83410',1,'MovesHistory']]],
+  ['iskingalive_4',['isKingAlive',['../class_army.html#a5d7f2e16839348863496d6e138bc4f12',1,'Army']]],
+  ['isvalid_5',['isValid',['../struct_move.html#a6e80a6c039ba805bac3ff6402c56b76c',1,'Move']]]
 ];

@@ -8,7 +8,7 @@
 
 
 /*!
-	Default constructor. Initialize empty non-marked cell
+	Default constructor. Initialize cell as empty and non-marked
 */
 Cell::Cell() : 
 	figure(nullptr), 
@@ -44,8 +44,11 @@ Field::Field(Army& white, Army& black, std::size_t size) : size(size), cells(siz
 }
 
 /*!
-	Method that restore positions of all figures on the chess board \n
-	This method is using for restarting the game
+	Method that restore positions of all figures on the chess board. \n
+	This method is using for restarting the game.
+
+	\param[in] white is white team
+	\param[in] black is black team
 */
 void Field::restore(Army& white, Army& black) {
 	// clean chess board
@@ -99,7 +102,8 @@ void Field::putFiguresOnField(Army& white, Army& black) {
 
 /*!
 	Print chess board in console \n
-	Figures prints as two letters: 'w' or 'b' - means team, and first letter of figure type name: 'p', 'h', 'b', 'r', 'q', 'k'. For example: "wp", "wb".
+	Figures prints as two letters: 1st letter is 'w' or 'b' - means team, and 2nd letter is first letter of figure type name: 'p', 'h', 'b', 'r', 'q', 'k'. \n 
+	For example: "wp", "wb".
 */
 void Field::print() const {
 	std::cout << std::endl << "  ";
@@ -219,6 +223,15 @@ void Field::clearMarks() {
 	}
 }
 
+
+
+/*!
+	Getter for size of field (chess board). \n
+	Chess board is quadrate.
+
+	\returns size of field (chess board)
+
+*/
 std::size_t Field::getSize() const {
 	return this->size;
 }

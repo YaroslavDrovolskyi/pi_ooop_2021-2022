@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['clear_0',['clear',['../class_moves_history.html#ad73b6c2a57b628cbdb70eb53da1f7695',1,'MovesHistory']]],
-  ['clearmarks_1',['clearMarks',['../class_field.html#a75748f87031bff9b46627b68a29c7edc',1,'Field']]]
+  ['button_0',['Button',['../struct_ui_1_1_button.html#a2dc9ed677ed2fb76046dcc75fc7e9d20',1,'Ui::Button']]]
 ];

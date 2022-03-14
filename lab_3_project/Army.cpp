@@ -8,8 +8,7 @@
 #include <cassert>
 
 /*!
-	\brief Constructor
-	Create and init all figures
+	Constructor. It creates and init all figures
 
 	\param[in] color of chess team
 */
@@ -97,7 +96,7 @@ Color Army::getColor() const {
 /*!
 	Getter for figure by index
 
-	\param[in] index correct index of figure that we need
+	\param[in] index is correct index of figure that we need
 
 	\returns pointer on figure, that we need
 */
