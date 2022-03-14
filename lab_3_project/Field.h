@@ -34,14 +34,19 @@ public:
 class Field {
 private:
 	void putFiguresOnField(Army& white, Army& black);
-public:
+	std::size_t size;
 	std::vector <std::vector <Cell>> cells; ///<implementation of matrix
+public:
 
 	Field() {}
-	Field(Army& white, Army& black, int size = 8);
+	Field(Army& white, Army& black, std::size_t size = 8);
 	void restore(Army& white, Army& black);
 	void putMarks(const Point& from, const std::vector<Point>& points);
 	void clearMarks();
-	void print();
+	void print() const;
 	int evaluate();
+	std::size_t getSize() const;
+	Cell& getCell(const Point& point);
+	Cell& getCell(int x, int y);
+
 };

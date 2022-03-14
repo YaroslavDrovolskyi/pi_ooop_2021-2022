@@ -184,9 +184,9 @@ void ChessGame::exec() {
 
 
 std::vector<Point> ChessGame::movesFromPoint(Point p, int move_number, bool consider_king) {
-	if (!field.cells[p.y][p.x].figure) { return std::vector<Point>(); }
+	if (!field.getCell(p).figure) { return std::vector<Point>(); }
 
-	switch (field.cells[p.y][p.x].figure->getType()) {
+	switch (field.getCell(p).figure->getType()) {
 	case FigType::pawn: {return pawn_moves(p, move_number, consider_king); }
 	case FigType::horse: {return horse_moves(p); }
 	case FigType::bishop: {return bishop_moves(p); }
@@ -204,8 +204,8 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 	std::vector<Point> result;
 
 	int is_white = 1;
-	if (field.cells[p.y][p.x].figure) {
-		if (field.cells[p.y][p.x].figure->getColor() == Color::black) {
+	if (field.getCell(p).figure) {
+		if (field.getCell(p).figure->getColor() == Color::black) {
 			is_white = -1;
 		}
 	}
@@ -216,27 +216,27 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 	if (consider_king) {
 		// diagonal (fight) moves
 		Point p1(p.x + 1, p.y + is_white);
-		if (isCorrectPoint(p1) && field.cells[p1.y][p1.x].figure
-			&& field.cells[p.y][p.x].figure->getColor() != field.cells[p1.y][p1.x].figure->getColor()) {
+		if (isCorrectPoint(p1) && field.getCell(p1).figure
+			&& field.getCell(p).figure->getColor() != field.getCell(p1).figure->getColor()) {
 			result.push_back(p1);
 		}
 
 		Point p2(p.x - 1, p.y + is_white);
-		if (isCorrectPoint(p2) && field.cells[p2.y][p2.x].figure
-			&& field.cells[p.y][p.x].figure->getColor() != field.cells[p2.y][p2.x].figure->getColor()) {
+		if (isCorrectPoint(p2) && field.getCell(p2).figure
+			&& field.getCell(p).figure->getColor() != field.getCell(p2).figure->getColor()) {
 			result.push_back(p2);
 		}
 
 		// vertical (ususal) moves
 
 		Point p3(p.x, p.y + is_white);
-		if (isCorrectPoint(p3) && !field.cells[p3.y][p3.x].figure) { // pawns ususal moves and fight moves are different
+		if (isCorrectPoint(p3) && !field.getCell(p3).figure) { // pawns ususal moves and fight moves are different
 			result.push_back(p3);
 		}
 
 		if (moves_number == 0) { // first move for pawn allow this
 			Point p4(p.x, p.y + 2 * is_white);
-			if (isCorrectPoint(p4) && !field.cells[p4.y][p4.x].figure) { // pawns ususal moves and fight moves are different
+			if (isCorrectPoint(p4) && !field.getCell(p4).figure) { // pawns ususal moves and fight moves are different
 				result.push_back(p4);
 			}
 		}
@@ -245,12 +245,12 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 	else { // if we don't consider the king (we make calulations to calculate possible moves of enemy king)
 			// diagonal (fight) moves
 		Point p1(p.x + 1, p.y + is_white);
-		if (isCorrectPoint(p1) && !field.cells[p1.y][p1.x].figure) {
+		if (isCorrectPoint(p1) && !field.getCell(p1).figure) {
 			result.push_back(p1);
 		}
 
 		Point p2(p.x - 1, p.y + is_white);
-		if (isCorrectPoint(p2) && !field.cells[p2.y][p2.x].figure) {
+		if (isCorrectPoint(p2) && !field.getCell(p2).figure) {
 			result.push_back(p2);
 		}
 	}
@@ -266,11 +266,11 @@ std::vector<Point> ChessGame::pawn_moves(Point p, int moves_number, bool conside
 std::vector<Point> ChessGame::rook_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!field.cells[p.y][p.x].figure) { return result; }
+	if (!field.getCell(p).figure) { return result; }
 
 	// go to right
 	Point i1(p.x + 1, p.y);
-	while (isCorrectPoint(i1) && !field.cells[i1.y][i1.x].figure) {
+	while (isCorrectPoint(i1) && !field.getCell(i1).figure) {
 		result.push_back(i1);
 		i1.x++;
 	}
@@ -278,7 +278,7 @@ std::vector<Point> ChessGame::rook_moves(Point p) {
 
 	// go to left
 	Point i2(p.x - 1, p.y);
-	while (isCorrectPoint(i2) && !field.cells[i2.y][i2.x].figure) {
+	while (isCorrectPoint(i2) && !field.getCell(i2).figure) {
 		result.push_back(i2);
 		i2.x--;
 	}
@@ -286,7 +286,7 @@ std::vector<Point> ChessGame::rook_moves(Point p) {
 
 	// go to top
 	Point i3(p.x, p.y + 1);
-	while (isCorrectPoint(i3) && !field.cells[i3.y][i3.x].figure) {
+	while (isCorrectPoint(i3) && !field.getCell(i3).figure) {
 		result.push_back(i3);
 		i3.y++;
 	}
@@ -294,7 +294,7 @@ std::vector<Point> ChessGame::rook_moves(Point p) {
 
 	// go to bottom
 	Point i4(p.x, p.y - 1);
-	while (isCorrectPoint(i4) && !field.cells[i4.y][i4.x].figure) {
+	while (isCorrectPoint(i4) && !field.getCell(i4).figure) {
 		result.push_back(i4);
 		i4.y--;
 	}
@@ -310,7 +310,7 @@ std::vector<Point> ChessGame::rook_moves(Point p) {
 std::vector<Point> ChessGame::horse_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!field.cells[p.y][p.x].figure) { return result; }
+	if (!field.getCell(p).figure) { return result; }
 
 	result.push_back(Point(p.x - 1, p.y + 2));
 	result.push_back(Point(p.x - 2, p.y + 1));
@@ -333,11 +333,11 @@ std::vector<Point> ChessGame::horse_moves(Point p) {
 std::vector<Point> ChessGame::bishop_moves(Point p) {
 	std::vector<Point> result;
 
-	if (!field.cells[p.y][p.x].figure) { return result; }
+	if (!field.getCell(p).figure) { return result; }
 
 	// go to right top
 	Point i1(p.x + 1, p.y + 1);
-	while (isCorrectPoint(i1) && !field.cells[i1.y][i1.x].figure) {
+	while (isCorrectPoint(i1) && !field.getCell(i1).figure) {
 		result.push_back(i1);
 		i1.x++;
 		i1.y++;
@@ -346,7 +346,7 @@ std::vector<Point> ChessGame::bishop_moves(Point p) {
 
 	// go to left top
 	Point i2(p.x - 1, p.y + 1);
-	while (isCorrectPoint(i2) && !field.cells[i2.y][i2.x].figure) {
+	while (isCorrectPoint(i2) && !field.getCell(i2).figure) {
 		result.push_back(i2);
 		i2.x--;
 		i2.y++;
@@ -355,7 +355,7 @@ std::vector<Point> ChessGame::bishop_moves(Point p) {
 
 	// go to left bottom
 	Point i3(p.x - 1, p.y - 1);
-	while (isCorrectPoint(i3) && !field.cells[i3.y][i3.x].figure) {
+	while (isCorrectPoint(i3) && !field.getCell(i3).figure) {
 		result.push_back(i3);
 		i3.x--;
 		i3.y--;
@@ -365,7 +365,7 @@ std::vector<Point> ChessGame::bishop_moves(Point p) {
 
 	// go to right bottom
 	Point i4(p.x + 1, p.y - 1);
-	while (isCorrectPoint(i4) && !field.cells[i4.y][i4.x].figure) {
+	while (isCorrectPoint(i4) && !field.getCell(i4).figure) {
 		result.push_back(i4);
 		i4.x++;
 		i4.y--;
@@ -385,7 +385,7 @@ std::vector<Point> ChessGame::queen_moves(Point p) {
 
 std::vector<Point> ChessGame::king_moves(Point p, int moves_number) {
 	std::vector<Point> result;
-	if (!field.cells[p.y][p.x].figure) { return result; }
+	if (!field.getCell(p).figure) { return result; }
 
 	result.push_back(Point(p.x, p.y + 1));
 	result.push_back(Point(p.x + 1, p.y + 1));
@@ -396,7 +396,7 @@ std::vector<Point> ChessGame::king_moves(Point p, int moves_number) {
 	result.push_back(Point(p.x - 1, p.y));
 	result.push_back(Point(p.x - 1, p.y + 1));
 
-	Army& enemy_team = field.cells[p.y][p.x].figure->getColor() == Color::white ? team_b : team_w;
+	Army& enemy_team = field.getCell(p).figure->getColor() == Color::white ? team_b : team_w;
 	int enemy_moves_number = enemy_team.getColor() == Color::black ? b_moves_count : w_moves_count;
 
 	std::vector<Move> possible_enemy_moves = allPossibleMoves(enemy_team, enemy_moves_number, false);
@@ -435,7 +435,7 @@ void ChessGame::eraseIncorrectMoves(Point from, std::vector<Point>& destinations
 		if (!isCorrectPoint(destinations[i])) {
 			destinations.erase(destinations.begin() + i);
 		}
-		else if (field.cells[dest.y][dest.x].figure && field.cells[dest.y][dest.x].figure->getColor() == field.cells[from.y][from.x].figure->getColor()) { // if figures with same colors fight
+		else if (field.getCell(dest).figure && field.getCell(dest).figure->getColor() == field.getCell(from).figure->getColor()) { // if figures with same colors fight
 			destinations.erase(destinations.begin() + i);
 		}
 		else {
@@ -451,8 +451,8 @@ Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assum
 	assert(isCorrectPoint(from_p));
 	assert(isCorrectPoint(dest_p));
 
-	Figure* figure = field.cells[from_p.y][from_p.x].figure;
-	Figure* dest_figure = field.cells[dest_p.y][dest_p.x].figure;
+	Figure* figure = field.getCell(from_p).figure;
+	Figure* dest_figure = field.getCell(dest_p).figure;
 
 	figure->setPosition(dest_p);
 
@@ -463,8 +463,8 @@ Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assum
 
 	//	field.makeMove(from_p, dest_p);
 
-	field.cells[dest_p.y][dest_p.x].figure = field.cells[from_p.y][from_p.x].figure;
-	field.cells[from_p.y][from_p.x].figure = nullptr;
+	field.getCell(dest_p).figure = field.getCell(from_p).figure;
+	field.getCell(from_p).figure = nullptr;
 
 	return dest_figure; // return removed figure
 }
@@ -569,7 +569,7 @@ void ChessGame::undoMove(const Point& from, const Point& dest, Figure* removed_f
 	if (removed_figure) {
 		removed_figure->setPosition(dest);
 		removed_figure->setIsAlive(true);
-		field.cells[dest.y][dest.x].figure = removed_figure;
+		field.getCell(dest).figure = removed_figure;
 	}
 }
 
@@ -642,7 +642,7 @@ void ChessGame::markAsWinner(const Army& team) {
 void ChessGame::handleFieldClick(const Point& pos) {
 	assert(cur_player == Player::user);
 
-	Figure* figure = field.cells[pos.y][pos.x].figure; // figure in cell, on which user clicked
+	Figure* figure = field.getCell(pos).figure; // figure in cell, on which user clicked
 	if (!selected_figure) {
 		if (figure && figure->getColor() == Color::white) {
 			selected_figure = figure;
@@ -660,7 +660,7 @@ void ChessGame::handleFieldClick(const Point& pos) {
 			field.putMarks(pos, movesFromPoint(pos, w_moves_count));
 		}
 		else {
-			if (field.cells[pos.y][pos.x].marked || field.cells[pos.y][pos.x].possible_fight) {  // need to move
+			if (field.getCell(pos).marked || field.getCell(pos).possible_fight) {  // need to move
 				std::cout << "white: " << selected_figure->getPosition().getString() << " -> " << pos.getString() << std::endl;
 				Point from = selected_figure->getPosition(); // get a value for not to pass position in makeMove() by reference (cause of inctorrect behaviour: no move)
 				Figure* removed_figure = makeMove(from, pos);

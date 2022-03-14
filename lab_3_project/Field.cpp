@@ -27,7 +27,7 @@ void Cell::clean() {
 	\param[in,out] black is a black team
 	\param[in] size is a size of board (usually it is 8)
 */
-Field::Field(Army& white, Army& black, int size) : cells(size, std::vector<Cell>(size,Cell())) {
+Field::Field(Army& white, Army& black, std::size_t size) : size(size), cells(size, std::vector<Cell>(size,Cell())) {
 	putFiguresOnField(white, black);
 }
 
@@ -89,7 +89,7 @@ void Field::putFiguresOnField(Army& white, Army& black) {
 	Print chess board in console \n
 	Figures prints as two letters: 'w' or 'b' - means team, and first letter of figure type name: 'p', 'h', 'b', 'r', 'q', 'k'. For example: "wp", "wb".
 */
-void Field::print() {
+void Field::print() const {
 	std::cout << std::endl << "  ";
 	for (std::size_t i = 0; i < 23; i++) {
 		std::cout << "-";
@@ -205,4 +205,31 @@ void Field::clearMarks() {
 			this->cells[i][j].selected = false;
 		}
 	}
+}
+
+std::size_t Field::getSize() const {
+	return this->size;
+}
+
+/*!
+	Getter of chess board cell
+
+	\param[in] point is coordinates of cell that we need
+
+	\returns reference on corresponding cell
+*/
+Cell& Field::getCell(const Point& point) {
+	return this->cells[point.y][point.x]; // because x coordinate is number of column, and y coordinate is number of row. Counting starts from left bottom corner
+}
+
+/*!
+	Getter of chess board cell
+
+	\param[in] x is a x coordinate of cell that we need
+	\param[in] y is a y coordinate of cell that we need
+
+	\returns reference on corresponding cell
+*/
+Cell& Field::getCell(int x, int y) {
+	return this->cells[y][x]; // because x coordinate is number of column, and y coordinate is number of row. Counting starts from left bottom corner
 }

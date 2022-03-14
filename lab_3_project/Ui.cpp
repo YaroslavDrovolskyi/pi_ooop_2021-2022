@@ -259,8 +259,8 @@ void Ui::displayField() {
 
 
 
-	for (std::size_t i = 0; i < field.cells.size(); i++) {
-		for (std::size_t j = 0; j < field.cells[i].size(); j++) {
+	for (std::size_t i = 0; i < field.getSize(); i++) {
+		for (std::size_t j = 0; j < field.getSize(); j++) {
 			// draw cell
 			if ((i + j) % 2 == 0) { // cell is white
 				cell.setTextureRect(sf::IntRect(8 * w0, 0, w0, w0));
@@ -275,19 +275,19 @@ void Ui::displayField() {
 			main_window.draw(cell);
 
 			// draw marks
-			if (field.cells[i][j].marked) {
+			if (field.getCell(j, i).marked) {
 				cell.setTextureRect(sf::IntRect(9 * w0, 0, w0, w0));
 			}
-			else if (field.cells[i][j].possible_fight) {
+			else if (field.getCell(j, i).possible_fight) {
 				cell.setTextureRect(sf::IntRect(9 * w0, w0, w0, w0));
 			}
-			else if (field.cells[i][j].selected) {
+			else if (field.getCell(j, i).selected) {
 				cell.setTextureRect(sf::IntRect(10 * w0, 0, w0, w0));
 			}
 			main_window.draw(cell);
 
 			// draw figures
-			Figure* f = field.cells[i][j].figure;
+			Figure* f = field.getCell(j, i).figure;
 			if (f) {
 				if (f->getColor() == Color::white) {
 					switch (f->getType()) {
