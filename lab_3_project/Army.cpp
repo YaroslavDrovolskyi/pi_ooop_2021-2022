@@ -105,6 +105,16 @@ Figure* Army::getFigurePointer(std::size_t index) {
 	return &this->figures[index];
 }
 
+
+/*!
+	Getter for all figures
+
+	\returns const reference on vector that contains all figures
+*/
+const std::vector<Figure>& Army::getAllFigures() const {
+	return this->figures;
+}
+
 /*!
 	Shows if king is alive or not
 

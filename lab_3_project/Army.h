@@ -15,8 +15,6 @@
 	\brief Class that describes chess team: set of same-colored figures
 
 	It stores list of figures and color of team.
-
-	\todo replace friend class ChessGame by getters, setters and other methods to use
 */
 class Army {
 private:
@@ -25,12 +23,12 @@ private:
 
 	int count_value(int val);
 
-	friend class ChessGame; /////////////////////////
 public:
 
 	Army(const Color& color);
 	void restore();
 	Color getColor() const;
 	Figure* getFigurePointer(std::size_t index);
+	const std::vector<Figure>& getAllFigures() const;
 	bool isKingAlive() const;
 };

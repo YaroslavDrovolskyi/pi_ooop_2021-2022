@@ -473,7 +473,7 @@ Figure* ChessGame::makeMove(const Point& from_p, const Point& dest_p) { // assum
 
 std::vector<Move> ChessGame::allPossibleMoves(const Army& team, int move_number, bool consider_king) {
 	std::vector<Move> result;
-	for (const Figure& figure : team.figures) {
+	for (const Figure& figure : team.getAllFigures()) {
 		if (figure.isAlive()) {
 			Point pos(figure.getPosition());
 			auto possible_moves = movesFromPoint(pos, move_number, consider_king);
