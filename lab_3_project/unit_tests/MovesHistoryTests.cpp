@@ -1,15 +1,20 @@
 /*!
 	\file
-	\brief File with implementation of unit test for class MovesHistory
+	\brief File with implementation of unit tests for class MovesHistory
 */
 
 #include "pch.h"
 #include "CppUnitTest.h"
 
+// inclde .h files with .cpp files
 #include "../MovesHistory.h"
 #include "../MovesHistory.cpp"
 #include "../Figure.cpp"
+#include "../Point.h"
 #include "../Point.cpp"
+
+#include "../Move.h"
+#include "../Move.cpp"
 
 
 #include <random>

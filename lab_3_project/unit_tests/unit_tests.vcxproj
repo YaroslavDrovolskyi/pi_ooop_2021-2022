@@ -172,7 +172,17 @@
       <Project>{73e124b0-afce-4a75-9cd7-9be5882ebf01}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.CodeAnalysis.Metrics.3.3.3\build\Microsoft.CodeAnalysis.Metrics.targets" Condition="Exists('..\packages\Microsoft.CodeAnalysis.Metrics.3.3.3\build\Microsoft.CodeAnalysis.Metrics.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.Metrics.3.3.3\build\Microsoft.CodeAnalysis.Metrics.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.Metrics.3.3.3\build\Microsoft.CodeAnalysis.Metrics.targets'))" />
+  </Target>
 </Project>
