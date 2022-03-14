@@ -161,6 +161,7 @@
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Move.cpp" />
     <ClCompile Include="MovesHistory.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Ui.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="Figure.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Move.h" />
     <ClInclude Include="MovesHistory.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Ui.h" />

@@ -5,7 +5,7 @@
 */
 
 #include "Game.h"
-#include "AuxFunctions.h"
+#include <AuxFunctions.h>
 
 #include <SFML/Graphics.hpp>
 #include <iostream>

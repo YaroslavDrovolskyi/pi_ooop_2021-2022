@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Point.h"
+#include "Move.h"
 #include "Figure.h"
 #include "Army.h"
 #include "Field.h"

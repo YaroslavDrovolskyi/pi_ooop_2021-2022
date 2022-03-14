@@ -18,7 +18,7 @@
 class Ui {
 public:
 	struct Button;
-	enum class Place;
+	enum class Place; ///< \brief Enum that describes place on main window
 private:
 	int w; // native width of one square of netting
 	int w0; // width of one texture in image files

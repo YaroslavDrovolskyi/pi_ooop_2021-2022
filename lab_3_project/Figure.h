@@ -32,7 +32,7 @@ enum class FigType {
 	\brief Class that describes chess figure
 
 	It contains color, type, value and position of figure. \n
-	== operator is overloaded fro this class
+	== operator is overloaded for this class
 */
 class Figure {
 private:
@@ -45,7 +45,7 @@ private:
 
 public:
 	Figure() {}
-	Figure(Color color, FigType type, const Point& pos) : color(color), type(type), is_alive(true), position(pos), value(getValue()) {}
+	Figure(const Color& color, const FigType& type, const Point& pos);
 
 	Color getColor() const;
 	FigType getType() const;

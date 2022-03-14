@@ -16,7 +16,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "AuxFunctions.h"
+#include <AuxFunctions.h>
 
 
 

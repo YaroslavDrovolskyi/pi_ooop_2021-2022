@@ -5,6 +5,27 @@
 
 #include "Figure.h"
 
+
+/*!
+	Constructor for figure
+
+	\param[in] color is a figure color
+	\param[in] type is a figure type
+	\param[in] pos is a position of figure on chess board
+*/
+Figure::Figure(const Color& color, const FigType& type, const Point& pos) : 
+	color(color), 
+	type(type), 
+	is_alive(true), 
+	position(pos), 
+	value(getValue()) 
+{
+
+}
+
+
+
+
 /*!
 	Getter for figure value
 

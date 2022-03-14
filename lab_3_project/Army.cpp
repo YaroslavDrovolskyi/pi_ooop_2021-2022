@@ -10,8 +10,10 @@
 /*!
 	\brief Constructor
 	Create and init all figures
+
+	\param[in] color of chess team
 */
-Army::Army(Color color) : color(color) {
+Army::Army(const Color& color) : color(color) {
 	this->figures.resize(16);
 
 	int pawns_row_index = color == Color::white ? 1 : 6;

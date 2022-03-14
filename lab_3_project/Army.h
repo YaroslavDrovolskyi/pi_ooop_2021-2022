@@ -28,7 +28,7 @@ private:
 	friend class ChessGame; /////////////////////////
 public:
 
-	Army(Color color);
+	Army(const Color& color);
 	void restore();
 	Color getColor() const;
 	Figure* getFigurePointer(std::size_t index);

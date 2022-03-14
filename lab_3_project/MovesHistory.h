@@ -5,6 +5,7 @@
 
 #pragma once
 #include "Point.h"
+#include "Move.h"
 #include "Figure.h"
 #include "Army.h"
 #include "Field.h"
@@ -35,7 +36,7 @@ public:
 
 	std::size_t getSize() const;
 
-	bool setCurIndex();
+//	bool setCurIndex();
 	std::size_t getCurIndex() const;
 	bool isEmpty() const;
 	void print() const;
