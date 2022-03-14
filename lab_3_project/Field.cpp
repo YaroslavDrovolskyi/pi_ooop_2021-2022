@@ -8,6 +8,18 @@
 
 
 /*!
+	Default constructor. Initialize empty non-marked cell
+*/
+Cell::Cell() : 
+	figure(nullptr), 
+	marked(false), 
+	possible_fight(false), 
+	selected(false) 
+{
+
+};
+
+/*!
 	Method that clear a cell (clear all marks and put away figure) \n
 	This method is using for restoring the field (chess board)
 */
@@ -219,7 +231,7 @@ std::size_t Field::getSize() const {
 	\returns reference on corresponding cell
 */
 Cell& Field::getCell(const Point& point) {
-	return this->cells[point.y][point.x]; // because x coordinate is number of column, and y coordinate is number of row. Counting starts from left bottom corner
+	return this->cells[point.y][point.x]; // because x coordinate is index of column, and y coordinate is index of row. Counting starts from left bottom corner
 }
 
 /*!
@@ -231,5 +243,5 @@ Cell& Field::getCell(const Point& point) {
 	\returns reference on corresponding cell
 */
 Cell& Field::getCell(int x, int y) {
-	return this->cells[y][x]; // because x coordinate is number of column, and y coordinate is number of row. Counting starts from left bottom corner
+	return this->cells[y][x]; // because x coordinate is index of column, and y coordinate is index of row. Counting starts from left bottom corner
 }

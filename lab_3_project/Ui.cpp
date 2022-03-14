@@ -394,6 +394,13 @@ Ui::Place Ui::getClickedPlace(const sf::Event& event, Point& field_point) {
 
 /*!
 	Constructor that initialize button
+
+	\param[in] id is place that button is it
+	\param[in] label is text on button
+	\param[in] color is color of button
+	\param[in] size is size of button
+	\param[in] position is position of button
+	\param[in] label_pos is relative position of label in button
 */
 Ui::Button::Button(const Ui::Place& id, const std::string& label, const sf::Color& color, const sf::Vector2f& size,
 	const sf::Vector2f& position, const sf::Vector2f& label_pos) :

@@ -20,7 +20,7 @@ public:
 	bool possible_fight;
 	bool selected; ///< selected own figure
 
-	Cell() : figure(nullptr), marked(false), possible_fight(false), selected(false) {};
+	Cell();
 	void clean();
 };
 

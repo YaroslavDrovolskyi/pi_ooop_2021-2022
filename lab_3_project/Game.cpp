@@ -670,6 +670,10 @@ void ChessGame::handleFieldClick(const Point& pos) {
 				field.clearMarks();
 				cur_player = Player::ai;
 			}
+			else if (!figure) { // if white figure is selected and we clicked on empty cell
+				selected_figure = nullptr;
+				field.clearMarks();
+			}
 			else {
 				ui.displayMessageBox(L"Impossible move to this cell");
 			}
