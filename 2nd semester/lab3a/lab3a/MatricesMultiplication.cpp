@@ -1,5 +1,6 @@
 #include <exception>
-
+#include <thread>
+#include <vector>
 #include "MatricesMultiplication.h"
 
 template <typename T>
@@ -152,6 +153,145 @@ Matrix<T> MultiplyStrassenOneThreaded<T>::multiplyImpl(const Matrix<T>& A, const
 }
 
 
+template <typename T>
+MultiplyStrassenMultiThreaded<T>::MultiplyStrassenMultiThreaded(const Matrix<T>& A, const Matrix<T>& B, std::size_t min_size_for_recursion) :
+	MultiplyStrassen<T>(A, B, min_size_for_recursion), 
+	max_threads_number(std::thread::hardware_concurrency()),
+	active_threads_count(1)
+{
+
+}
+
+
+
+template <typename T>
+Matrix<T> MultiplyStrassenMultiThreaded<T>::multiplyImpl(const Matrix<T>& A, const Matrix<T>& B) {
+	assert(A.getSize() == B.getSize());
+
+	if (A.getSize() < this->min_size_for_recursion) { // use simple matrix multiplication
+		UsualMultiply<T> calc(A, B);
+		return calc.multiply();
+	}
+	else {
+		std::size_t size = A.getSize() / 2;
+		Matrix<T> a11 = A.getSubmatrix(0, 0, size); //get_part_of_matrix(A, 0, 0, size);
+		Matrix<T> a12 = A.getSubmatrix(0, size, size); //get_part_of_matrix(A, 0, size, size);
+		Matrix<T> a21 = A.getSubmatrix(size, 0, size); //get_part_of_matrix(A, size, 0, size);
+		Matrix<T> a22 = A.getSubmatrix(size, size, size); //get_part_of_matrix(A, size, size, size);
+
+
+		Matrix<T> b11 = B.getSubmatrix(0, 0, size); //get_part_of_matrix(A, 0, 0, size);
+		Matrix<T> b12 = B.getSubmatrix(0, size, size); //get_part_of_matrix(A, 0, size, size);
+		Matrix<T> b21 = B.getSubmatrix(size, 0, size); //get_part_of_matrix(A, size, 0, size);
+		Matrix<T> b22 = B.getSubmatrix(size, size, size); //get_part_of_matrix(A, size, size, size);
+
+
+
+
+		Matrix<T> p1(1), p2(1), p3(1), p4(1), p5(1), p6(1);
+		std::thread t1, t2, t3, t4, t5, t6;
+
+		std::vector<std::thread*> active_threads;
+
+		// p1
+		if (active_threads_count < this->max_threads_number) {
+			t1 = std::thread([&]() {
+				p1 = multiplyImpl(a11 + a22, b11 + b22);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t1);
+		}
+		else {
+			p1 = multiplyImpl(a11 + a22, b11 + b22);
+		}
+
+		// p2
+		if (active_threads_count < this->max_threads_number) {
+			t2 = std::thread([&]() {
+				p2 = multiplyImpl(a21 + a22, b11);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t2);
+		}
+		else {
+			p2 = multiplyImpl(a21 + a22, b11);
+		}
+
+		// p3
+		if (active_threads_count < this->max_threads_number) {
+			t3 = std::thread([&]() {
+				p3 = multiplyImpl(a11, b12 - b22);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t3);
+		}
+		else {
+			p3 = multiplyImpl(a11, b12 - b22);
+		}
+
+		// p4
+		if (active_threads_count < this->max_threads_number) {
+			t4 = std::thread([&]() {
+				p4 = multiplyImpl(a22, b21 - b11);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t4);
+		}
+		else {
+			p4 = multiplyImpl(a22, b21 - b11);
+		}
+
+		// p5
+		if (active_threads_count < this->max_threads_number) {
+			t5 = std::thread([&]() {
+				p5 = multiplyImpl(a11 + a12, b22);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t5);
+		}
+		else {
+			p5 = multiplyImpl(a11 + a12, b22);
+		}
+
+		// p6
+		if (active_threads_count < this->max_threads_number) {
+			t6 = std::thread([&]() {
+				p6 = multiplyImpl(a21 - a11, b11 + b12);
+			});
+
+			active_threads_count++;
+			active_threads.push_back(&t6);
+		}
+		else {
+			p6 = multiplyImpl(a21 - a11, b11 + b12);
+		}
+
+		Matrix<T> p7 = multiplyImpl(a12 - a22, b21 + b22);
+
+		// join all active threads
+		for (auto& active_thread : active_threads) {
+			active_thread->join();
+		}
+
+//		std::cout << "Number of active threads:   " << active_threads_count << std::endl;
+
+		Matrix<T> c11 = (p1 + p4) + (p7 - p5);
+		Matrix<T> c12 = p3 + p5;
+		Matrix<T> c21 = p2 + p4;
+		Matrix<T> c22 = (p1 - p2) + (p3 + p6);
+
+
+		return Matrix<T>::mergeMatrices(c11, c12, c21, c22);
+	}
+}
+
+
+
 
 template class MatricesMultiplicator<int>;
 template class MatricesMultiplicator<double>;
@@ -165,3 +305,6 @@ template class MultiplyStrassen<double>;
 
 template class MultiplyStrassenOneThreaded<int>;
 template class MultiplyStrassenOneThreaded<double>;
+
+template class MultiplyStrassenMultiThreaded<int>;
+template class MultiplyStrassenMultiThreaded<double>;

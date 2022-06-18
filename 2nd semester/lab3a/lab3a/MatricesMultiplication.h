@@ -65,3 +65,16 @@ public:
 };
 
 
+template <typename T>
+class MultiplyStrassenMultiThreaded : public MultiplyStrassen<T>
+{
+private:
+	std::size_t max_threads_number;
+	std::size_t active_threads_count;
+	virtual Matrix<T> multiplyImpl(const Matrix<T>& A, const Matrix<T>& B) override;
+
+public:
+	MultiplyStrassenMultiThreaded(const Matrix<T>& A, const Matrix<T>& B, std::size_t min_size_for_recursion = 32);
+};
+
+
