@@ -32,9 +32,11 @@ public:
 	Matrix<T> getExpandedCopy(std::size_t new_size) const;
 	void print() const;
 	void printBracketsForm() const;
+	std::size_t getSize() const;
+	T& item(std::size_t i, std::size_t j);
 
 	static Matrix<T> mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, const Matrix<T>& a21, const Matrix<T>& a22);
-
+	static Matrix<T> generateRandom(std::size_t size);
 	
 };
 
@@ -42,12 +44,6 @@ public:
 
 //Matrix rand_matrix(std::size_t size = 5);
 
-
-
-//Matrix usual_multiply(const Matrix& a, const Matrix& b);
-
-//Matrix strassen_multiply(const Matrix& A, const Matrix& B, std::size_t min_size_for_recursion = 32);
-//Matrix strassen_multiply_impl(const Matrix& A, const Matrix& B, std::size_t min_size_for_recursion);
 //bool test_strassen(std::size_t matrix_size = 100, int N = 10);
 
 

@@ -1,5 +1,5 @@
 #include <exception>
-
+#include <random>
 #include "Matrix.h"
 
 
@@ -66,7 +66,21 @@ void Matrix<T>::printBracketsForm() const {
 			std::cout << ", ";
 		}
 	}
-	std::cout << "}";
+	std::cout << "}" << std::endl;
+}
+
+template <typename T>
+std::size_t Matrix<T>::getSize() const {
+	return this->size;
+}
+
+template <typename T>
+T& Matrix<T>::item(std::size_t i, std::size_t j) {
+	if (i >= this->size || j >= this->size) {
+		throw std::out_of_range("item(): indexes out of bound");
+	}
+
+	return this->matrix[i][j];
 }
 
 template <typename T>
@@ -196,6 +210,23 @@ Matrix<T> Matrix<T>::mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, c
 		else {
 			std::copy(a21.matrix[i - size / 2], a21.matrix[i - size / 2] + size / 2, result.matrix[i]);
 			std::copy(a22.matrix[i - size / 2], a22.matrix[i - size / 2] + size / 2, result.matrix[i] + size / 2);
+		}
+	}
+
+	return result;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::generateRandom(std::size_t size) {
+	Matrix<T> result(size);
+
+
+	std::default_random_engine gen;
+	std::uniform_int_distribution<int> dis(-1000, 1000);
+
+	for (std::size_t i = 0; i < size; i++) {
+		for (std::size_t j = 0; j < size; j++) {
+			result.matrix[i][j] = dis(gen);
 		}
 	}
 
