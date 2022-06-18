@@ -40,7 +40,7 @@ Matrix<T>::Matrix(const Matrix<T>& other) { // copy constructor
 }
 
 template <typename T>
-void Matrix<T>::print() {
+void Matrix<T>::print() const {
 	for (std::size_t i = 0; i < this->size; i++) {
 		for (std::size_t j = 0; j < this->size; j++) {
 			std::cout << this->matrix[i][j] << '\t';
@@ -51,7 +51,7 @@ void Matrix<T>::print() {
 }
 
 template <typename T>
-void Matrix<T>::printBracketsForm() {
+void Matrix<T>::printBracketsForm() const {
 	std::cout << "{";
 	for (std::size_t i = 0; i < this->size; i++) {
 		std::cout << "{";
@@ -76,6 +76,162 @@ Matrix<T>::~Matrix() {
 	}
 	delete[]this->matrix;
 }
+
+template <typename T>
+Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other){
+
+	// guard self assignment
+	if (this == &other) {
+		return *this;
+	}
+
+	if (size != other.size) {
+		deleteMatrix(); // delete two-dimensional heap array
+
+		this->size = other.size;
+		allocateMatrix();
+	}
+
+	// copy data
+	for (std::size_t i = 0; i < size; i++) {
+		std::copy(other.matrix[i], other.matrix[i] + other.size, this->matrix[i]);
+	}
+
+	return* this;
+
+	// example: https://en.cppreference.com/w/cpp/language/operators#:~:text=forms%3A%5B1%5D-,Assignment%20operator,-The%20assignment%20operator
+}
+
+// allocate new two-dimension array [size x size], in which matrix items is stored
+template <typename T>
+void Matrix<T>::allocateMatrix() {
+	this->matrix = new T* [size];
+	for (std::size_t i = 0; i < size; i++) {
+		this->matrix[i] = new T[size];
+	}
+}
+
+// delete two-dimension array, in which matrix items is stored
+template <typename T>
+void Matrix<T>::deleteMatrix() {
+	for (std::size_t i = 0; i < this->size; i++) {
+		delete[] this->matrix[i];
+	}
+	delete[]this->matrix;
+}
+
+
+template <typename T>
+bool operator== (const Matrix<T>& a, const Matrix<T>& b) {
+	if (a.size != b.size) {
+		return false;
+	}
+
+	std::size_t size = a.size;
+
+	for (std::size_t i = 0; i < size; i++) {
+		for (std::size_t j = 0; j < size; j++) {
+			if (a[i][j] != b[i][j]) {
+				return false;
+			}
+		}
+	}
+
+	return true;	
+}
+
+template <typename T>
+Matrix<T> operator+ (const Matrix<T>& a, const Matrix<T>& b){
+	if (a.size != b.size) {
+		throw std::invalid_argument("operator+: matrices are not the same size");
+	}
+
+
+	Matrix<T> result(a.size);
+
+	for (std::size_t i = 0; i < a.size; i++) {
+		for (std::size_t j = 0; j < a.size; j++) {
+			result.matrix[i][j] = a.matrix[i][j] + b.matrix[i][j];
+		}
+	}
+
+	return result;
+
+}
+
+
+template <typename T>
+Matrix<T> operator- (const Matrix<T>& a, const Matrix<T>& b) {
+	if (a.size != b.size) {
+		throw std::invalid_argument("operator-: matrices are not the same size");
+	}
+
+
+	Matrix<T> result(a.size);
+
+	for (std::size_t i = 0; i < a.size; i++) {
+		for (std::size_t j = 0; j < a.size; j++) {
+			result.matrix[i][j] = a.matrix[i][j] - b.matrix[i][j];
+		}
+	}
+
+	return result;
+
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, const Matrix<T>& a21, const Matrix<T>& a22) {
+	if (a11.size != a12.size || a12.size != a21.size || a21.size != a22.size) {
+		throw std::invalid_argument("mergeMatrices(): matrices are not the same size");
+	}
+
+	std::size_t size = 2 * a11.size;
+	Matrix<T> result(size);
+
+	for (std::size_t i = 0; i < size; i++) {
+		if (i < size / 2) {
+			std::copy(a11.matrix[i], a11.matrix[i] + size / 2, result.matrix[i]);
+			std::copy(a12.matrix[i], a12.matrix[i] + size / 2, result.matrix[i] + size / 2);
+		}
+		else {
+			std::copy(a21.matrix[i - size / 2], a21.matrix[i - size / 2] + size / 2, result.matrix[i]);
+			std::copy(a22.matrix[i - size / 2], a22.matrix[i - size / 2] + size / 2, result.matrix[i] + size / 2);
+		}
+	}
+
+	return result;
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::getSubmatrix(std::size_t start_row, std::size_t start_col, std::size_t size) const {
+	assert(start_row + size <= this->size && start_col + size <= this->size);
+
+	Matrix<T> result(size);
+
+	for (std::size_t i = start_row; i < start_row + size; i++) {
+		std::copy(this->matrix[i] + start_col, this->matrix[i] + start_col + size, result.matrix[i - start_row]);
+	}
+
+	return result;
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::getExpandedCopy(std::size_t new_size) const {
+	if (new_size <= this->size) {
+		throw std::invalid_argument("getExpandedCopy(): new size must be bigger than matrix own size");
+	}
+
+	Matrix result(new_size, 0);
+
+	for (std::size_t i = 0; i < this->size; i++) {
+		std::copy(this->matrix[i], this->matrix[i] + this->size, result.matrix[i]);
+	}
+
+	return result;
+}
+
 
 
 // create instances of necessary classes
