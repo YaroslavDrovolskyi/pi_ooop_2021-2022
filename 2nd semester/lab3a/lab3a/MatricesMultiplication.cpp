@@ -4,21 +4,21 @@
 
 template <typename T>
 UsualMultiply<T>::UsualMultiply(const Matrix<T>& A, const Matrix<T>& B) :
-	matrix1(A), matrix2(B), result(A.size, 0), is_launched_before(false)
+	matrix1(A), matrix2(B), result(A.getSize(), 0), is_launched_before(false)
 {
 
 }
 
 template <typename T>
 Matrix<T> UsualMultiply<T>::multiply() {
-	if (this->matrix1.size != this->matrix2.size) {
+	if (this->matrix1.getSize() != this->matrix2.getSize()) {
 		throw std::invalid_argument("multiply(): matrices are not the same size");
 	}
 
-	for (std::size_t i = 0; i < matrix1.size; i++) {
-		for (std::size_t j = 0; j < matrix2.size; j++) {
-			for (std::size_t k = 0; k < matrix1.size; k++) {
-				this->result.matrix[i][j] += matrix1.matrix[i][k] * matrix1.matrix[k][j];
+	for (std::size_t i = 0; i < matrix1.getSize(); i++) {
+		for (std::size_t j = 0; j < matrix2.getSize(); j++) {
+			for (std::size_t k = 0; k < matrix1.getSize(); k++) {
+				this->result.item(i,j) += matrix1.item(i, k) * matrix2.item(k,j);
 			}
 		}
 	}
@@ -38,7 +38,7 @@ Matrix<T> UsualMultiply<T>::getResult() const {
 
 template <typename T>
 MultiplyStrassen<T>::MultiplyStrassen(const Matrix<T>& a, const Matrix<T>& b, std::size_t min_size_for_recursion) :
-	matrix1(a), matrix2(b), result(a.size), min_size_for_recursion(min_size_for_recursion), is_launched_before(false)
+	matrix1(a), matrix2(b), result(a.getSize()), min_size_for_recursion(min_size_for_recursion), is_launched_before(false)
 {
 
 }
@@ -69,12 +69,12 @@ Matrix<T> MultiplyStrassen<T>::getResult() const {
 
 template <typename T>
 Matrix<T> MultiplyStrassen<T>::multiply() {
-	if (this->matrix1.size != this->matrix2.size) {
+	if (this->matrix1.getSize() != this->matrix2.getSize()) {
 		throw std::invalid_argument("multiply(): matrices are not the same size");
 	}
 	assert(min_size_for_recursion > 2);
 
-	std::size_t size = this->matrix1.size;
+	std::size_t size = this->matrix1.getSize();
 	std::size_t new_size = getNextExpOfTwo(size);
 
 	if (size == new_size) {
@@ -96,7 +96,7 @@ Matrix<T> MultiplyStrassen<T>::multiply() {
 
 template <typename T>
 MultiplyStrassenOneThreaded<T>::MultiplyStrassenOneThreaded(const Matrix<T>& A, const Matrix<T>& B, std::size_t min_size_for_recursion) :
-	MultiplyStrassen(A, B, min_size_for_recursion)
+	MultiplyStrassen<T>(A, B, min_size_for_recursion)
 {
 
 }
@@ -104,14 +104,14 @@ MultiplyStrassenOneThreaded<T>::MultiplyStrassenOneThreaded(const Matrix<T>& A, 
 
 template <typename T>
 Matrix<T> MultiplyStrassenOneThreaded<T>::multiplyImpl(const Matrix<T>& A, const Matrix<T>& B) {
-	assert(A.size == B.size);
+	assert(A.getSize() == B.getSize());
 
-	if (A.size < this->min_size_for_recursion) { // use simple matrix multiplication
+	if (A.getSize() < this->min_size_for_recursion) { // use simple matrix multiplication
 		UsualMultiply<T> calc(A, B);
 		return calc.multiply();
 	}
 	else {
-		std::size_t size = A.size / 2;
+		std::size_t size = A.getSize() / 2;
 		Matrix<T> a11 = A.getSubmatrix(0, 0, size); //get_part_of_matrix(A, 0, 0, size);
 		Matrix<T> a12 = A.getSubmatrix(0, size, size); //get_part_of_matrix(A, 0, size, size);
 		Matrix<T> a21 = A.getSubmatrix(size, 0, size); //get_part_of_matrix(A, size, 0, size);

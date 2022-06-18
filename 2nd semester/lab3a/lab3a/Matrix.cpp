@@ -145,7 +145,7 @@ bool operator== (const Matrix<T>& a, const Matrix<T>& b) {
 
 	for (std::size_t i = 0; i < size; i++) {
 		for (std::size_t j = 0; j < size; j++) {
-			if (a[i][j] != b[i][j]) {
+			if (a.matrix[i][j] != b.matrix[i][j]) {
 				return false;
 			}
 		}
@@ -221,7 +221,7 @@ Matrix<T> Matrix<T>::generateRandom(std::size_t size) {
 	Matrix<T> result(size);
 
 
-	std::default_random_engine gen;
+	static std::default_random_engine gen;
 	std::uniform_int_distribution<int> dis(-1000, 1000);
 
 	for (std::size_t i = 0; i < size; i++) {
@@ -268,3 +268,16 @@ Matrix<T> Matrix<T>::getExpandedCopy(std::size_t new_size) const {
 // create instances of necessary classes
 template class Matrix<int>;
 template class Matrix<double>;
+
+
+// create instances of necessary functions
+template bool operator== (const Matrix<int>& a, const Matrix<int>& b);
+template bool operator== (const Matrix<double>& a, const Matrix<double>& b);
+
+template Matrix<int> operator+ (const Matrix<int>& a, const Matrix<int>& b);
+template Matrix<double> operator+ (const Matrix<double>& a, const Matrix<double>& b);
+
+template Matrix<int> operator- (const Matrix<int>& a, const Matrix<int>& b);
+template Matrix<double> operator- (const Matrix<double>& a, const Matrix<double>& b);
+
+

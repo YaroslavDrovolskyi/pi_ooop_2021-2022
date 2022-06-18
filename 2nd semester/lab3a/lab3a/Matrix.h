@@ -23,9 +23,10 @@ public:
 	~Matrix();
 
 	Matrix<T>& operator=(const Matrix<T>& other);
-	friend bool operator== (const Matrix<T>&a, const Matrix<T>&b);
-	friend Matrix<T> operator+ (const Matrix<T>& a, const Matrix<T>& b);
-	friend Matrix<T> operator- (const Matrix<T>& a, const Matrix<T>& b);
+	
+	template <typename T> friend bool operator== (const Matrix<T>&a, const Matrix<T>&b);
+	template <typename T> friend Matrix<T> operator+ (const Matrix<T>& a, const Matrix<T>& b);
+	template <typename T> friend Matrix<T> operator- (const Matrix<T>& a, const Matrix<T>& b);
 
 
 	Matrix<T> getSubmatrix(std::size_t start_row, std::size_t start_col, std::size_t size) const;
@@ -39,7 +40,6 @@ public:
 	static Matrix<T> generateRandom(std::size_t size);
 	
 };
-
 
 
 //Matrix rand_matrix(std::size_t size = 5);
