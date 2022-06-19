@@ -2,6 +2,7 @@
 #include <ctime>
 #include "Matrix.h"
 #include "MatricesMultiplication.h"
+#include "QuickSort.h"
 
 int main() {
 //	Matrix<int> m(5, 5);
@@ -11,10 +12,18 @@ int main() {
 
 	const std::size_t SIZE = 512;
 
+	std::vector<int> vec = randomIntArray(SIZE);
 
+	printArray(vec);
+
+	QuickSortOneThreaded<int, bool(int, int)> sorter(comparatorAscend);
+	sorter.sort(&vec, 0, SIZE - 1);
+	printArray(vec);
+
+	std::cout << std::endl << "Is sorted: " << std::boolalpha << isSorted(vec, 0, SIZE - 1, comparatorAscend) << std::noboolalpha;
 
 //	std::cout << testMultiplication(SIZE, 1000) << std::endl;
-	bencmarkMultiplication(15000, "multiplication_bechmark.txt");
+//	bencmarkMultiplication(15000, "multiplication_bechmark.txt");
 
 
  /*

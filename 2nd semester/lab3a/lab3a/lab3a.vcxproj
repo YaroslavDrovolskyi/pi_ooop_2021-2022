@@ -143,10 +143,12 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MatricesMultiplication.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatricesMultiplication.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
