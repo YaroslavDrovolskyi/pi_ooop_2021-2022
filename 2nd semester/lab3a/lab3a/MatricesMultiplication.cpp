@@ -2,6 +2,8 @@
 #include <thread>
 #include <vector>
 #include <ctime>
+#include <fstream>
+#include <string>
 #include "MatricesMultiplication.h"
 
 template <typename T>
@@ -295,7 +297,15 @@ Matrix<T> MultiplyStrassenMultiThreaded<T>::multiplyImpl(const Matrix<T>& A, con
 }
 
 
+/*!
+	Function that apply all matrices multiplicators (usual, strassens) on random int matrices. \n
+	It multiply matrices and check if result is correct (if it is the same with usual naive algrithm) \n
+	It will print time of algo's work in console
 
+	\param[in] size is size of matrices, on which we will test algorithms
+	\param[in] number_of_tests is number of test to perform. It must be > 0
+
+*/
 bool testMultiplication(std::size_t size, std::size_t number_of_tests) {
 	if (number_of_tests <= 0) {
 		throw std::invalid_argument("testMultiplication(): number_of_tests must be > 0");
@@ -339,6 +349,88 @@ bool testMultiplication(std::size_t size, std::size_t number_of_tests) {
 	}
 
 	return true;
+}
+
+
+/*!
+	Function that measure productivity of matrices multiplicators (usual, strassens) on random int matrices. \n
+	It will print time of algo's work in console and in file with name filename
+	It will apply algorithms until their time will be bigger than min_time_limit
+
+	\param[in] min_time_limit is time in ms. It must at least 200
+	\param[in] filename is name of file where need to write benchmark results
+
+*/
+void bencmarkMultiplication(uint64_t min_time_limit, const std::string& filename) {
+	if (min_time_limit < 200) {
+		throw std::invalid_argument("bencmarkMultiplication(): min_time_limit must be >= 200");
+	}
+
+	std::ofstream file(filename);
+
+	uint64_t usual_time = 0;
+	uint64_t strassen_one_time = 0;
+	uint64_t strassen_multi_time = 0;
+
+	uint64_t min_time = 0;
+	std::size_t cur_size = 64;
+
+	while (min_time <= min_time_limit) {
+
+		file << "SIZE = " << cur_size << "\n\n";
+		std::cout << "SIZE = " << cur_size << "\n\n";
+
+		Matrix<int> m1 = Matrix<int>::generateRandom(cur_size);
+		Matrix<int> m2 = Matrix<int>::generateRandom(cur_size);
+
+
+		if (usual_time <= min_time_limit) {
+			usual_time = clock();
+			UsualMultiply<int> calc_usual(m1, m2);
+			calc_usual.multiply();
+			usual_time = clock() - usual_time;
+
+//			output += std::string("Usual multiply: ") + std::to_string(static_cast<double>(usual_time) / 1000) + std::string("\n");
+			file << "Usual multiply: " << static_cast<double>(usual_time) / 1000 << " s \n";
+			std::cout << "Usual multiply: " << static_cast<double>(usual_time) / 1000 << " s \n";
+
+		}
+
+		if (strassen_one_time <= min_time_limit) {
+			strassen_one_time = clock();
+			MultiplyStrassenOneThreaded<int> calc_one_th(m1, m2, 64);
+			calc_one_th.multiply();
+			strassen_one_time = clock() - strassen_one_time;
+
+			file << "Strassen (one-threaded): " << static_cast<double>(strassen_one_time) / 1000 << " s \n";
+			std::cout << "Strassen (one-threaded): " << static_cast<double>(strassen_one_time) / 1000 << " s \n";
+		}
+
+		if (strassen_multi_time <= min_time_limit) {
+			strassen_multi_time = clock();
+			MultiplyStrassenMultiThreaded<int> calc_multi_th(m1, m2, 128);
+			calc_multi_th.multiply();
+			strassen_multi_time = clock() - strassen_multi_time;
+
+			file << "Strassen (multi-threaded): " << static_cast<double>(strassen_multi_time) / 1000 << " s \n";
+			std::cout << "Strassen (multi-threaded): " << static_cast<double>(strassen_multi_time) / 1000 << " s \n";
+		}
+		file << "\n\n\n\n\n";
+		std::cout << "\n\n\n\n\n";
+
+		min_time = std::min(std::min(usual_time, strassen_one_time), strassen_multi_time);
+		
+		if (min_time < 1500) {
+			cur_size *= 2;
+		}
+		else {
+			cur_size += 150;
+		}
+
+	}
+
+	
+	file.close();
 }
 
 

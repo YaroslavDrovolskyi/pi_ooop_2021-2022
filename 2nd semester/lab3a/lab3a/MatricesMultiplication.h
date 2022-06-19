@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Matrix.h"
 
 template <typename T>
@@ -79,4 +80,5 @@ public:
 
 
 bool testMultiplication(std::size_t size, std::size_t number_of_tests);
+void bencmarkMultiplication(uint64_t min_time_limit, const std::string& filename);
 

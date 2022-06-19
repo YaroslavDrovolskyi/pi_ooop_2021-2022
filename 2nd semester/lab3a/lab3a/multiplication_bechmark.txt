@@ -1,0 +1,110 @@
+SIZE = 64
+
+Usual multiply: 0.001 s 
+Strassen (one-threaded): 0.004 s 
+Strassen (multi-threaded): 0.002 s 
+
+
+
+
+
+SIZE = 128
+
+Usual multiply: 0.012 s 
+Strassen (one-threaded): 0.02 s 
+Strassen (multi-threaded): 0.007 s 
+
+
+
+
+
+SIZE = 256
+
+Usual multiply: 0.083 s 
+Strassen (one-threaded): 0.176 s 
+Strassen (multi-threaded): 0.042 s 
+
+
+
+
+
+SIZE = 512
+
+Usual multiply: 0.66 s 
+Strassen (one-threaded): 0.93 s 
+Strassen (multi-threaded): 0.269 s 
+
+
+
+
+
+SIZE = 1024
+
+Usual multiply: 5.269 s 
+Strassen (one-threaded): 6.426 s 
+Strassen (multi-threaded): 1.8 s 
+
+
+
+
+
+SIZE = 1174
+
+Usual multiply: 8.55 s 
+Strassen (one-threaded): 44.867 s 
+Strassen (multi-threaded): 12.452 s 
+
+
+
+
+
+SIZE = 1324
+
+Usual multiply: 14.298 s 
+Strassen (multi-threaded): 12.575 s 
+
+
+
+
+
+SIZE = 1474
+
+Usual multiply: 27.744 s 
+Strassen (multi-threaded): 12.483 s 
+
+
+
+
+
+SIZE = 1624
+
+Strassen (multi-threaded): 12.546 s 
+
+
+
+
+
+SIZE = 1774
+
+Strassen (multi-threaded): 12.572 s 
+
+
+
+
+
+SIZE = 1924
+
+Strassen (multi-threaded): 12.55 s 
+
+
+
+
+
+SIZE = 2074
+
+Strassen (multi-threaded): 88.072 s 
+
+
+
+
+

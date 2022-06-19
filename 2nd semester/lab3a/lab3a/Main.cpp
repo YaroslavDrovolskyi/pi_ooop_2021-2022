@@ -9,20 +9,35 @@ int main() {
 
 	
 
-	const std::size_t SIZE = 513;
-//	Matrix<int> m1 = Matrix<int>::generateRandom(SIZE);
-//	Matrix<int> m2 = Matrix<int>::generateRandom(SIZE);
+	const std::size_t SIZE = 512;
 
 
-	testMultiplication(SIZE, 10);
 
-/*
+//	std::cout << testMultiplication(SIZE, 1000) << std::endl;
+	bencmarkMultiplication(15000, "multiplication_bechmark.txt");
+
+
+ /*
+	Matrix<int> m1 = Matrix<int>::generateRandom(4);
+	Matrix<int> m2 = Matrix<int>::generateRandom(4);
+
 	UsualMultiply<int> calc_usual(m1, m2);
 	MultiplyStrassenOneThreaded<int> calc_one_th(m1, m2);
 	MultiplyStrassenMultiThreaded<int> calc_multi_th(m1, m2);
 
 
+	m1.printBracketsForm();
+	std::cout << std::endl;
+	m2.printBracketsForm();
+	std::cout << std::endl;
 
+	calc_multi_th.multiply().printBracketsForm();
+
+
+*/
+
+
+/*
 	uint64_t start_time = clock();
 	calc_usual.multiply();
 	std::cout << "Simple multiply, N = " << SIZE << ", time: " << static_cast<double>(clock() - start_time) / 1000 << " s" << std::endl;
