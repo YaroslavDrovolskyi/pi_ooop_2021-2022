@@ -38,6 +38,9 @@ public:
 
 	static Matrix<T> mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, const Matrix<T>& a21, const Matrix<T>& a22);
 	static Matrix<T> generateRandom(std::size_t size);
+
+	template <typename T>
+	friend class UsualMultiply; // make it friend to optimise usual multiplying (using [i][j] instead of item(i,j))
 	
 };
 

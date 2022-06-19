@@ -78,3 +78,5 @@ public:
 };
 
 
+bool testMultiplication(std::size_t size, std::size_t number_of_tests);
+

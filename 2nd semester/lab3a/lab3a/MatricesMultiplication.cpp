@@ -1,6 +1,7 @@
 #include <exception>
 #include <thread>
 #include <vector>
+#include <ctime>
 #include "MatricesMultiplication.h"
 
 template <typename T>
@@ -16,10 +17,13 @@ Matrix<T> UsualMultiply<T>::multiply() {
 		throw std::invalid_argument("multiply(): matrices are not the same size");
 	}
 
-	for (std::size_t i = 0; i < matrix1.getSize(); i++) {
-		for (std::size_t j = 0; j < matrix2.getSize(); j++) {
-			for (std::size_t k = 0; k < matrix1.getSize(); k++) {
-				this->result.item(i,j) += matrix1.item(i, k) * matrix2.item(k,j);
+	std::size_t size = matrix1.getSize();
+
+	for (std::size_t i = 0; i < size; i++) {
+		for (std::size_t j = 0; j < size; j++) {
+			for (std::size_t k = 0; k < size; k++) {
+//				this->result.item(i,j) += matrix1.item(i, k) * matrix2.item(k,j);
+				this->result.matrix[i][j] += matrix1.matrix[i][k] * matrix2.matrix[k][j];
 			}
 		}
 	}
@@ -290,6 +294,52 @@ Matrix<T> MultiplyStrassenMultiThreaded<T>::multiplyImpl(const Matrix<T>& A, con
 	}
 }
 
+
+
+bool testMultiplication(std::size_t size, std::size_t number_of_tests) {
+	if (number_of_tests <= 0) {
+		throw std::invalid_argument("testMultiplication(): number_of_tests must be > 0");
+	}
+
+	for (std::size_t i = 0; i < number_of_tests; i++) {
+		Matrix<int> m1 = Matrix<int>::generateRandom(size);
+		Matrix<int> m2 = Matrix<int>::generateRandom(size);
+
+		// create multiplicators
+		UsualMultiply<int> calc_usual(m1, m2);
+		MultiplyStrassenOneThreaded<int> calc_one_th(m1, m2, 64);
+		MultiplyStrassenMultiThreaded<int> calc_multi_th(m1, m2, 128);
+
+		// run algorithms
+		std::cout << "Test number: " << i + 1 << std::endl;
+		uint64_t start_time = clock();
+		calc_usual.multiply();
+		std::cout << "Simple multiply, N = " << size << ", time: " << static_cast<double>(clock() - start_time) / 1000 << " s" << std::endl;
+
+
+		start_time = clock();
+		calc_one_th.multiply();
+		std::cout << "One-threaded Strassen, N = " << size << ", time: " << static_cast<double>(clock() - start_time) / 1000 << " s" << std::endl;
+
+
+		start_time = clock();
+		calc_multi_th.multiply();
+		std::cout << "Multi-threaded Strassen, N = " << size << ", time: " << static_cast<double>(clock() - start_time) / 1000 << " s\n\n\n\n\n" << std::endl;
+
+
+		if (!(calc_usual.getResult() == calc_one_th.getResult())) {
+			std::cout << "Usual and Strassen (one-threaded) resukls are not the same";
+			return false;
+		}
+
+		if (!(calc_one_th.getResult() == calc_multi_th.getResult())) {
+			std::cout << "Strassen (one-threaded) and Strassen (,ulti-threaded) results are not the same";
+			return false;
+		}
+	}
+
+	return true;
+}
 
 
 

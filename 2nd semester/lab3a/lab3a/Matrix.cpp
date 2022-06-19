@@ -70,12 +70,12 @@ void Matrix<T>::printBracketsForm() const {
 }
 
 template <typename T>
-std::size_t Matrix<T>::getSize() const {
+inline std::size_t Matrix<T>::getSize() const {
 	return this->size;
 }
 
 template <typename T>
-T& Matrix<T>::item(std::size_t i, std::size_t j) {
+inline T& Matrix<T>::item(std::size_t i, std::size_t j) {
 	if (i >= this->size || j >= this->size) {
 		throw std::out_of_range("item(): indexes out of bound");
 	}
