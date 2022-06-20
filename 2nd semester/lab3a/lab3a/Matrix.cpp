@@ -1,6 +1,6 @@
 /*!
 	\file
-	\brief Filewith implementation of template class Matrix
+	\brief File with implementation of template class Matrix
 */
 
 #include <exception>

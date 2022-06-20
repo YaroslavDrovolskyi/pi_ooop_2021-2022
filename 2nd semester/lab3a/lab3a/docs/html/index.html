@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.3"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>lab3a: Main Page</title>
+<title>lab3a: &lt;strong&gt;Лабораторна робота №3а&lt;/strong&gt;</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,10 +61,23 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">lab3a Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title"><b>Лабораторна робота №3а</b> </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p ><a class="anchor" id="md_readme"></a></p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Виконав Дровольський Ярослав, К-29</h1>
+<p >Я реалізував послідовні та мультипоточні версії таких алгоритмів:</p><ul>
+<li>алгоримтм Штрассена для множення матриць;</li>
+<li>алгоритм сортування <a class="el" href="class_quick_sort.html" title="Base class for all QuickSort algorithm subclasses.">QuickSort</a>.</li>
+</ul>
+<p >При реаліації цих алгоритмів було використано патерн <b>Template method</b>: основна логіка ("кістяк") алгоритму описується в базовому класі, а місця, в яких послідовний та мультипоточний алгоритми відрізняються, перевизначаються у відповідних підкласах. Наприклад, вся основна логіка для quicksort визначається в базовому класі <code><a class="el" href="class_quick_sort.html" title="Base class for all QuickSort algorithm subclasses.">QuickSort</a></code>. А послідовній / мультипоточній версіям треба override лише один метод: <code>runSortImplForSubarrays()</code>.</p>
+<p >Також було реалізовано <b>unit tests</b>, які перевіряють коректність роботи алгоримтів як при правильних, так і при неправильних вхідних даних.</p>
+<p >Окрім цього, було реалізовано <b>bencmark-режим</b>, який тестує алгоритми при різному розмірі вхідних даних. Для <a class="el" href="class_quick_sort.html" title="Base class for all QuickSort algorithm subclasses.">QuickSort</a> вимірюється час роботи для випадкових, майже впорядкованих, та відсортованих у зворотньому порядку масивів. Результати benchmark'ів знаходятья у файлах <code>multiplication_bechmark.txt</code> та <code>benchmark_quicksort.txt</code>.</p>
+<p >З результів вимірів часу роботи видно, що мультипоточний алгоритм Штрассена працює приблизно в 4 рази швидше, ніж послідовний.</p>
+<p >Документація знаходиться в папці <code>/docs</code>. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
