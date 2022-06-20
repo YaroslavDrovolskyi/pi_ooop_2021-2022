@@ -236,7 +236,9 @@ Matrix<T> Matrix<T>::generateRandom(std::size_t size) {
 
 template <typename T>
 Matrix<T> Matrix<T>::getSubmatrix(std::size_t start_row, std::size_t start_col, std::size_t size) const {
-	assert(start_row + size <= this->size && start_col + size <= this->size);
+	if (!(start_row + size <= this->size && start_col + size <= this->size)) {
+		throw std::out_of_range("getSubmatrix(): incorrect size of submatrix");
+	}
 
 	Matrix<T> result(size);
 
