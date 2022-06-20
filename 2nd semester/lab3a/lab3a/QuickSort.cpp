@@ -4,6 +4,7 @@
 #include <random>
 #include <functional>
 #include <algorithm>
+#include <fstream>
 #include "QuickSort.h"
 
 
@@ -249,7 +250,15 @@ bool comparatorDescend(int a, int b) {
 }
 
 
+/*!
+	Function that apply one/multi - threaded quicksort on different types of random arrays. \n
+	Also it check if array sorted correctly \n
+	It will print time of algo's work in console
 
+	\param[in] size is size of arrays, on which we will test quicksort
+	\param[in] number_of_tests is number of test to perform. It must be > 0
+
+*/
 bool testQuickSort(std::size_t size, std::size_t number_of_tests) {
 	if (size <= 0) {
 		throw std::invalid_argument("testMultiplication(): size must be > 0");
@@ -259,7 +268,7 @@ bool testQuickSort(std::size_t size, std::size_t number_of_tests) {
 	}
 
 	for (std::size_t i = 0; i < number_of_tests; i++) {
-		// 
+		// generate arrays
 		std::vector<int> arr_random_1 = randomIntArray(size);
 		std::vector<int> arr_random_2 { arr_random_1 };
 
@@ -319,6 +328,131 @@ bool testQuickSort(std::size_t size, std::size_t number_of_tests) {
 	}
 
 	return true;
+}
+
+/*!
+	Function that apply QuickSort to array. \n
+	Also it will print result time of algo working in stream file, and in console
+
+	\param[in] sorter is instance of QuickSort class
+	\param[in] arr is an array to sort
+	\param[in] file is stream to write algo working time
+	\param[in] algo_name is name of concrete QuickSort (one/multi - threaded, etc)
+
+	\returns time of algo work
+
+*/
+uint64_t applyBechmarkSorting(QuickSort<int, bool(int, int)>& sorter, std::vector<int>& arr, std::ofstream& file, std::string algo_name) {
+	uint64_t time = clock();
+	sorter.sort(&arr, 0, arr.size() - 1);
+	time = clock() - time;
+
+	file << algo_name << static_cast<double>(time) / 1000 << " s \n";
+	std::cout << algo_name << static_cast<double>(time) / 1000 << " s \n";
+
+
+	return time;
+}
+
+
+
+/*!
+	Function that measure productivity of one and multi - threaded quicksort on ddefferent types of random arrays. \n
+	It will print time of algo's work in console and in file with name filename
+	It will apply algorithms until their time will be bigger than min_time_limit
+
+	\param[in] min_time_limit is time in ms. It must at least 200
+	\param[in] filename is name of file where need to write benchmark results
+
+*/
+void bencmarkQuickSort(uint64_t min_time_limit, const std::string& filename) {
+	if (min_time_limit < 200) {
+		throw std::invalid_argument("bencmarkQuickSort(): min_time_limit must be >= 200");
+	}
+
+	std::ofstream file(filename);
+
+	uint64_t random_time_one = 0;
+	uint64_t random_time_multi = 0;
+
+	uint64_t almost_sorted_time_one = 0;
+	uint64_t almost_sorted_time_multi = 0;
+
+	uint64_t revert_sorted_time_one = 0;
+	uint64_t revert_sorted_time_multi = 0;
+
+	uint64_t min_time = 0;
+	std::size_t cur_size = 1000;
+
+	QuickSortOneThreaded<int, bool(int, int)> one_th_sorter(comparatorAscend);
+	QuickSortMultiThreaded<int, bool(int, int)> multi_th_sorter(comparatorAscend);
+
+	
+
+	while (min_time <= min_time_limit) {
+
+		file << "SIZE = " << cur_size << "\n\n";
+		std::cout << "SIZE = " << cur_size << "\n\n";
+
+		std::vector<int> arr_random_1 = randomIntArray(cur_size);
+		std::vector<int> arr_random_2{ arr_random_1 };
+
+		std::vector<int> arr_almost_sorted_1 = randomIntAlmostSortedArray(cur_size, comparatorAscend);
+		std::vector<int> arr_almost_sorted_2{ arr_almost_sorted_1 };
+
+		std::vector<int> arr_revert_sorted_1 = randomIntSortedArray(cur_size, comparatorDescend);
+		std::vector<int> arr_revert_sorted_2{ arr_revert_sorted_1 };
+
+		file << "Random arrays" << std::endl;
+		std::cout << "Random arrays" << std::endl;
+		if (random_time_one <= min_time_limit) {
+			random_time_one = applyBechmarkSorting(one_th_sorter, arr_random_1, file, "QuickSort (one-threaded): ");
+		}
+		if (random_time_multi <= min_time_limit) {
+			random_time_multi = applyBechmarkSorting(multi_th_sorter, arr_random_2, file, "QuickSort (multi-threaded): ");
+		}
+		file << std::endl;
+		std::cout << std::endl;
+
+
+		file << "Almost sorted arrays" << std::endl;
+		std::cout << "Almost sorted arrays" << std::endl;
+		if (almost_sorted_time_one <= min_time_limit) {
+			almost_sorted_time_one = applyBechmarkSorting(one_th_sorter, arr_almost_sorted_1, file, "QuickSort (one-threaded): ");
+		}
+		if (almost_sorted_time_multi <= min_time_limit) {
+			almost_sorted_time_multi = applyBechmarkSorting(multi_th_sorter, arr_almost_sorted_2, file, "QuickSort (multi-threaded): ");
+		}
+		file << std::endl;
+		std::cout << std::endl;
+
+
+		file << "Revert sorted arrays" << std::endl;
+		std::cout << "Revert sorted arrays" << std::endl;
+		if (revert_sorted_time_one <= min_time_limit) {
+			revert_sorted_time_one = applyBechmarkSorting(one_th_sorter, arr_revert_sorted_1, file, "QuickSort (one-threaded): ");
+		}
+		if (revert_sorted_time_multi <= min_time_limit) {
+			revert_sorted_time_multi = applyBechmarkSorting(multi_th_sorter, arr_revert_sorted_2, file, "QuickSort (multi-threaded): ");
+		}
+		file << "\n\n\n\n\n\n";
+		std::cout << "\n\n\n\n\n\n";
+
+
+		min_time = std::min(std::min(std::min(random_time_one, random_time_multi), std::min(almost_sorted_time_one, almost_sorted_time_multi)), 
+			std::min(revert_sorted_time_one, revert_sorted_time_multi));
+
+		if (min_time < 4500) {
+			cur_size *= 2;
+		}
+		else {
+			cur_size += 100000;
+		}
+
+	}
+
+
+	file.close();
 }
 
 // create instrances classes and functions templates

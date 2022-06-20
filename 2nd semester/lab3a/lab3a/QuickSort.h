@@ -1,5 +1,7 @@
 #pragma once
 #include <functional>
+#include <string>
+#include <fstream>
 #include <vector>
 
 
@@ -62,4 +64,6 @@ std::vector<int> randomIntAlmostSortedArray(std::size_t size, Comparator compara
 
 
 bool testQuickSort(std::size_t size, std::size_t number_of_tests);
+void bencmarkQuickSort(uint64_t min_time_limit, const std::string& filename);
+uint64_t applyBechmarkSorting(QuickSort<int, bool(int, int)>& sorter, std::vector<int>& arr, std::ofstream& file, std::string algo_name);
 

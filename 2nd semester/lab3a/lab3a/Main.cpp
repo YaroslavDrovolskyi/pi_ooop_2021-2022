@@ -16,7 +16,8 @@ int main() {
 //	std::vector<int> vec = randomIntArray(SIZE);
 //	std::sort(vec.begin(), vec.end());
 //	std::cout << "sorted" << std::endl;
-	testQuickSort(SIZE, 10);
+//	testQuickSort(SIZE, 10);
+	bencmarkQuickSort(5000, "benchmark_quicksort.txt");
 /*
 	std::vector<int> vec = randomIntArray(SIZE);
 

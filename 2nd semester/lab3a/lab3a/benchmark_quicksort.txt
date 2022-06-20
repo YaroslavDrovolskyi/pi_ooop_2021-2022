@@ -1,0 +1,205 @@
+SIZE = 1000
+
+Random arrays
+QuickSort (one-threaded): 0.003 s 
+QuickSort (multi-threaded): 0.007 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.006 s 
+QuickSort (multi-threaded): 0.013 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.004 s 
+QuickSort (multi-threaded): 0.005 s 
+
+
+
+
+
+
+SIZE = 2000
+
+Random arrays
+QuickSort (one-threaded): 0.009 s 
+QuickSort (multi-threaded): 0.011 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.015 s 
+QuickSort (multi-threaded): 0.014 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.007 s 
+QuickSort (multi-threaded): 0.006 s 
+
+
+
+
+
+
+SIZE = 4000
+
+Random arrays
+QuickSort (one-threaded): 0.017 s 
+QuickSort (multi-threaded): 0.017 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.055 s 
+QuickSort (multi-threaded): 0.056 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.013 s 
+QuickSort (multi-threaded): 0.013 s 
+
+
+
+
+
+
+SIZE = 8000
+
+Random arrays
+QuickSort (one-threaded): 0.04 s 
+QuickSort (multi-threaded): 0.038 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.119 s 
+QuickSort (multi-threaded): 0.129 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.028 s 
+QuickSort (multi-threaded): 0.028 s 
+
+
+
+
+
+
+SIZE = 16000
+
+Random arrays
+QuickSort (one-threaded): 0.079 s 
+QuickSort (multi-threaded): 0.075 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.526 s 
+QuickSort (multi-threaded): 0.543 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.067 s 
+QuickSort (multi-threaded): 0.069 s 
+
+
+
+
+
+
+SIZE = 32000
+
+Random arrays
+QuickSort (one-threaded): 0.175 s 
+QuickSort (multi-threaded): 0.182 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 0.824 s 
+QuickSort (multi-threaded): 0.811 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.128 s 
+QuickSort (multi-threaded): 0.127 s 
+
+
+
+
+
+
+SIZE = 64000
+
+Random arrays
+QuickSort (one-threaded): 0.373 s 
+QuickSort (multi-threaded): 0.37 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 2.244 s 
+QuickSort (multi-threaded): 2.266 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.272 s 
+QuickSort (multi-threaded): 0.269 s 
+
+
+
+
+
+
+SIZE = 128000
+
+Random arrays
+QuickSort (one-threaded): 0.737 s 
+QuickSort (multi-threaded): 0.734 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 4.848 s 
+QuickSort (multi-threaded): 4.864 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 0.573 s 
+QuickSort (multi-threaded): 0.574 s 
+
+
+
+
+
+
+SIZE = 256000
+
+Random arrays
+QuickSort (one-threaded): 1.59 s 
+QuickSort (multi-threaded): 1.556 s 
+
+Almost sorted arrays
+QuickSort (one-threaded): 23.421 s 
+QuickSort (multi-threaded): 23.387 s 
+
+Revert sorted arrays
+QuickSort (one-threaded): 1.214 s 
+QuickSort (multi-threaded): 1.217 s 
+
+
+
+
+
+
+SIZE = 512000
+
+Random arrays
+QuickSort (one-threaded): 3.242 s 
+QuickSort (multi-threaded): 3.242 s 
+
+Almost sorted arrays
+
+Revert sorted arrays
+QuickSort (one-threaded): 2.549 s 
+QuickSort (multi-threaded): 2.532 s 
+
+
+
+
+
+
+SIZE = 1024000
+
+Random arrays
+QuickSort (one-threaded): 6.68 s 
+QuickSort (multi-threaded): 6.647 s 
+
+Almost sorted arrays
+
+Revert sorted arrays
+QuickSort (one-threaded): 5.235 s 
+QuickSort (multi-threaded): 5.23 s 
+
+
+
+
+
+
