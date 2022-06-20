@@ -1,3 +1,8 @@
+/*!
+	\file
+	\brief File with implemenation of template QuickSort classes
+*/
+
 #include <iostream>
 #include <thread>
 #include <stdexcept>

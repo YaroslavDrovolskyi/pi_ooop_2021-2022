@@ -1,10 +1,17 @@
+/*!
+	\file
+	\brief Header file for template QuickSort classes
+*/
+
 #pragma once
 #include <functional>
 #include <string>
 #include <fstream>
 #include <vector>
 
-
+/*!
+	\brief Base class for all QuickSort algorithm subclasses
+*/
 template <typename T, typename Comparator>
 class QuickSort {
 protected:
@@ -15,11 +22,14 @@ protected:
 	virtual void sortImpl(std::size_t low, std::size_t high);
 	virtual void runSortImplForSubarrays(std::size_t low, std::size_t high, std::size_t left, std::size_t right) = 0;
 public:
-	QuickSort(Comparator comp);
-	virtual void sort(std::vector<T>* arr, std::size_t low, std::size_t high);
+	QuickSort(Comparator comp); ///< Constructor
+	virtual void sort(std::vector<T>* arr, std::size_t low, std::size_t high); ///< Main function. low, high - start/end indexes of subarray to sort
 };
 
 
+/*!
+	\brief Class that implement one-threaded QuickSort algorithm
+*/
 template <typename T, typename Comparator>
 class QuickSortOneThreaded : public QuickSort<T, Comparator> {
 private:
@@ -29,7 +39,9 @@ public:
 	QuickSortOneThreaded(Comparator comparator);
 };
 
-
+/*!
+	\brief Class that implement multi-threaded QuickSort algorithm
+*/
 template <typename T, typename Comparator>
 class QuickSortMultiThreaded : public QuickSort<T, Comparator> {
 private:

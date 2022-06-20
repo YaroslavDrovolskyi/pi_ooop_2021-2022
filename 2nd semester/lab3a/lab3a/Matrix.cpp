@@ -1,8 +1,17 @@
+/*!
+	\file
+	\brief Filewith implementation of template class Matrix
+*/
+
 #include <exception>
 #include <random>
 #include "Matrix.h"
 
 
+/*!
+	Constructor. It creates matrix [size x size]
+	\param[in] size is number of cols and number of rows
+*/
 template <typename T>
 Matrix<T>::Matrix(std::size_t size) : size(size)
 {
@@ -16,6 +25,11 @@ Matrix<T>::Matrix(std::size_t size) : size(size)
 	}
 }
 
+/*!
+	Constructor. It creates matrix [size x size] and init all cells with value init_value
+	\param[in] size is number of cols and number of rows
+	\param[in] init_value is initial value of all cells
+*/
 template <typename T>
 Matrix<T>::Matrix(std::size_t size, T init_value) : 
 	Matrix(size) // init empty matrix
@@ -27,6 +41,9 @@ Matrix<T>::Matrix(std::size_t size, T init_value) :
 	}
 }
 
+/*!
+	Copy Constructor
+*/
 template <typename T>
 Matrix<T>::Matrix(const Matrix<T>& other) { // copy constructor
 	this->size = other.size;
@@ -39,6 +56,10 @@ Matrix<T>::Matrix(const Matrix<T>& other) { // copy constructor
 	}
 }
 
+
+/*!
+	It prints matrix as a rectangle
+*/
 template <typename T>
 void Matrix<T>::print() const {
 	for (std::size_t i = 0; i < this->size; i++) {
@@ -50,6 +71,10 @@ void Matrix<T>::print() const {
 	std::cout << std::endl;
 }
 
+/*!
+	It prints matrix in brackets form: {{<row[1] items>}, {<row[2] items>}, ..., {<row[size] items>}} \n
+	This form is suitable for Wolfram (for example)
+*/
 template <typename T>
 void Matrix<T>::printBracketsForm() const {
 	std::cout << "{";
@@ -69,11 +94,24 @@ void Matrix<T>::printBracketsForm() const {
 	std::cout << "}" << std::endl;
 }
 
+
+/*!
+	Getter for size
+
+	\returns size of matrix
+*/
 template <typename T>
 inline std::size_t Matrix<T>::getSize() const {
 	return this->size;
 }
 
+
+/*!
+	Getter for item in cell (i, j) \n
+	It check if indexes are correct
+
+	\returns reference on item in cell (i, j)
+*/
 template <typename T>
 inline T& Matrix<T>::item(std::size_t i, std::size_t j) {
 	if (i >= this->size || j >= this->size) {
@@ -193,6 +231,12 @@ Matrix<T> operator- (const Matrix<T>& a, const Matrix<T>& b) {
 
 }
 
+
+/*!
+	Merge 4 matrices [n x n] into one matrix [2n x 2n]
+
+	\returns new matrix
+*/
 template <typename T>
 Matrix<T> Matrix<T>::mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, const Matrix<T>& a21, const Matrix<T>& a22) {
 	if (a11.size != a12.size || a12.size != a21.size || a21.size != a22.size) {
@@ -216,6 +260,13 @@ Matrix<T> Matrix<T>::mergeMatrices(const Matrix<T>& a11, const Matrix<T>& a12, c
 	return result;
 }
 
+
+/*!
+	Generate new square matrix with size size
+
+	\param[in] size is sie of matrix
+	\returns new matrix
+*/
 template <typename T>
 Matrix<T> Matrix<T>::generateRandom(std::size_t size) {
 	Matrix<T> result(size);
@@ -234,6 +285,14 @@ Matrix<T> Matrix<T>::generateRandom(std::size_t size) {
 }
 
 
+/*!
+	Return square submatrix of matrix
+	\param[in] start_row is index of first row of submatrix
+	\param[in] start_col is index of first col of submatrix
+	\param[in] size is size of submatrix 
+
+	\returns corresponding submatrix
+*/
 template <typename T>
 Matrix<T> Matrix<T>::getSubmatrix(std::size_t start_row, std::size_t start_col, std::size_t size) const {
 	if (!(start_row + size <= this->size && start_col + size <= this->size)) {
@@ -250,6 +309,13 @@ Matrix<T> Matrix<T>::getSubmatrix(std::size_t start_row, std::size_t start_col, 
 }
 
 
+/*!
+	Creates new square matrix with size new_size with '0' padding at right and at bottom
+	
+	\param[in] size is size of new matrix
+
+	\returns new matrix
+*/
 template <typename T>
 Matrix<T> Matrix<T>::getExpandedCopy(std::size_t new_size) const {
 	if (new_size <= this->size) {

@@ -1,3 +1,9 @@
+/*!
+	\file
+	\brief File with implemenation of classes derived from MatricesMultiplicator class
+*/
+
+
 #include <exception>
 #include <thread>
 #include <vector>
@@ -6,6 +12,13 @@
 #include <string>
 #include "MatricesMultiplication.h"
 
+
+/*!
+	Constructor
+
+	\param[in] A is left matrix
+	\paran[in] B is right matrix
+*/
 template <typename T>
 UsualMultiply<T>::UsualMultiply(const Matrix<T>& A, const Matrix<T>& B) :
 	matrix1(A), matrix2(B), result(A.getSize(), 0), is_launched_before(false)
@@ -43,6 +56,14 @@ Matrix<T> UsualMultiply<T>::getResult() const {
 	return this->result;
 }
 
+
+/*!
+	Constructor
+
+	\param[in] a is left matrix
+	\paran[in] b is right matrix
+	]param[in] min_size_for_recursion it is size when algo stops divide task to a smaller tasks, and perform usual multiplying
+*/
 template <typename T>
 MultiplyStrassen<T>::MultiplyStrassen(const Matrix<T>& a, const Matrix<T>& b, std::size_t min_size_for_recursion) :
 	matrix1(a), matrix2(b), result(a.getSize()), min_size_for_recursion(min_size_for_recursion), is_launched_before(false)
@@ -124,11 +145,11 @@ Matrix<T> MultiplyStrassenOneThreaded<T>::multiplyImpl(const Matrix<T>& A, const
 		Matrix<T> a21 = A.getSubmatrix(size, 0, size); //get_part_of_matrix(A, size, 0, size);
 		Matrix<T> a22 = A.getSubmatrix(size, size, size); //get_part_of_matrix(A, size, size, size);
 
-
 		Matrix<T> b11 = B.getSubmatrix(0, 0, size); //get_part_of_matrix(A, 0, 0, size);
 		Matrix<T> b12 = B.getSubmatrix(0, size, size); //get_part_of_matrix(A, 0, size, size);
 		Matrix<T> b21 = B.getSubmatrix(size, 0, size); //get_part_of_matrix(A, size, 0, size);
 		Matrix<T> b22 = B.getSubmatrix(size, size, size); //get_part_of_matrix(A, size, size, size);
+
 
 		Matrix<T> p1 = multiplyImpl(a11 + a22, b11 + b22);
 		Matrix<T> p2 = multiplyImpl(a21 + a22, b11);
@@ -138,15 +159,6 @@ Matrix<T> MultiplyStrassenOneThreaded<T>::multiplyImpl(const Matrix<T>& A, const
 		Matrix<T> p6 = multiplyImpl(a21 - a11, b11 + b12);
 		Matrix<T> p7 = multiplyImpl(a12 - a22, b21 + b22);
 
-		/*
-		Matrix p1 = strassen_multiply_impl(sum(a11, a22), sum(b11, b22), min_size_for_recursion);
-		Matrix p2 = strassen_multiply_impl(sum(a21, a22), b11, min_size_for_recursion);
-		Matrix p3 = strassen_multiply_impl(a11, subtract(b12, b22), min_size_for_recursion);
-		Matrix p4 = strassen_multiply_impl(a22, subtract(b21, b11), min_size_for_recursion);
-		Matrix p5 = strassen_multiply_impl(sum(a11, a12), b22, min_size_for_recursion);
-		Matrix p6 = strassen_multiply_impl(subtract(a21, a11), sum(b11, b12), min_size_for_recursion);
-		Matrix p7 = strassen_multiply_impl(subtract(a12, a22), sum(b21, b22), min_size_for_recursion);
-		*/
 
 		Matrix<T> c11 = (p1 + p4) + (p7 - p5);
 		Matrix<T> c12 = p3 + p5;

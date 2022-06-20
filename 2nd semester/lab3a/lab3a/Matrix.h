@@ -1,3 +1,8 @@
+/*!
+	\file
+	\brief Header file for template class Matrix
+*/
+
 #pragma once
 
 #include <iostream>
@@ -6,6 +11,11 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
 
+
+/*!
+	\brief Class that describes square matrix with items of type T
+	It stores two-dimensional dynamic array
+*/
 template <typename T>
 class Matrix {
 private:

@@ -1,17 +1,28 @@
+/*!
+	\file
+	\brief Header file for classes derived from MatricesMultiplicator class
+*/
+
 #pragma once
 #include <string>
 #include "Matrix.h"
 
+
+/*!
+	\brief Interface (abstract class) for all matrices multiplicators
+*/
 template <typename T>
 class MatricesMultiplicator
 {
 public:
-	virtual Matrix<T> multiply() = 0;
-	virtual Matrix<T> getResult() const = 0;
+	virtual Matrix<T> multiply() = 0; ///< Perform multiplying
+	virtual Matrix<T> getResult() const = 0; ///< Returns result of multiplying. \warning call only after .multiply()
 	virtual ~MatricesMultiplicator() {};
 };
 
-
+/*!
+	\brief Class that implement usual multiplying for matrices
+*/
 template <typename T>
 class UsualMultiply : public MatricesMultiplicator<T> 
 {
@@ -31,6 +42,9 @@ public:
 
 };
 
+/*!
+	\brief Base class for all Strassen algorithm subclasses
+*/
 template <typename T>
 class MultiplyStrassen : public MatricesMultiplicator<T>
 {
@@ -54,7 +68,9 @@ public:
 };
 
 
-
+/*!
+	\brief Class that implement one-threaded Strassen algorithm
+*/
 template <typename T>
 class MultiplyStrassenOneThreaded : public MultiplyStrassen<T>
 {
@@ -65,7 +81,9 @@ public:
 	MultiplyStrassenOneThreaded(const Matrix<T>& A, const Matrix<T>& B, std::size_t min_size_for_recursion = 32);
 };
 
-
+/*!
+	\brief Class that implement multi-threaded Strassen algorithm
+*/
 template <typename T>
 class MultiplyStrassenMultiThreaded : public MultiplyStrassen<T>
 {
