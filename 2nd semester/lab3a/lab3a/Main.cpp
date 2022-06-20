@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <algorithm>
 #include "Matrix.h"
 #include "MatricesMultiplication.h"
 #include "QuickSort.h"
@@ -10,18 +11,23 @@ int main() {
 
 	
 
-	const std::size_t SIZE = 512;
+	const std::size_t SIZE = 1e6;
 
+//	std::vector<int> vec = randomIntArray(SIZE);
+//	std::sort(vec.begin(), vec.end());
+//	std::cout << "sorted" << std::endl;
+	testQuickSort(SIZE, 10);
+/*
 	std::vector<int> vec = randomIntArray(SIZE);
 
 	printArray(vec);
 
-	QuickSortOneThreaded<int, bool(int, int)> sorter(comparatorAscend);
+	QuickSortMultiThreaded<int, bool(int, int)> sorter(comparatorAscend);
 	sorter.sort(&vec, 0, SIZE - 1);
 	printArray(vec);
 
 	std::cout << std::endl << "Is sorted: " << std::boolalpha << isSorted(vec, 0, SIZE - 1, comparatorAscend) << std::noboolalpha;
-
+*/
 //	std::cout << testMultiplication(SIZE, 1000) << std::endl;
 //	bencmarkMultiplication(15000, "multiplication_bechmark.txt");
 

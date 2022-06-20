@@ -60,3 +60,6 @@ std::vector<int> randomIntSortedArray(std::size_t size, Comparator comparator);
 template <typename Comparator>
 std::vector<int> randomIntAlmostSortedArray(std::size_t size, Comparator comparator);
 
+
+bool testQuickSort(std::size_t size, std::size_t number_of_tests);
+
